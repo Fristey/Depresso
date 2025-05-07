@@ -21,11 +21,8 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     {
         if (currentRecipe != null)
         {
-            if (ingredientesInMachine.SequenceEqual(currentRecipe.requiredIngredientes))
-            {
-                Instantiate(currentRecipe.drink, DrinkSpawnPoint.position, Quaternion.identity);
-                ingredientesInMachine.Clear();
-            }
+            Instantiate(currentRecipe.drink, DrinkSpawnPoint.position, Quaternion.identity);
+            ingredientesInMachine.Clear();
         }
     }
 
@@ -41,6 +38,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
                     Debug.Log("checking");
                     currentRecipe = recipeInTheMaking;
                 }
+
             }
         }
 
