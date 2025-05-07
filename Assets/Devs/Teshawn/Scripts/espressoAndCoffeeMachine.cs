@@ -3,28 +3,24 @@ using UnityEngine;
 
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
-    private Ingredientes ingredient; //need the scriptable object that shows what it is(the scriptableObject)
-
     public List<Ingredientes> ingredientesInMachine;
+    [SerializeField] private Recipes recipieMade;
 
-    public GameObject drinkToDispence;
-
+    private Transform DrinkSpawnPoint;
     public void CoffeeMixes()
     {
-
-    }
-
-    private void Coffie(GameObject drink)
-    {
-
+        if (ingredientesInMachine.Equals(recipieMade.requiredIngredientes))
+        {
+            Instantiate(recipieMade.drink, DrinkSpawnPoint.position, Quaternion.identity);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Ingredientes itemToMix = collision.gameObject.GetComponent<Ingredientes>();
-        if (collision.gameObject.GetComponent<Ingredientes>() != null)
+        if (collision.gameObject.CompareTag("Cup"))
         {
-            ingredientesInMachine.Add(itemToMix);
+            ingredientesInMachine.AddRange(collision.gameObject.GetComponent<MixingCup>().cupIngredientes);
+            collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Clear();
         }
     }
 }
