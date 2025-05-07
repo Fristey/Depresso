@@ -1,20 +1,49 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
 using UnityEngine;
 
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
     public List<Ingredientes> ingredientesInMachine;
-    [SerializeField] private Recipes recipieMade;
     [SerializeField] private Rigidbody handleRb;
 
-    private Transform DrinkSpawnPoint;
-    public void CoffeeMixes()
+    public List<Recipes> recipes;
+    public Recipes currentRecipe;
+
+    [SerializeField] private Transform DrinkSpawnPoint;
+
+    private void Update()
     {
-        if (ingredientesInMachine.Equals(recipieMade.requiredIngredientes))
+        CheckCurrentRecipe();
+        DrinkSpawn();
+    }
+    public void DrinkSpawn()
+    {
+        if (currentRecipe != null)
         {
-            Instantiate(recipieMade.drink, DrinkSpawnPoint.position, Quaternion.identity);
+            if (ingredientesInMachine.SequenceEqual(currentRecipe.requiredIngredientes))
+            {
+                Instantiate(currentRecipe.drink, DrinkSpawnPoint.position, Quaternion.identity);
+                ingredientesInMachine.Clear();
+            }
         }
+    }
+
+    public void CheckCurrentRecipe()
+    {
+        if (ingredientesInMachine.Count > 0)
+        {
+            foreach (var recipeInTheMaking in recipes)
+            {
+                Debug.Log("recipeInTheMaking");
+                if (ingredientesInMachine.SequenceEqual(recipeInTheMaking.requiredIngredientes))
+                {
+                    Debug.Log("checking");
+                    currentRecipe = recipeInTheMaking;
+                }
+            }
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
