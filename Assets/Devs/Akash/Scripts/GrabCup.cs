@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GrabCup : MonoBehaviour
@@ -6,9 +7,14 @@ public class GrabCup : MonoBehaviour
     [SerializeField] private float grabRange = 3f; // The range of where the held cup is from the camera
     [SerializeField] private float moveForce = 50f;
     [SerializeField] private float throwForce = 10f; // The force applied when throwing the cup
-    [SerializeField] private Transform holdPoint; // The point where the cup will be held
+    //[SerializeField] private Transform holdPoint; // The point where the cup will be held
     [SerializeField] private float tiltSpeed = 2f;
     [SerializeField] private float maxTiltAngle = 200f; // The maximum angle of tilt for the cup
+
+    [SerializeField] private float holdDistance = 1.5f; // The distance from the camera to the cup when held
+    [SerializeField] private float minScrollDistance = 0.5f; // The minimum distance from the camera to the cup when held 
+    [SerializeField] private float maxScrollDistance = 3f; // The maximum distance from the camera to the cup when held
+    [SerializeField] private float scrollSpeed = 2f; // The speed of the scroll wheel for adjusting the distance
 
     private Vector2 tilt; // The tilt of the cup
 
@@ -54,8 +60,17 @@ public class GrabCup : MonoBehaviour
             DropCup(); // Drop the cup
         }
 
-        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
-        holdPoint.rotation = playerCamera.transform.rotation;
+/*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
+        holdPoint.rotation = playerCamera.transform.rotation;*/
+    }
+
+    private void FixedUpdate()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel"); // Get the scroll wheel input
+        if (scroll != 0f)
+        {
+            holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
+        }
     }
 
     private void grabCup()
@@ -64,10 +79,9 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange))
         {
-            Debug.Log(hit.transform.name); // Log the name of the object hit by the ray
             if (hit.collider.CompareTag("Cup")) // Check if the object hit by the ray has the tag "Cup"
             {
-                Debug.LogWarning("Cup grabbed!"); // Log a warning message when the cup is grabbed
+               
                 rb = hit.rigidbody; // Get the Rigidbody component of the cup
                 rb.useGravity = false; // Disable gravity for the cup while holding it
                 rb.linearDamping = 10f; // Increase drag to slow down the cup's movement
@@ -78,7 +92,6 @@ public class GrabCup : MonoBehaviour
 
     private void DropCup()
     {
-        Debug.Log("Cup dropped!"); // Log a message when the cup is dropped
         if(rb != null)
         {
             rb.useGravity = true; // Enable gravity for the cup when dropping it
@@ -92,7 +105,7 @@ public class GrabCup : MonoBehaviour
     {
 /*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
 
-        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * 1.5f; // Calculate the target position for the cup
+        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance; // Calculate the target position for the cup
         Vector3 forceDirection = (targetPosition - rb.position); // Calculate the direction to move the cup towards the hold point
         rb.AddForce(forceDirection * moveForce * Time.deltaTime); // Apply a force to move the cup towards the hold point
     }

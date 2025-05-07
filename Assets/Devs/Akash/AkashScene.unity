@@ -697,9 +697,12 @@ MonoBehaviour:
   grabRange: 3
   moveForce: 2000
   throwForce: 50
-  holdPoint: {fileID: 268513262}
   tiltSpeed: 2
   maxTiltAngle: 50
+  holdDistance: 1.5
+  minScrollDistance: 0.5
+  maxScrollDistance: 3
+  scrollSpeed: 2
   lookAround: {fileID: 2123179864}
 --- !u!1 &999741263
 GameObject:
