@@ -6,23 +6,30 @@ public class LookAround : MonoBehaviour
 
     private float mouseSensitivity = 100f; // Sensitivity of the mouse movement
     private float xRotation = 0f; // Rotation around the X-axis
-    private bool canLookAround = true; // Flag to enable/disable looking around
+    public bool canLookAround = true; // Flag to enable/disable looking around
+    public bool lockCursor = true;
 
     void Start()
     {
         // Lock the cursor to the center of the screen and make it invisible
-        LockCursor();
+        if (lockCursor)
+        {
+            LockCursor();
+        }  
     }
 
     void Update()
     {
-        // Call the method to handle head movement
-
-            UnlockCursor();
-        
+        if (!lockCursor)
+        {
+            //UnlockCursor();
             LockCursor();
+        }
+        else
+        {
+            LockCursor();
+        }
             MoveHeadAround();
-        
     }
 
 

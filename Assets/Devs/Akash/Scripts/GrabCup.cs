@@ -7,9 +7,16 @@ public class GrabCup : MonoBehaviour
     [SerializeField] private float moveForce = 50f;
     [SerializeField] private float throwForce = 10f; // The force applied when throwing the cup
     [SerializeField] private Transform holdPoint; // The point where the cup will be held
+    [SerializeField] private float tiltSpeed = 2f;
+    [SerializeField] private float maxTiltAngle = 200f; // The maximum angle of tilt for the cup
+
+    private Vector2 tilt; // The tilt of the cup
+
 
     private Rigidbody rb; //Reference to the Rigidbody component of the cup    
     private bool isHoldingCup = false; // Flag to check if the cup is being held
+
+    public LookAround lookAround; // Reference to the LookAround script
 
 
     private void Update()
@@ -30,9 +37,25 @@ public class GrabCup : MonoBehaviour
             if(Input.GetMouseButton(1)) // Right mouse button to rotate the cup
             {
                 RotateCup();
+                Cursor.lockState = CursorLockMode.Locked;
             }
-            
+            else
+            {
+                lookAround.lockCursor = true; // Enable cursor locking when not rotating the cup
+                lookAround.canLookAround = true; // Enable looking around when not holding the cup
+                Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
+            }
+
         }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            throwCup(); // Throw the cup when pressing the "E" key
+            DropCup(); // Drop the cup
+        }
+
+        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
+        holdPoint.rotation = playerCamera.transform.rotation;
     }
 
     private void grabCup()
@@ -67,17 +90,25 @@ public class GrabCup : MonoBehaviour
 
     private void MoveCup()
     {
-        Vector3 forceDirection = (holdPoint.position - rb.position);
+/*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
+
+        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * 1.5f; // Calculate the target position for the cup
+        Vector3 forceDirection = (targetPosition - rb.position); // Calculate the direction to move the cup towards the hold point
         rb.AddForce(forceDirection * moveForce * Time.deltaTime); // Apply a force to move the cup towards the hold point
     }
 
     private void RotateCup()
     {
+        lookAround.lockCursor = false; // Disable cursor locking while rotating the cup
+        lookAround.canLookAround = false; // Disable looking around while holding the cup
         float mouseX = Input.GetAxis("Mouse X"); // Get mouse input for rotation
         float mouseY = Input.GetAxis("Mouse Y");
 
-        Vector3 rotation = new Vector3(-mouseY, mouseX, 0f);
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation)); // Rotate the cup based on mouse input
+        tilt.x = Mathf.Clamp(tilt.x + mouseX * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation
+        tilt.y = Mathf.Clamp(tilt.y + mouseY * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation    
+
+        Quaternion tiltRotation = Quaternion.Euler(tilt.y, 0f, -tilt.x);
+        rb.MoveRotation(playerCamera.transform.rotation * tiltRotation); // Apply the rotation to the cup
     }
 
     private void throwCup()
