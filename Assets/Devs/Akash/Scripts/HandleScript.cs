@@ -10,7 +10,7 @@ public class HandleScript : MonoBehaviour
 
     [SerializeField] private espressoAndCoffeeMachine coffeeMachine;
 
-    private Ingredientes currentIngredientes;
+    public Ingredientes currentIngredientes;
 
     [SerializeField] private bool isHeldDown = false;
     private Camera playerCamera;
@@ -26,6 +26,7 @@ public class HandleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        coffeeMachine.currentIngredient(currentIngredientes);
         if(Input.GetMouseButtonDown(0))
         {
             lookAround.canLookAround = false; // Disable looking around when holding the handle
@@ -66,5 +67,5 @@ public class HandleScript : MonoBehaviour
         transform.localRotation = Quaternion.Euler(currentAngle, 0f, 0f);
     }
 
-
+    
 }
