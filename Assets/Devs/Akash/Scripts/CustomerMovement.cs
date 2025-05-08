@@ -13,10 +13,10 @@ public class CustomerMovement : MonoBehaviour
 
     [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private GameObject Counter;
-    [SerializeField] private List<GameObject> waitPoints = new List<GameObject>();
-    [SerializeField] private List<GameObject> counterStools = new List<GameObject>();
-    [SerializeField] private GameObject exitPoint;
-    [SerializeField] private GameObject spawnPoint;
+    private List<GameObject> waitPoints;
+    private List<GameObject> counterStools;
+    private GameObject exitPoint;
+    private GameObject spawnPoint;
     private GameObject currentSpot;
 
     public static List<GameObject> usedStools = new List<GameObject>();
@@ -33,6 +33,11 @@ public class CustomerMovement : MonoBehaviour
 
     private void Start()
     {
+        counterStools = CustomerManager.Instance.counterStools;
+        waitPoints = CustomerManager.Instance.waitPoints;
+        exitPoint = CustomerManager.Instance.exitPoint;
+        spawnPoint = CustomerManager.Instance.spawnPoint;
+
         navMeshAgent.speed = walkSpeed;
         currentState = CustomerState.Walking;
         TryFindingFreeSpot();
