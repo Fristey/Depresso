@@ -94,7 +94,9 @@ public class CustomerMovement : MonoBehaviour
                 return i;
             }
         }
+        currentState = CustomerState.Waiting;
         return -1; // No available stool found
+        
     }
 
 
