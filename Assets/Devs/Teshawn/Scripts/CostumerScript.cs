@@ -21,11 +21,7 @@ public class CustomerScript : MonoBehaviour
         manager.activeOrders.Add(order);
     }
 
-    private void Update()
-    {
-        CheckOrder();
-        Debug.Log(CompareOrder());
-    }
+ 
 
     public void CheckOrder()
     {
@@ -41,6 +37,9 @@ public class CustomerScript : MonoBehaviour
 
     public bool CompareOrder()
     {
+        cup.cupIngredientes.Sort();
+        order.requiredIngredientes.Sort();
+
         if (cup.cupIngredientes.Count != order.requiredIngredientes.Count)
         {
             return false;
@@ -48,13 +47,12 @@ public class CustomerScript : MonoBehaviour
 
         for (int i = 0; order.requiredIngredientes.Count > 0; i++)
         {
-            if (order.requiredIngredientes[i] != cup.cupIngredientes[i])
+            if (order.requiredIngredientes[i] == cup.cupIngredientes[i])
             {
-                return false;
+                return true;
             }
         }
-
-        return true;
+       return false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -62,6 +60,7 @@ public class CustomerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Cup"))
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
+            CheckOrder();
         }
     }
 }
