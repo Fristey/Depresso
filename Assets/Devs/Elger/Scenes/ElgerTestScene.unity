@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7458394218687909392, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -378,6 +382,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7458394218687909392, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -446,6 +454,10 @@ MonoBehaviour:
   walkChance: 50
   sitChance: 45
   walkToCupChance: 5
+  cupCheckMask:
+    serializedVersion: 2
+    m_Bits: 128
+  cupLaunchForce: 3
 --- !u!4 &538222338
 Transform:
   m_ObjectHideFlags: 0
@@ -539,6 +551,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7458394218687909392, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -556,7 +572,7 @@ GameObject:
   - component: {fileID: 1453991959}
   - component: {fileID: 1453991958}
   - component: {fileID: 1453991960}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

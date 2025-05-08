@@ -12,7 +12,6 @@ enum CatStates
 public class CatScript : MonoBehaviour
 {
     private NavMeshAgent agent;
-    [SerializeField] private Collider col;
 
     [SerializeField] private CatStates state;
 
@@ -26,6 +25,7 @@ public class CatScript : MonoBehaviour
     [SerializeField] private float walkToCupChance;
 
     [SerializeField] private LayerMask cupCheckMask;
+    [SerializeField] private float cupLaunchForce;
 
     private void Awake()
     {
@@ -39,11 +39,12 @@ public class CatScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Touch");
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
-        Vector3 dir = transform.position - other.transform.position;
+        Vector3 dir = (transform.position + other.transform.position).normalized;
 
-        //rb.AddForce();
+        rb.AddForce(dir * cupLaunchForce);
     }
 
     private void Update()
@@ -95,7 +96,6 @@ public class CatScript : MonoBehaviour
 
         if (rolledNum >= walkChance)
         {
-            Debug.Log("Walking");
             destination = GenerateTarget();
             agent.destination = destination;
 
@@ -103,13 +103,11 @@ public class CatScript : MonoBehaviour
         }
         else if (rolledNum >= sitChance)
         {
-            Debug.Log("Sitting");
             StartCoroutine(SitTimer());
             state = CatStates.Sitting;
         }
         else if (rolledNum >= walkToCupChance)
         {
-            Debug.Log("WalkingToCup");
             destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
             agent.destination = destination;
 
@@ -156,7 +154,6 @@ public class CatScript : MonoBehaviour
 
         if (num <= walkToCupChance)
         {
-            Debug.Log("WalkingToCup");
             destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
             agent.destination = destination;
 
@@ -164,7 +161,6 @@ public class CatScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Walking");
             destination = GenerateTarget();
             agent.destination = destination;
 
