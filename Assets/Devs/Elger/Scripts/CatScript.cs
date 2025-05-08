@@ -12,6 +12,7 @@ enum CatStates
 public class CatScript : MonoBehaviour
 {
     private NavMeshAgent agent;
+    [SerializeField] private Collider col;
 
     [SerializeField] private CatStates state;
 
@@ -34,6 +35,15 @@ public class CatScript : MonoBehaviour
     private void Start()
     {
         DestinationReached();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Rigidbody rb = other.GetComponent<Rigidbody>();
+
+        Vector3 dir = transform.position - other.transform.position
+
+        rb.AddForce();
     }
 
     private void Update()
