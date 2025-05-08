@@ -1,15 +1,13 @@
 using System.Collections;
-using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Events;
+
 
 enum CatStates
 {
     Sitting,
     Walking,
     Interacting,
-    Waiting
 }
 public class CatScript : MonoBehaviour
 {
@@ -25,6 +23,8 @@ public class CatScript : MonoBehaviour
     [SerializeField] private float walkChance;
     [SerializeField] private float sitChance;
     [SerializeField] private float walkToCupChance;
+
+    [SerializeField] private LayerMask cupCheckMask;
 
     private void Awake()
     {
@@ -53,6 +53,30 @@ public class CatScript : MonoBehaviour
             default:
                 break;
         }
+
+        CheckForCups();
+    }
+
+    private void CheckForCups()
+    {
+        Collider[] cups = Physics.OverlapSphere(transform.position, 3, cupCheckMask);
+        GameObject[] cupsGO = new GameObject[cups.Length];
+
+        for (int i = 0; i < cups.Length; i++)
+        {
+            cupsGO[i] = cups[i].gameObject;
+
+        }
+
+
+        GameObject target = FindNearestCup(cupsGO);
+        if(target != null) 
+        {
+            destination = target.transform.position;
+            agent.SetDestination(destination);
+
+            state = CatStates.Walking;
+        }
     }
 
     private void DestinationReached()
@@ -76,13 +100,11 @@ public class CatScript : MonoBehaviour
         else if (rolledNum >= walkToCupChance)
         {
             Debug.Log("WalkingToCup");
-            destination = FindNearestCup().transform.position;
+            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
             agent.destination = destination;
 
             state = CatStates.Walking;
         }
-
-
     }
 
     private Vector3 GenerateTarget()
@@ -95,24 +117,25 @@ public class CatScript : MonoBehaviour
         return hit.position;
     }
 
-    private GameObject FindNearestCup()
+    private GameObject FindNearestCup(GameObject[] cups)
     {
-        GameObject[] cups = GameObject.FindGameObjectsWithTag("Cup");
-
-        GameObject targetCup = cups[0];
-
-        for (int i = 0; i < cups.Length; i++)
+        if (cups.Length > 0)
         {
-            float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
-            float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
+            GameObject targetCup = cups[0];
 
-            if (potDist < curDist)
+            for (int i = 0; i < cups.Length; i++)
             {
-                targetCup = cups[i];
-            }
-        }
+                float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
+                float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
 
-        return targetCup;
+                if (potDist < curDist)
+                {
+                    targetCup = cups[i];
+                }
+            }
+
+            return targetCup;
+        } else { return null; }
     }
 
     private IEnumerator SitTimer()
@@ -124,7 +147,7 @@ public class CatScript : MonoBehaviour
         if (num <= walkToCupChance)
         {
             Debug.Log("WalkingToCup");
-            destination = FindNearestCup().transform.position;
+            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
             agent.destination = destination;
 
             state = CatStates.Walking;
