@@ -2,59 +2,56 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum State { Hot, Cold, Coffee }
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
-    public List<Ingredientes> ingredientesInMachine;
+    private State mode;
+    private bool hasCupForCoffee;
+
+    [SerializeField] private GameObject hotButton;
+    [SerializeField] private GameObject coffeeButton;
+    [SerializeField] private GameObject coldButton;
+
+    [SerializeField] private Ingredientes ice;
+    [SerializeField] private Ingredientes hotWater;
+    [SerializeField] private Ingredientes coffee;
+
+    [SerializeField] private MixingCup cup;
+
     [SerializeField] private Rigidbody handleRb;
-
-    public List<Recipes> recipes;
-    public Recipes currentRecipe;
-
     [SerializeField] private Transform DrinkSpawnPoint;
 
-    private void Update()
-    {
-        CheckCurrentRecipe();
-        DrinkSpawn();
-    }
-    public void DrinkSpawn()
-    {
-        if (currentRecipe != null)
-        {
-            Instantiate(currentRecipe.drink, DrinkSpawnPoint.position, Quaternion.identity);
-            ingredientesInMachine.Clear();
-        }
-    }
 
-    public void CheckCurrentRecipe()
-    {
-        if (ingredientesInMachine.Count > 0)
-        {
-            foreach (var recipeInTheMaking in recipes)
-            {
-                Debug.Log("recipeInTheMaking");
-                if (ingredientesInMachine.SequenceEqual(recipeInTheMaking.requiredIngredientes))
-                {
-                    Debug.Log("checking");
-                    currentRecipe = recipeInTheMaking;
-                }
-
-            }
-        }
-
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Cup"))
         {
-            ingredientesInMachine.AddRange(collision.gameObject.GetComponent<MixingCup>().cupIngredientes);
-            collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Clear();
+            if (cup == null)
+            {
+                cup = collision.gameObject.GetComponent<MixingCup>();
+            }
+            else
+            {
+                cup = null;
+            }
         }
     }
 
-    public void Dispense(float amount)
+    public void Dispense(float amount, Ingredientes type)
     {
         Debug.Log("Dispense strength (0–1): " + amount);
+        if (mode == State.Hot)
+        {
+            type = hotWater;
+        }
+        else if (mode == State.Cold)
+        {
+            type = ice;
+        }
+        else if (mode == State.Coffee)
+        {
+            type = coffee;
+        }
     }
 }

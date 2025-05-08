@@ -6,7 +6,6 @@ public class MixingCup : MonoBehaviour
     public List<Ingredientes> cupIngredientes;
     public List<string> taglist = new List<string> {"Coffee","Ice","Milk"};
 
-   
     private void OnTriggerEnter(Collider other)
     {
         if (taglist.Contains(other.tag))

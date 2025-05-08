@@ -10,6 +10,8 @@ public class HandleScript : MonoBehaviour
 
     [SerializeField] private espressoAndCoffeeMachine coffeeMachine;
 
+    private Ingredientes currentIngredientes;
+
     [SerializeField] private bool isHeldDown = false;
     private Camera playerCamera;
 
@@ -55,7 +57,7 @@ public class HandleScript : MonoBehaviour
             Rotate();
 
             float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
-            coffeeMachine.Dispense(rotationAmount);
+            coffeeMachine.Dispense(rotationAmount, currentIngredientes);
         }
     }
 
