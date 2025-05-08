@@ -1,19 +1,28 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class CustomerMovement : MonoBehaviour
 {
-    public enum CustomerState { Waiting, Walking, Interacting }
+    public enum CustomerState { Waiting, Walking, Sitting, Leaving}
 
     public CustomerState currentState = CustomerState.Walking;
 
     public NavMeshAgent navMeshAgent;
 
-    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private GameObject Counter;
     [SerializeField] private List<GameObject> waitPoints = new List<GameObject>();
     [SerializeField] private List<GameObject> counterStools = new List<GameObject>();
+    [SerializeField] private GameObject exitPoint;
+    private GameObject currentSpot;
+    
+    public static List<GameObject> usedStools = new List<GameObject>();
+    public static List<GameObject> usedWaitSpots = new List<GameObject>();
+    public static List<CustomerMovement> waitingCustomers = new List<CustomerMovement>();
+
+    private bool startLeaving;
 
     private void Awake()
     {
@@ -25,97 +34,83 @@ public class CustomerMovement : MonoBehaviour
     {
         navMeshAgent.speed = walkSpeed;
         currentState = CustomerState.Walking;
+        TryFindingFreeSpot();
     }
 
     private void Update()
     {
-        switch (currentState)
+        if(currentSpot != null && !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && currentState != CustomerState.Sitting && currentState != CustomerState.Leaving)
         {
-            case CustomerState.Walking:
-                WalkToCounter();
-                break;
-            case CustomerState.Interacting:
-                // Handle interaction logic here
-                break;
-            case CustomerState.Waiting:
-                WaitInLine();
-                break;
-        }
-    }
-
-    private void WalkToCounter()
-    {
-        if (Counter != null)
-        {
-            navMeshAgent.SetDestination(Counter.transform.position);
-            if (Vector3.Distance(transform.position, Counter.transform.position) < 1f)
+            if (counterStools.Contains(currentSpot))
             {
-                currentState = CustomerState.Interacting;
-                GetAvailableStoolIndex();
-                // Optionally, you can stop the agent when it reaches the destination
                 navMeshAgent.isStopped = true;
-            }
-        }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Counter"))
-        {
-            currentState = CustomerState.Interacting;
-            // Optionally, you can stop the agent when it reaches the destination
-            navMeshAgent.isStopped = true;
-        }
-    }
-
-    private void WaitInLine()
-    {
-        if (waitPoints.Count > 0)
-        {
-            foreach (GameObject waitPoint in waitPoints)
-            {
-                navMeshAgent.SetDestination(waitPoint.transform.position);
-                if (Vector3.Distance(transform.position, waitPoint.transform.position) < 1f)
+                if (!startLeaving)
                 {
-                    currentState = CustomerState.Waiting;
-                    // Optionally, you can stop the agent when it reaches the destination
-                    navMeshAgent.isStopped = true;
+                    startLeaving = true;
+                    currentState = CustomerState.Sitting;
+                    StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
         }
     }
 
-    private int GetAvailableStoolIndex()
+    private void TryFindingFreeSpot()
     {
-        for (int i = 0; i < counterStools.Count; i++)
+        foreach(var stool in counterStools)
         {
-            if (!isStoolUnavailable(i))
+            if (!usedStools.Contains(stool))
             {
-                return i;
+                currentSpot = stool;
+                usedStools.Add(stool);
+                navMeshAgent.SetDestination(currentSpot.transform.position);
+                currentState = CustomerState.Walking;
+                return;
             }
         }
-        currentState = CustomerState.Waiting;
-        return -1; // No available stool found
-        
+
+        foreach (var waitSpot in waitPoints)
+        {
+            if (!usedWaitSpots.Contains(waitSpot))
+            {
+                currentSpot = waitSpot;
+                usedWaitSpots.Add(waitSpot);
+                navMeshAgent.SetDestination(currentSpot.transform.position);
+                currentState = CustomerState.Waiting;
+                waitingCustomers.Add(this);
+                return;
+            }
+        }
+
+        navMeshAgent.isStopped = true;
     }
 
-
-    private bool isStoolUnavailable(int index)
+    private IEnumerator LeaveAfterTime(float time)
     {
+        yield return new WaitForSeconds(time);
 
-        if(index >= counterStools.Count)
+        if (currentSpot != null)
         {
-            return true;
-        }
-
-        foreach (GameObject customer in counterStools)
-        {
-            if(customer.transform.position == counterStools[index].transform.position)
+            if (counterStools.Contains(currentSpot))
             {
-                return true;
+                usedStools.Remove(currentSpot);
+            }
+
+            if (waitPoints.Contains(currentSpot))
+            {
+                usedWaitSpots.Remove(currentSpot);
             }
         }
-        return false;
+        waitingCustomers.Remove(this);
+        Leave();
+    }
+
+    private void Leave()
+    {
+        currentState = CustomerState.Leaving;
+        navMeshAgent.isStopped = false;
+        navMeshAgent.SetDestination(exitPoint.transform.position);
+        Destroy(gameObject, 5f);
     }
 }
 
