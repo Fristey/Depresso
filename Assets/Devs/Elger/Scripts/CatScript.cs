@@ -31,6 +31,11 @@ public class CatScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    private void Start()
+    {
+        DestinationReached();
+    }
+
     private void Update()
     {
         switch (state)
@@ -38,7 +43,7 @@ public class CatScript : MonoBehaviour
             case CatStates.Sitting:
                 break;
             case CatStates.Walking:
-                if(Vector3.Distance(transform.position,destination) < 1)
+                if (Vector3.Distance(transform.position, destination) < 1)
                 {
                     DestinationReached();
                 }
@@ -54,20 +59,23 @@ public class CatScript : MonoBehaviour
     {
         int rolledNum = Random.Range(0, 100);
 
-        if(rolledNum >= walkChance) 
+        if (rolledNum >= walkChance)
         {
+            Debug.Log("Walking");
             destination = GenerateTarget();
             agent.destination = destination;
 
             state = CatStates.Walking;
         }
-        else if (rolledNum >= sitChance) 
+        else if (rolledNum >= sitChance)
         {
+            Debug.Log("Sitting");
             StartCoroutine(SitTimer());
             state = CatStates.Sitting;
         }
         else if (rolledNum >= walkToCupChance)
         {
+            Debug.Log("WalkingToCup");
             destination = FindNearestCup().transform.position;
             agent.destination = destination;
 
@@ -93,12 +101,12 @@ public class CatScript : MonoBehaviour
 
         GameObject targetCup = cups[0];
 
-        for(int i = 0; i < cups.Length; i++)
+        for (int i = 0; i < cups.Length; i++)
         {
-            float curDist = Vector3.Distance(targetCup.transform.position,transform.position);
+            float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
             float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
 
-            if(potDist < curDist) 
+            if (potDist < curDist)
             {
                 targetCup = cups[i];
             }
@@ -113,8 +121,9 @@ public class CatScript : MonoBehaviour
 
         int num = Random.Range(0, 100);
 
-        if(num <= walkToCupChance)
+        if (num <= walkToCupChance)
         {
+            Debug.Log("WalkingToCup");
             destination = FindNearestCup().transform.position;
             agent.destination = destination;
 
@@ -122,6 +131,7 @@ public class CatScript : MonoBehaviour
         }
         else
         {
+            Debug.Log("Walking");
             destination = GenerateTarget();
             agent.destination = destination;
 
