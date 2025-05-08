@@ -16,6 +16,8 @@ public class GrabCup : MonoBehaviour
     [SerializeField] private float maxScrollDistance = 3f; // The maximum distance from the camera to the cup when held
     [SerializeField] private float scrollSpeed = 2f; // The speed of the scroll wheel for adjusting the distance
 
+    [SerializeField] private ParticleSystem particleSystem; // Reference to the particle system for the cup
+
     private Vector2 tilt; // The tilt of the cup
 
 
@@ -66,11 +68,30 @@ public class GrabCup : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(isHoldingCup && rb != null)
+        if(isHoldingCup && rb != null && Input.GetMouseButtonDown(1))
         {
             Vector3 upwards = rb.transform.up; // Get the up direction of the cup
             float upRight = Vector3.Angle(upwards, Vector3.up); // Calculate the angle between the cup's up direction and the world up direction
 
+            if(upRight < 30f)
+            {
+                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); // Set the target rotation to upright
+                Vector3 balance = new Vector3 (targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
+                rb.AddTorque(balance); // Apply torque to balance the cup
+            }
+        }
+
+        float tiltAngle = Vector3.Angle(Vector3.up, transform.up); // Calculate the angle between the cup's up direction and the world up direction
+        if (tiltAngle > 80f)
+        {
+            if (!particleSystem.isPlaying)
+            {
+                particleSystem.Play(); // Play the particle system if the cup is tilted too much
+            }
+            if(particleSystem.isPlaying)
+            {
+                particleSystem.Stop(); // Stop the particle system if the cup is upright
+            }
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel"); // Get the scroll wheel input
@@ -105,10 +126,13 @@ public class GrabCup : MonoBehaviour
         {
             rb.useGravity = true; // Enable gravity for the cup when dropping it
             rb.linearDamping = 0f; // Reset drag to default
+            rb.angularVelocity = Vector3.zero; // Reset the angular velocity of the cup
+            rb.angularVelocity = Vector3.zero; // Reset the angular velocity of the cup
             rb.angularDamping = 1f;
             rb.constraints = RigidbodyConstraints.None; // Freeze rotation to prevent unwanted spinning
             rb = null; // Reset the Rigidbody reference
         }
+        holdDistance = 1.5f; // Reset the hold distance to the default value
         isHoldingCup = false; // Reset the flag to indicate that the cup is no longer being held
     }
 
