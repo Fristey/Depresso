@@ -6,6 +6,7 @@ public class HandleScript : MonoBehaviour
     private float rotationSpeed = 20f;
     private float minRotation = 50f;
     private float maxRotation = 125f;
+    private float currentAngle = 50f;
 
     [SerializeField] private espressoAndCoffeeMachine coffeeMachine;
 
@@ -47,20 +48,20 @@ public class HandleScript : MonoBehaviour
 
         if (isHeldDown)
         {
+
             float mouseY = Input.GetAxis("Mouse Y");
-            float currentX = transform.localEulerAngles.x;
-            if(currentX > 180)
-            {
-                currentX -= 360;
-            }
+            currentAngle = Mathf.Clamp(currentAngle + -mouseY * rotationSpeed * Time.deltaTime, minRotation, maxRotation);
 
-            float newAngle = Mathf.Clamp(currentX + mouseY * rotationSpeed * Time.deltaTime, minRotation, maxRotation);
+            Rotate();
 
-            transform.localEulerAngles = new Vector3(newAngle, transform.localEulerAngles.y, transform.localEulerAngles.z);
-
-            float normalized = Mathf.InverseLerp(minRotation, maxRotation, newAngle);
-            coffeeMachine.Dispense(normalized);
+            float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
+            coffeeMachine.Dispense(rotationAmount);
         }
+    }
+
+    private void Rotate()
+    {
+        transform.localRotation = Quaternion.Euler(currentAngle, 0f, 0f);
     }
 
 
