@@ -41,9 +41,9 @@ public class CatScript : MonoBehaviour
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
-        Vector3 dir = transform.position - other.transform.position
+        Vector3 dir = transform.position - other.transform.position;
 
-        rb.AddForce();
+        //rb.AddForce();
     }
 
     private void Update()
