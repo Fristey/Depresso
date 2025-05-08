@@ -66,6 +66,13 @@ public class GrabCup : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(isHoldingCup && rb != null)
+        {
+            Vector3 upwards = rb.transform.up; // Get the up direction of the cup
+            float upRight = Vector3.Angle(upwards, Vector3.up); // Calculate the angle between the cup's up direction and the world up direction
+
+        }
+
         float scroll = Input.GetAxis("Mouse ScrollWheel"); // Get the scroll wheel input
         if (scroll != 0f)
         {
@@ -86,6 +93,8 @@ public class GrabCup : MonoBehaviour
                 rb.useGravity = false; // Disable gravity for the cup while holding it
                 rb.linearDamping = 10f; // Increase drag to slow down the cup's movement
                 isHoldingCup = true; // Set the flag to indicate that the cup is being held
+                rb.angularVelocity = Vector3.zero; // Reset the velocity of the cup
+                rb.constraints = RigidbodyConstraints.None; // Remove any constraints on the Rigidbody
             }
         }
     }
@@ -96,6 +105,8 @@ public class GrabCup : MonoBehaviour
         {
             rb.useGravity = true; // Enable gravity for the cup when dropping it
             rb.linearDamping = 0f; // Reset drag to default
+            rb.angularDamping = 1f;
+            rb.constraints = RigidbodyConstraints.None; // Freeze rotation to prevent unwanted spinning
             rb = null; // Reset the Rigidbody reference
         }
         isHoldingCup = false; // Reset the flag to indicate that the cup is no longer being held
