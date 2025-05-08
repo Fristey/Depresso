@@ -7,7 +7,7 @@ public class CustomerScript : MonoBehaviour
 
     public Recipes order;
 
-    public float patiance;
+    public float patiance = 10f;
 
     private OrderManager manager;
 
@@ -21,7 +21,10 @@ public class CustomerScript : MonoBehaviour
         manager.activeOrders.Add(order);
     }
 
- 
+    private void Update()
+    {
+        Patience();
+    }
 
     public void CheckOrder()
     {
@@ -53,6 +56,19 @@ public class CustomerScript : MonoBehaviour
             }
         }
        return false;
+    }
+
+    private void Patience()
+    {
+        if (order != null)
+        {
+            patiance -= Time.deltaTime;
+        }
+
+        if(patiance <= 0)
+        {
+            manager.FailOrder();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

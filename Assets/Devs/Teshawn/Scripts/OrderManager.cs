@@ -23,12 +23,15 @@ public class OrderManager : MonoBehaviour
     {
         for (int i = 0; i < activeOrders.Count; i++)
         {
-            activeOrders.Remove(activeOrders[i]);
+            activeOrders.RemoveAt(i);
         }
     }
 
     public void FailOrder()
     {
-        //if time is up failed the order
+        for(int i = 0;i < activeOrders.Count; i++)
+        {
+            activeOrders.RemoveAt(i);
+        }
     }
 }
