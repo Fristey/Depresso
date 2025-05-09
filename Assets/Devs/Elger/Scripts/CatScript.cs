@@ -43,19 +43,16 @@ public class CatScript : MonoBehaviour
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
-        Vector3 dir = (transform.position + other.transform.position).normalized;
-        Debug.Log(dir);
+        Vector3 pos = other.transform.position;
+        pos.y = 0;
 
+        Vector3 dir = (pos + other.transform.position).normalized;
 
         rb.AddForce(dir * cupLaunchForce);
 
-        Vector3 angle = dir * cupLaunchForce * cupLaunchForce;
-
-        Debug.Log(angle);
+        Vector3 angle = other.transform.rotation.eulerAngles + (dir*cupLaunchForce);
 
         rb.AddTorque(angle);
-
-
 
         DestinationReached();
         StartCoroutine(CupLaunchCooldown());
