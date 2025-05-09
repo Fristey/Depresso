@@ -26,6 +26,8 @@ public class CatScript : MonoBehaviour
 
     [SerializeField] private LayerMask cupCheckMask;
     [SerializeField] private float cupLaunchForce;
+    [SerializeField] private float cupLauchCD;
+    private bool canLaunch = true;
 
     private void Awake()
     {
@@ -39,12 +41,31 @@ public class CatScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Touch");
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
         Vector3 dir = (transform.position + other.transform.position).normalized;
+        Debug.Log(dir);
+
 
         rb.AddForce(dir * cupLaunchForce);
+
+        Vector3 angle = dir * cupLaunchForce * cupLaunchForce;
+
+        Debug.Log(angle);
+
+        rb.AddTorque(angle);
+
+
+
+        DestinationReached();
+        StartCoroutine(CupLaunchCooldown());
+    }
+
+    IEnumerator CupLaunchCooldown()
+    {
+        canLaunch = false;
+        yield return new WaitForSeconds(cupLauchCD);
+        canLaunch = true;
     }
 
     private void Update()
@@ -65,7 +86,10 @@ public class CatScript : MonoBehaviour
                 break;
         }
 
-        CheckForCups();
+        if (canLaunch)
+        {
+            CheckForCups();
+        }
     }
 
     private void CheckForCups()
@@ -108,7 +132,14 @@ public class CatScript : MonoBehaviour
         }
         else if (rolledNum >= walkToCupChance)
         {
-            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            if(canLaunch)
+            {
+                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            } else
+            {
+                destination = GenerateTarget();
+            }
+
             agent.destination = destination;
 
             state = CatStates.Walking;
@@ -154,7 +185,14 @@ public class CatScript : MonoBehaviour
 
         if (num <= walkToCupChance)
         {
-            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            if (canLaunch)
+            {
+                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            }
+            else
+            {
+                destination = GenerateTarget();
+            }
             agent.destination = destination;
 
             state = CatStates.Walking;
