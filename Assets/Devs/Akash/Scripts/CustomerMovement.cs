@@ -10,6 +10,8 @@ public class CustomerMovement : MonoBehaviour
     public CustomerState currentState = CustomerState.Walking;
 
     public NavMeshAgent navMeshAgent;
+    public OrderManager orderManager;
+    public CustomerOrder order;
 
     [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private GameObject Counter;
@@ -28,6 +30,8 @@ public class CustomerMovement : MonoBehaviour
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        orderManager = FindAnyObjectByType<OrderManager>();
+        order = GetComponent<CustomerOrder>();
 
     }
 
@@ -55,7 +59,7 @@ public class CustomerMovement : MonoBehaviour
                 {
                     startLeaving = true;
                     currentState = CustomerState.Sitting;
-                    StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
+                    //StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
         }
@@ -91,10 +95,9 @@ public class CustomerMovement : MonoBehaviour
         navMeshAgent.isStopped = true;
     }
 
-    private IEnumerator LeaveAfterTime(float time)
+    public IEnumerator LeaveAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
-
         if (currentSpot != null)
         {
             if (counterStools.Contains(currentSpot))
@@ -110,7 +113,8 @@ public class CustomerMovement : MonoBehaviour
         }
         waitingCustomers.Remove(this);
         ReOrderQueue();
-        Leave();
+        orderManager.FailOrder(order,this);
+        //Leave();
     }
 
     private void FreeStoolCheck()

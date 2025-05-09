@@ -6,8 +6,6 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private List<Recipes> possibleDrinks = new List<Recipes>();
     [SerializeField] private float customerCooldown;
 
-    private CustomerMovement customerMovement;
-
     public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
     public Recipes orderGiven;
 
@@ -19,7 +17,7 @@ public class OrderManager : MonoBehaviour
         orderGiven = possibleDrinks[givenOrder];
     }
 
-    public void CompleteOrder(CustomerOrder order)
+    public void CompleteOrder(CustomerOrder order, CustomerMovement customerMovement)
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
@@ -27,7 +25,7 @@ public class OrderManager : MonoBehaviour
         customerMovement.Leave();
     }
 
-    public void FailOrder(CustomerOrder order)
+    public void FailOrder(CustomerOrder order, CustomerMovement customerMovement)
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);

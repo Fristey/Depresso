@@ -1,36 +1,47 @@
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CustomerOrder : MonoBehaviour
 {
     [SerializeField] private MixingCup cup;
-
+    private CustomerMovement customer;
     private OrderManager manager;
 
     public Recipes order;
-    [SerializeField] private float patiance = 60f;
+    public float patiance;
+
+    public Slider patienceSlider;
 
     private void Start()
     {
         manager = FindFirstObjectByType<OrderManager>();
+        customer = GetComponent<CustomerMovement>();
         manager.GeneratingOrder();
         order = manager.orderGiven;
         manager.activeOrders.Add(this);
+
+        patienceSlider.maxValue = patiance;
+        StartCoroutine(customer.LeaveAfterTime(patiance));
     }
 
     private void Update()
     {
-        Patience();
+        patiance -= Time.deltaTime;
+        patienceSlider.value = patiance;
+        if (patiance < 0)
+        {
+            patienceSlider.value = 0;
+            patiance = 0;
+        }
     }
-
     public void CheckOrder()
     {
         for (int i = 0; i < manager.activeOrders.Count; i++)
         {
             if (CompareOrder())
             {
-                manager.CompleteOrder(this);
+                manager.CompleteOrder(this,customer);
             }
         }
     }
@@ -55,18 +66,6 @@ public class CustomerOrder : MonoBehaviour
        return false;
     }
 
-    private void Patience()
-    {
-        if (order != null)
-        {
-            patiance -= Time.deltaTime;
-        }
-
-        if(patiance <= 0)
-        {
-            manager.FailOrder(this);
-        }
-    }
 
     private void OnCollisionEnter(Collision collision)
     {

@@ -32,7 +32,6 @@ public class FloatingText : MonoBehaviour
         if (orderOfThisCustomer != null)
         {
             textMeshPro.text = orderOfThisCustomer.order.nameOfDrink;
-            Debug.Log(orderOfThisCustomer.order.nameOfDrink);
         }else if (ingrediente != null)
         {
             textMeshPro.text = ingrediente.ingredientes.nameOfIngredient;
