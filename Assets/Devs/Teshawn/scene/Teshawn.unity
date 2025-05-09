@@ -768,7 +768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   order: {fileID: 0}
-  patiance: 5
+  patiance: 30
   cup: {fileID: 0}
 --- !u!65 &613290256
 BoxCollider:
@@ -1322,7 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   order: {fileID: 0}
-  patiance: 50
+  patiance: 2
   cup: {fileID: 0}
 --- !u!65 &1665623149
 BoxCollider:
@@ -1599,10 +1599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleDrinks:
-  - {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
-  - {fileID: 11400000, guid: 94f05c2ec34452846a9c8a6f70d70773, type: 2}
-  - {fileID: 11400000, guid: 652b3c8a07f1e6b45837378185afb4be, type: 2}
-  - {fileID: 11400000, guid: d39e31b1821303543b2a59cad50584f1, type: 2}
   - {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
   orderGiven: {fileID: 0}
   customerCooldown: 2

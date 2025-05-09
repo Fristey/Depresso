@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CustomerScript : MonoBehaviour
+public class CustomerOrder : MonoBehaviour
 {
 
     public Recipes order;
@@ -18,7 +18,7 @@ public class CustomerScript : MonoBehaviour
         manager = FindFirstObjectByType<OrderManager>();
         manager.GeneratingOrder();
         order = manager.orderGiven;
-        manager.activeOrders.Add(order);
+        manager.activeOrders.Add(this);
     }
 
     private void Update()
@@ -30,10 +30,9 @@ public class CustomerScript : MonoBehaviour
     {
         for (int i = 0; i < manager.activeOrders.Count; i++)
         {
-            order = manager.activeOrders[i];
             if (CompareOrder())
             {
-                manager.CompleteOrder();
+                manager.CompleteOrder(this);
             }
         }
     }
@@ -67,7 +66,8 @@ public class CustomerScript : MonoBehaviour
 
         if(patiance <= 0)
         {
-            manager.FailOrder();
+            manager.FailOrder(this);
+            Destroy(this.gameObject);
         }
     }
 

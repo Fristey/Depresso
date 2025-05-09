@@ -9,7 +9,7 @@ public class OrderManager : MonoBehaviour
 
     [SerializeField] private float customerCooldown;
 
-    public List<Recipes> activeOrders = new List<Recipes>();
+    public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
 
 
     public void GeneratingOrder()
@@ -19,19 +19,15 @@ public class OrderManager : MonoBehaviour
         orderGiven = possibleDrinks[givenOrder];
     }
 
-    public void CompleteOrder()
+    public void CompleteOrder(CustomerOrder order)
     {
-        for (int i = 0; i < activeOrders.Count; i++)
-        {
-            activeOrders.RemoveAt(i);
-        }
+        int customerOrderToRemove = activeOrders.IndexOf(order);
+        activeOrders.RemoveAt(customerOrderToRemove);
     }
 
-    public void FailOrder()
+    public void FailOrder(CustomerOrder order)
     {
-        for(int i = 0;i < activeOrders.Count; i++)
-        {
-            activeOrders.RemoveAt(i);
-        }
+        int customerOrderToRemove = activeOrders.IndexOf(order);
+        activeOrders.RemoveAt(customerOrderToRemove);
     }
 }
