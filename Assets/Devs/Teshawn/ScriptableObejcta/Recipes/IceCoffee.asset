@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66385eb79ca7e7b4c936d4ea52efc67f, type: 3}
   m_Name: IceCoffee
   m_EditorClassIdentifier: 
-  requiredIngredientes: []
+  requiredIngredientes:
+  - {fileID: 11400000, guid: b185525dfefa77e4ea7ddb93bce285a7, type: 2}
+  - {fileID: 11400000, guid: 0fa253ef1a2550745a1363069e74ebf7, type: 2}
   drink: {fileID: 0}

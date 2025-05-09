@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66385eb79ca7e7b4c936d4ea52efc67f, type: 3}
   m_Name: PumpkinSPiceLatte
   m_EditorClassIdentifier: 
-  ingredientes: []
+  requiredIngredientes:
+  - {fileID: 11400000, guid: 933af814f4e811c4ba448620892beaf2, type: 2}
+  - {fileID: 11400000, guid: 04193ef5ba8996a499f188fea99063f7, type: 2}
+  - {fileID: 11400000, guid: a175880bdc8f8ff43b68b2d97057dd88, type: 2}
+  - {fileID: 11400000, guid: 5cb9da3aff478374fb35d4d7aece76c7, type: 2}
+  drink: {fileID: 0}
