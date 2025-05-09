@@ -12,7 +12,6 @@ enum CatStates
 public class CatScript : MonoBehaviour
 {
     private NavMeshAgent agent;
-    [SerializeField] private Collider col;
 
     [SerializeField] private CatStates state;
 
@@ -26,6 +25,9 @@ public class CatScript : MonoBehaviour
     [SerializeField] private float walkToCupChance;
 
     [SerializeField] private LayerMask cupCheckMask;
+    [SerializeField] private float cupLaunchForce;
+    [SerializeField] private float cupLauchCD;
+    private bool canLaunch = true;
 
     private void Awake()
     {
@@ -41,9 +43,26 @@ public class CatScript : MonoBehaviour
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
-        Vector3 dir = transform.position - other.transform.position;
+        Vector3 pos = other.transform.position;
+        pos.y = 0;
 
-        //rb.AddForce();
+        Vector3 dir = (pos + other.transform.position).normalized;
+
+        rb.AddForce(dir * cupLaunchForce);
+
+        Vector3 angle = other.transform.rotation.eulerAngles + (dir*cupLaunchForce);
+
+        rb.AddTorque(angle);
+
+        DestinationReached();
+        StartCoroutine(CupLaunchCooldown());
+    }
+
+    IEnumerator CupLaunchCooldown()
+    {
+        canLaunch = false;
+        yield return new WaitForSeconds(cupLauchCD);
+        canLaunch = true;
     }
 
     private void Update()
@@ -64,7 +83,10 @@ public class CatScript : MonoBehaviour
                 break;
         }
 
-        CheckForCups();
+        if (canLaunch)
+        {
+            CheckForCups();
+        }
     }
 
     private void CheckForCups()
@@ -95,7 +117,6 @@ public class CatScript : MonoBehaviour
 
         if (rolledNum >= walkChance)
         {
-            Debug.Log("Walking");
             destination = GenerateTarget();
             agent.destination = destination;
 
@@ -103,14 +124,19 @@ public class CatScript : MonoBehaviour
         }
         else if (rolledNum >= sitChance)
         {
-            Debug.Log("Sitting");
             StartCoroutine(SitTimer());
             state = CatStates.Sitting;
         }
         else if (rolledNum >= walkToCupChance)
         {
-            Debug.Log("WalkingToCup");
-            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            if(canLaunch)
+            {
+                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            } else
+            {
+                destination = GenerateTarget();
+            }
+
             agent.destination = destination;
 
             state = CatStates.Walking;
@@ -156,15 +182,20 @@ public class CatScript : MonoBehaviour
 
         if (num <= walkToCupChance)
         {
-            Debug.Log("WalkingToCup");
-            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            if (canLaunch)
+            {
+                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            }
+            else
+            {
+                destination = GenerateTarget();
+            }
             agent.destination = destination;
 
             state = CatStates.Walking;
         }
         else
         {
-            Debug.Log("Walking");
             destination = GenerateTarget();
             agent.destination = destination;
 
