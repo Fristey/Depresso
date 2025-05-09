@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class CustomerOrder : MonoBehaviour
 {
-
-    public Recipes order;
-
-    public float patiance = 10f;
+    [SerializeField] private MixingCup cup;
 
     private OrderManager manager;
 
-    [SerializeField] private MixingCup cup;
+    public Recipes order;
+    public float patiance = 10f;
 
     private void Start()
     {
@@ -67,7 +65,6 @@ public class CustomerOrder : MonoBehaviour
         if(patiance <= 0)
         {
             manager.FailOrder(this);
-            Destroy(this.gameObject);
         }
     }
 

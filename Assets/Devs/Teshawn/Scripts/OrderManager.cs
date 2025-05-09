@@ -4,13 +4,12 @@ using UnityEngine;
 public class OrderManager : MonoBehaviour
 {
     [SerializeField] private List<Recipes> possibleDrinks = new List<Recipes>();
-
-    public Recipes orderGiven;
-
     [SerializeField] private float customerCooldown;
 
-    public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
+    private CustomerMovement customerMovement;
 
+    public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
+    public Recipes orderGiven;
 
     public void GeneratingOrder()
     {
@@ -23,11 +22,13 @@ public class OrderManager : MonoBehaviour
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
+        customerMovement.Leave();
     }
 
     public void FailOrder(CustomerOrder order)
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
+        customerMovement.Leave();
     }
 }

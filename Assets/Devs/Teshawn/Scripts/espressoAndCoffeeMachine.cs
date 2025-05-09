@@ -3,23 +3,15 @@ using UnityEngine;
 public enum State { Hot, Cold, Coffee }
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
-    [SerializeField] private State mode;
-    private bool hasCupForCoffee;
-
-    [SerializeField] private GameObject hotButton;
-    [SerializeField] private GameObject coffeeButton;
-    [SerializeField] private GameObject coldButton;
-
-    [SerializeField] public Ingredientes ice;
-    [SerializeField] public Ingredientes hotWater;
-    [SerializeField] public Ingredientes coffee;
-
     [SerializeField] private MixingCup cup;
-
     [SerializeField] private Rigidbody handleRb;
-
     [SerializeField] private HandleScript handle;
 
+    public State mode;
+
+    public Ingredientes ice;
+    public Ingredientes hotWater;
+    public Ingredientes coffee;
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Cup"))
@@ -38,7 +30,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     public void Dispense(float amount, Ingredientes type)
     {
         Debug.Log("Dispense strength (0–1): " + amount);
-        
+
 
         currentIngredient(type);
     }

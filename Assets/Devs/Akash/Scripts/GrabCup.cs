@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GrabCup : MonoBehaviour
@@ -26,6 +25,12 @@ public class GrabCup : MonoBehaviour
 
     public LookAround lookAround; // Reference to the LookAround script
 
+    private espressoAndCoffeeMachine machine;
+
+    private void Start()
+    {
+        machine = FindFirstObjectByType<espressoAndCoffeeMachine>();
+    }
 
     private void Update()
     {
@@ -34,15 +39,15 @@ public class GrabCup : MonoBehaviour
             grabCup();
         }
 
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             DropCup();
         }
 
-        if(isHoldingCup && rb != null)
+        if (isHoldingCup && rb != null)
         {
             MoveCup();
-            if(Input.GetMouseButton(1)) // Right mouse button to rotate the cup
+            if (Input.GetMouseButton(1)) // Right mouse button to rotate the cup
             {
                 RotateCup();
                 Cursor.lockState = CursorLockMode.Locked;
@@ -56,27 +61,27 @@ public class GrabCup : MonoBehaviour
 
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             throwCup(); // Throw the cup when pressing the "E" key
             DropCup(); // Drop the cup
         }
 
-/*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
-        holdPoint.rotation = playerCamera.transform.rotation;*/
+        /*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
+                holdPoint.rotation = playerCamera.transform.rotation;*/
     }
 
     private void FixedUpdate()
     {
-        if(isHoldingCup && rb != null && Input.GetMouseButtonDown(1))
+        if (isHoldingCup && rb != null && Input.GetMouseButtonDown(1))
         {
             Vector3 upwards = rb.transform.up; // Get the up direction of the cup
             float upRight = Vector3.Angle(upwards, Vector3.up); // Calculate the angle between the cup's up direction and the world up direction
 
-            if(upRight < 30f)
+            if (upRight < 30f)
             {
                 Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); // Set the target rotation to upright
-                Vector3 balance = new Vector3 (targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
+                Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
                 rb.AddTorque(balance); // Apply torque to balance the cup
             }
         }
@@ -88,7 +93,7 @@ public class GrabCup : MonoBehaviour
             {
                 particleSystem.Play(); // Play the particle system if the cup is tilted too much
             }
-            if(particleSystem.isPlaying)
+            if (particleSystem.isPlaying)
             {
                 particleSystem.Stop(); // Stop the particle system if the cup is upright
             }
@@ -109,7 +114,7 @@ public class GrabCup : MonoBehaviour
         {
             if (hit.collider.CompareTag("Cup")) // Check if the object hit by the ray has the tag "Cup"
             {
-               
+
                 rb = hit.rigidbody; // Get the Rigidbody component of the cup
                 rb.useGravity = false; // Disable gravity for the cup while holding it
                 rb.linearDamping = 10f; // Increase drag to slow down the cup's movement
@@ -117,12 +122,25 @@ public class GrabCup : MonoBehaviour
                 rb.angularVelocity = Vector3.zero; // Reset the velocity of the cup
                 rb.constraints = RigidbodyConstraints.None; // Remove any constraints on the Rigidbody
             }
+            else if (hit.collider.CompareTag("Coffee"))
+            {
+                machine.mode = State.Coffee;
+            }
+            else if (hit.collider.CompareTag("Ice"))
+            {
+                machine.mode = State.Cold;
+            }
+            else if (hit.collider.CompareTag("HotWater"))
+            {
+                machine.mode = State.Hot;
+            }
+
         }
     }
 
     private void DropCup()
     {
-        if(rb != null)
+        if (rb != null)
         {
             rb.useGravity = true; // Enable gravity for the cup when dropping it
             rb.linearDamping = 0f; // Reset drag to default
@@ -138,7 +156,7 @@ public class GrabCup : MonoBehaviour
 
     private void MoveCup()
     {
-/*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
+        /*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
 
         Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance; // Calculate the target position for the cup
         Vector3 forceDirection = (targetPosition - rb.position); // Calculate the direction to move the cup towards the hold point
