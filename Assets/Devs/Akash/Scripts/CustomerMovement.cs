@@ -109,6 +109,7 @@ public class CustomerMovement : MonoBehaviour
             }
         }
         waitingCustomers.Remove(this);
+        ReOrderQueue();
         Leave();
     }
 
@@ -149,6 +150,29 @@ public class CustomerMovement : MonoBehaviour
         navMeshAgent.SetDestination(exitPoint.transform.position);
         Destroy(gameObject, 5f);
         CustomerSpawner.currentCustomerCount -= 1;
+    }
+
+    private void ReOrderQueue()
+    {
+        for(int i = 0; i < waitingCustomers.Count; i++)
+        {
+            CustomerMovement customer = waitingCustomers[i];
+            GameObject targetWaitSpot = CustomerManager.Instance.waitPoints[i]; 
+
+            if(customer.currentSpot != targetWaitSpot)
+            {
+                if(customer.currentSpot != null)
+                {
+                    usedWaitSpots.Remove(customer.currentSpot);
+                }
+                customer.currentSpot = targetWaitSpot;
+                usedWaitSpots.Add(targetWaitSpot);
+                customer.navMeshAgent.isStopped = false;
+                customer.navMeshAgent.SetDestination(targetWaitSpot.transform.position);
+
+
+            }
+        }
     }
 
 }
