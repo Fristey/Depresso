@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5105050428283537056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5516457088361664228}
+  - component: {fileID: 1360446330725198976}
+  m_Layer: 0
+  m_Name: OrderManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5516457088361664228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105050428283537056}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.1027417, y: 1.9726245, z: -0.5367703}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1360446330725198976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105050428283537056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a992f8d8bfb61c7478b7f3fb0f1affd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleDrinks:
+  - {fileID: 11400000, guid: 94f05c2ec34452846a9c8a6f70d70773, type: 2}
+  - {fileID: 11400000, guid: c1c25d07d305d004b8cc0aa5a17ed420, type: 2}
+  - {fileID: 11400000, guid: 652b3c8a07f1e6b45837378185afb4be, type: 2}
+  - {fileID: 11400000, guid: 57c1c4ee20e734a438c357f35364bce7, type: 2}
+  - {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
+  - {fileID: 11400000, guid: 6a1715555f400d84eb812aedab6d5275, type: 2}
+  - {fileID: 11400000, guid: d39e31b1821303543b2a59cad50584f1, type: 2}
+  - {fileID: 11400000, guid: 562364dd1c53cb443ba34df6837490f6, type: 2}
+  - {fileID: 11400000, guid: 9e727fb3040db0d4ebd7890613ebbc7e, type: 2}
+  - {fileID: 11400000, guid: 93e215572c284184fb7da4d73f426906, type: 2}
+  - {fileID: 11400000, guid: f9e7f97e9dcd45e44b9bc88217ba8d84, type: 2}
+  - {fileID: 11400000, guid: 58fcdbb1c8766eb48b11f62e13ab46fe, type: 2}
+  customerCooldown: 0
+  activeOrders: []
+  orderGiven: {fileID: 0}
