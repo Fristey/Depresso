@@ -4,7 +4,7 @@ public class LookAround : MonoBehaviour
 {
     public Transform playerBody; // Reference to the player's body transform
 
-    private float mouseSensitivity = 100f; // Sensitivity of the mouse movement
+    [SerializeField] private float mouseSensitivity = 100f; // Sensitivity of the mouse movement
     private float xRotation = 0f; // Rotation around the X-axis
     public bool canLookAround = true; // Flag to enable/disable looking around
     public bool lockCursor = true;
