@@ -6,5 +6,6 @@ public class Recipes : ScriptableObject
 {
     public List<Ingredientes> requiredIngredientes = new List<Ingredientes>();
 
+    public string nameOfDrink;
     public GameObject drink;
 }

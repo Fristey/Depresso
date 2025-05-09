@@ -11,10 +11,11 @@ public class OrderManager : MonoBehaviour
     public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
     public Recipes orderGiven;
 
+    public MixingCup mixingCup;
+
     public void GeneratingOrder()
     {
         int givenOrder = Random.Range(0, possibleDrinks.Count);
-
         orderGiven = possibleDrinks[givenOrder];
     }
 
@@ -22,6 +23,7 @@ public class OrderManager : MonoBehaviour
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
+        mixingCup.cupIngredientes.Clear();
         customerMovement.Leave();
     }
 
