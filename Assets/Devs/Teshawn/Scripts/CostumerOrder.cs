@@ -8,14 +8,11 @@ public class CustomerOrder : MonoBehaviour
 
     private OrderManager manager;
 
-    CustomerMovement movement;
-
     public Recipes order;
-    public float patiance = 600f;
+    [SerializeField] private float patiance = 60f;
 
     private void Start()
     {
-        movement = GetComponent<CustomerMovement>();
         manager = FindFirstObjectByType<OrderManager>();
         manager.GeneratingOrder();
         order = manager.orderGiven;
