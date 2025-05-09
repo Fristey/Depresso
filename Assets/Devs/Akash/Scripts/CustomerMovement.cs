@@ -143,7 +143,7 @@ public class CustomerMovement : MonoBehaviour
         }
     }
 
-    private void Leave()
+    public void Leave()
     {
         currentState = CustomerState.Leaving;
         navMeshAgent.isStopped = false;
