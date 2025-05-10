@@ -210,6 +210,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4747858832049551921, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747858832049551921, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747858832049551921, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -240,6 +252,7 @@ MonoBehaviour:
   - Coffee
   - Ice
   - Milk
+  ingredientesNames: []
 --- !u!1 &242894743
 GameObject:
   m_ObjectHideFlags: 0
