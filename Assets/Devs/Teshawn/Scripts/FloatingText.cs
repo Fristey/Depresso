@@ -6,6 +6,7 @@ public class FloatingText : MonoBehaviour
     private TextMeshProUGUI textMeshPro;
     private AddIngredient ingrediente;
     private CustomerOrder orderOfThisCustomer;
+    private MixingCup mixingCup;
 
     Transform mainCam;
     Transform unit;
@@ -15,8 +16,9 @@ public class FloatingText : MonoBehaviour
     void Start()
     {
         ingrediente = GetComponentInParent<AddIngredient>();
-        textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
         orderOfThisCustomer = GetComponentInParent<CustomerOrder>();
+        mixingCup = GetComponentInParent<MixingCup>();
+        textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
 
         
        
@@ -32,12 +34,17 @@ public class FloatingText : MonoBehaviour
         if (orderOfThisCustomer != null)
         {
             textMeshPro.text = orderOfThisCustomer.order.nameOfDrink;
-        }else if (ingrediente != null)
+        }
+        else if (ingrediente != null)
         {
             textMeshPro.text = ingrediente.ingredientes.nameOfIngredient;
         }
+        else if (mixingCup != null)
+        {
+            textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
 
-        transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
-        transform.position = unit.position + offset;
+        }
+            transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
+            transform.position = unit.position + offset;
     }
 }
