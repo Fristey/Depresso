@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 public class OrderManager : MonoBehaviour
 {
     [SerializeField] private List<Recipes> possibleDrinks = new List<Recipes>();
@@ -16,6 +15,7 @@ public class OrderManager : MonoBehaviour
         int givenOrder = Random.Range(0, possibleDrinks.Count);
         orderGiven = possibleDrinks[givenOrder];
     }
+
 
     public void CompleteOrder(CustomerOrder order, CustomerMovement customerMovement)
     {

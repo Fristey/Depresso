@@ -8,21 +8,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 208821601432645924, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+      propertyPath: m_TagString
+      value: Ice
+      objectReference: {fileID: 0}
+    - target: {fileID: 228998207141561517, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.197
+      objectReference: {fileID: 0}
+    - target: {fileID: 1468234567283641072, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+      propertyPath: m_TagString
+      value: HotWater
+      objectReference: {fileID: 0}
+    - target: {fileID: 4934576890187496988, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+      propertyPath: m_TagString
+      value: Coffee
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425972815722969868, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+      propertyPath: coffeeMachine
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8468447735364940450, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       propertyPath: m_Name
       value: P_BaristaMachine Variant
       objectReference: {fileID: 0}
     - target: {fileID: 9137285724093229080, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.872
+      value: 1.809
       objectReference: {fileID: 0}
     - target: {fileID: 9137285724093229080, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.37
       objectReference: {fileID: 0}
     - target: {fileID: 9137285724093229080, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.1519198
+      value: -3.3145728
       objectReference: {fileID: 0}
     - target: {fileID: 9137285724093229080, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52,7 +72,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6390147175843441512, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -62,6 +83,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8468447735364940450, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8467384007352705323}
+    - targetCorrespondingSourceObject: {fileID: 8384485890928965179, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 610088191169700968}
     - targetCorrespondingSourceObject: {fileID: 6856482031987626494, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1186447101769093903}
@@ -117,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coffeeMachine: {fileID: 8467384007352705323}
+  currentIngredientes: {fileID: 0}
   isHeldDown: 0
   lookAround: {fileID: 0}
 --- !u!136 &59462253296160484
@@ -142,6 +167,32 @@ CapsuleCollider:
   m_Height: 1.0469345
   m_Direction: 1
   m_Center: {x: 6.3218e-24, y: 0.4776613, z: -0.00000022484895}
+--- !u!1 &8964598410888414684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8384485890928965179, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+  m_PrefabInstance: {fileID: 590828881050694631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &610088191169700968
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8964598410888414684}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 0.44300008, z: 2}
+  m_Center: {x: 0, y: 0.22150004, z: 0}
 --- !u!1 &9058695862480404805 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8468447735364940450, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
@@ -181,8 +232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b374f14d09c6d468b520ccec5efcb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientesInMachine: []
+  cup: {fileID: 0}
   handleRb: {fileID: 1186447101769093903}
-  recipes: []
-  currentRecipe: {fileID: 0}
-  DrinkSpawnPoint: {fileID: 0}
+  handle: {fileID: 5277013022761956113}
+  mode: 0
+  ice: {fileID: 11400000, guid: 0fa253ef1a2550745a1363069e74ebf7, type: 2}
+  hotWater: {fileID: 11400000, guid: 9d2a6b65161f9da4ca136354d880e8a1, type: 2}
+  coffee: {fileID: 11400000, guid: b185525dfefa77e4ea7ddb93bce285a7, type: 2}

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public enum State { Hot, Cold, Coffee }
@@ -6,6 +7,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     [SerializeField] private MixingCup cup;
     [SerializeField] private Rigidbody handleRb;
     [SerializeField] private HandleScript handle;
+    [SerializeField] private Transform dispensePoint;
 
     public State mode;
 
@@ -27,30 +29,31 @@ public class espressoAndCoffeeMachine : MonoBehaviour
         }
     }
 
-    public void Dispense(float amount, Ingredientes type)
+    public IEnumerator Dispense(float amount)
     {
-        Debug.Log("Dispense strength (0–1): " + amount);
+        //Debug.Log("Dispense strength (0–1): " + amount);
+
+        currentIngredient();
+
+        yield return new WaitForSeconds(amount);
+        Instantiate(handle.objectToDispence, dispensePoint.position, Quaternion.identity);
 
 
-        currentIngredient(type);
     }
 
-    public void currentIngredient(Ingredientes type)
+    public void currentIngredient()
     {
         if (mode == State.Hot)
         {
-            type = hotWater;
+            handle.objectToDispence = hotWater.ingredientToSpawn;
         }
         else if (mode == State.Cold)
         {
-            type = ice;
+            handle.objectToDispence = ice.ingredientToSpawn;
         }
         else if (mode == State.Coffee)
         {
-            type = coffee;
-
+            handle.objectToDispence = coffee.ingredientToSpawn;
         }
-        handle.currentIngredientes = type;
-
     }
 }

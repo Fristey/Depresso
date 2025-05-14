@@ -10,12 +10,12 @@ public class HandleScript : MonoBehaviour
 
     [SerializeField] private espressoAndCoffeeMachine coffeeMachine;
 
-    public Ingredientes currentIngredientes;
-
     [SerializeField] private bool isHeldDown = false;
     private Camera playerCamera;
 
     [SerializeField] private LookAround lookAround;
+
+    public GameObject objectToDispence;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,7 +26,7 @@ public class HandleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        coffeeMachine.currentIngredient(currentIngredientes);
+        coffeeMachine.currentIngredient();
         if(Input.GetMouseButtonDown(0))
         {
             lookAround.canLookAround = false; // Disable looking around when holding the handle
@@ -58,7 +58,7 @@ public class HandleScript : MonoBehaviour
             Rotate();
 
             float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
-            coffeeMachine.Dispense(rotationAmount, currentIngredientes);
+            StartCoroutine(coffeeMachine.Dispense(rotationAmount));
         }
     }
 

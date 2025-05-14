@@ -6,6 +6,9 @@ public class Recipes : ScriptableObject
 {
     public List<Ingredientes> requiredIngredientes = new List<Ingredientes>();
 
+   // public enum Size { none, small, medium, large }
+
+    //public Size drinkSize;
     public string nameOfDrink;
     public GameObject drink;
 }
