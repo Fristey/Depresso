@@ -524,6 +524,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1186447101769093903, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
+      propertyPath: m_Constraints
+      value: 110
+      objectReference: {fileID: 0}
     - target: {fileID: 8015652328089487595, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
       propertyPath: lookAround
       value: 
@@ -572,9 +576,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_BaristaMachine Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5277013022761956113, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
-    - {fileID: 59462253296160484, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
