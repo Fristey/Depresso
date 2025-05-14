@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,9 @@ public class CustomerOrder : MonoBehaviour
     private CustomerMovement customer;
     private OrderManager manager;
 
-    public Recipes order;
+    public List<Recipes> order = new List<Recipes>();
     public float patiance;
+    public int amountOfOrders;
 
     public Slider patienceSlider;
 
@@ -17,9 +19,14 @@ public class CustomerOrder : MonoBehaviour
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
-        manager.GeneratingOrder();
-        order = manager.orderGiven;
-        manager.activeOrders.Add(this);
+
+        for (int i = 0; i < amountOfOrders; i++)
+        {
+            manager.GeneratingOrder();
+            order.Add(manager.orderGiven);
+            manager.activeOrders.Add(this);
+        }
+
 
         patienceSlider.maxValue = patiance;
         StartCoroutine(customer.LeaveAfterTime(patiance));
@@ -35,35 +42,45 @@ public class CustomerOrder : MonoBehaviour
             patiance = 0;
         }
     }
-    public void CheckOrder()
+    
+    public void RemoveFromActiveOrderes()
     {
+        NoMoreOrders();
+
         for (int i = 0; i < manager.activeOrders.Count; i++)
         {
             if (CompareOrder())
             {
-                manager.CompleteOrder(this,customer);
+                manager.CompleteOrder(manager.activeOrders[i], customer);
             }
+        }
+    }
+
+    public void NoMoreOrders() 
+    {
+        if(order.Count <= 0)
+        {
+            Debug.Log("ima leave");
+            customer.Leave();
         }
     }
 
     public bool CompareOrder()
     {
         cup.cupIngredientes.Sort();
-        order.requiredIngredientes.Sort();
-
-        if (cup.cupIngredientes.Count != order.requiredIngredientes.Count)
+        for (int i = 0; i < order.Count; i++)
         {
-            return false;
-        }
+            order[i].requiredIngredientes.Sort();
 
-        for (int i = 0; order.requiredIngredientes.Count > 0; i++)
-        {
-            if (order.requiredIngredientes[i] == cup.cupIngredientes[i])
+            if (order[i].requiredIngredientes.SequenceEqual(cup.cupIngredientes))
             {
-                return true;
+                Debug.Log(order[i].name);
+                order.RemoveAt(i);
+                return order[i];
             }
         }
-       return false;
+        return false;
+
     }
 
 
@@ -72,7 +89,8 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.CompareTag("Cup"))
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
-            CheckOrder();
+            //CheckOrder();
+            RemoveFromActiveOrderes();
         }
     }
 }

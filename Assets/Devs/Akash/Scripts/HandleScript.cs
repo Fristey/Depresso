@@ -26,7 +26,6 @@ public class HandleScript : MonoBehaviour
         playerCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
         coffeeMachine.currentIngredient();
@@ -39,7 +38,6 @@ public class HandleScript : MonoBehaviour
 
                 if (hit.transform == transform)
                 {
-                    Debug.Log("handle");
                     isHeldDown = true;
                 }
             }

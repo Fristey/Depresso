@@ -33,7 +33,7 @@ public class FloatingText : MonoBehaviour
     {
         if (orderOfThisCustomer != null)
         {
-            textMeshPro.text = orderOfThisCustomer.order.nameOfDrink;
+            //textMeshPro.text = orderOfThisCustomer.order.nameOfDrink;
         }
         else if (ingrediente != null)
         {

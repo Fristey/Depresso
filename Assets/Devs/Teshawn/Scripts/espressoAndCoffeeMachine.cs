@@ -33,11 +33,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
 
     public void Dispense()
     {
-        //Debug.Log("Dispense strength (0–1): " + amount);
-
         currentIngredient();
-
-
         Instantiate(handle.objectToDispence, dispensePoint.position, Quaternion.identity);
     }
 
