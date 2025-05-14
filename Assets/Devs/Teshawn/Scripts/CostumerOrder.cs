@@ -43,6 +43,11 @@ public class CustomerOrder : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// this removes active orders out the list of the costumer
+    /// uses the manager component and the active orders in the  OderManager  
+    /// it also uses the CompleteOrder from the OrderManager
+    /// </summary>
     public void RemoveFromActiveOrderes()
     {
         NoMoreOrders();
@@ -60,11 +65,15 @@ public class CustomerOrder : MonoBehaviour
     {
         if(order.Count <= 0)
         {
-            Debug.Log("ima leave");
             customer.Leave();
         }
     }
 
+    /// <summary>
+    /// sorts the cup its list in Alphabetical order
+    /// then its loops through the list of orders its count sorts every order its ingredients and compairs them if it maches it removes that one and returns the order
+    /// </summary>
+    /// <returns>the order that has been made or false</returns>
     public bool CompareOrder()
     {
         cup.cupIngredientes.Sort();
@@ -74,22 +83,18 @@ public class CustomerOrder : MonoBehaviour
 
             if (order[i].requiredIngredientes.SequenceEqual(cup.cupIngredientes))
             {
-                Debug.Log(order[i].name);
                 order.RemoveAt(i);
                 return order[i];
             }
         }
         return false;
-
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Cup"))
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
-            //CheckOrder();
             RemoveFromActiveOrderes();
         }
     }
