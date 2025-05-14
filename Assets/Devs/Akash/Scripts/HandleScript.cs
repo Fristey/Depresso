@@ -57,9 +57,12 @@ public class HandleScript : MonoBehaviour
 
             Rotate();
 
-            float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
-            StartCoroutine(coffeeMachine.Dispense(rotationAmount));
         }
+            float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
+
+        float maxTimeForDispense = Mathf.Lerp(5, 0, rotationAmount);
+
+        Invoke(nameof(coffeeMachine.Dispense), maxTimeForDispense);
     }
 
     private void Rotate()
