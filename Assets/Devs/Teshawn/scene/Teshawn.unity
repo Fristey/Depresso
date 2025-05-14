@@ -532,6 +532,10 @@ PrefabInstance:
       propertyPath: coffeeMachine
       value: 
       objectReference: {fileID: 393666642}
+    - target: {fileID: 8467384007352705323, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
+      propertyPath: dispensePoint
+      value: 
+      objectReference: {fileID: 1336201848}
     - target: {fileID: 8574048061112867839, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.809
@@ -1572,6 +1576,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1665315653}
   m_SourcePrefab: {fileID: 100100000, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
+--- !u!4 &1336201848 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3300681350903176983, guid: a4dbe90d3ce562943b7e2e217d7d1a71, type: 3}
+  m_PrefabInstance: {fileID: 277645366}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1406866589
 PrefabInstance:
   m_ObjectHideFlags: 0
