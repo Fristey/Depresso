@@ -56,14 +56,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartNewDay(int dayNumber)
-    {
-        dayCycle.StartDay(dayNumber);
-        dayTimer = 0f;
-        hasDayStarted = true;
-    }
-
-
     private void RemoveAllCustomers()
     {
         GameObject[] customers = GameObject.FindGameObjectsWithTag("Customer");
