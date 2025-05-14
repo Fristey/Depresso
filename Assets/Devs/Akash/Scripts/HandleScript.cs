@@ -17,6 +17,9 @@ public class HandleScript : MonoBehaviour
 
     public GameObject objectToDispence;
 
+    [SerializeField] private float maxTimeForDispense;
+    [SerializeField] private float timeForDispense;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,23 +30,22 @@ public class HandleScript : MonoBehaviour
     void Update()
     {
         coffeeMachine.currentIngredient();
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             lookAround.canLookAround = false; // Disable looking around when holding the handle
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out RaycastHit hit, 3f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 3f))
             {
-                
-                if(hit.transform == transform)
+
+                if (hit.transform == transform)
                 {
                     Debug.Log("handle");
                     isHeldDown = true;
                 }
             }
-
         }
 
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             lookAround.canLookAround = true; // Enable looking around when not holding the handle
             isHeldDown = false;
@@ -58,11 +60,18 @@ public class HandleScript : MonoBehaviour
             Rotate();
 
         }
-            float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
+        float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
 
-        float maxTimeForDispense = Mathf.Lerp(5, 0, rotationAmount);
+        maxTimeForDispense = Mathf.Lerp(5, 0, rotationAmount);
+        if (maxTimeForDispense < 5)
+            timeForDispense += Time.deltaTime;
 
-        Invoke(nameof(coffeeMachine.Dispense), maxTimeForDispense);
+        if (timeForDispense >= maxTimeForDispense)
+        {
+            coffeeMachine.Dispense();
+            timeForDispense = 0;
+
+        }
     }
 
     private void Rotate()
@@ -70,5 +79,5 @@ public class HandleScript : MonoBehaviour
         transform.localRotation = Quaternion.Euler(currentAngle, 0f, 0f);
     }
 
-    
+
 }
