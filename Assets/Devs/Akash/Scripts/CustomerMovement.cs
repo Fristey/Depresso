@@ -153,7 +153,7 @@ public class CustomerMovement : MonoBehaviour
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(exitPoint.transform.position);
         Destroy(gameObject, 5f);
-        CustomerSpawner.currentCustomerCount -= 1;
+        CustomerSpawner.Instance.currentCustomerCount -= 1;
     }
 
     private void ReOrderQueue()
