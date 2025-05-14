@@ -2,28 +2,27 @@ using UnityEngine;
 
 public class GrabCup : MonoBehaviour
 {
-    [SerializeField] private Camera playerCamera; // Reference to the player's camera
-    [SerializeField] private float grabRange = 3f; // The range of where the held cup is from the camera
+    [SerializeField] private Camera playerCamera; 
+    [SerializeField] private float grabRange = 3f; 
     [SerializeField] private float moveForce = 50f;
-    [SerializeField] private float throwForce = 10f; // The force applied when throwing the cup
-    //[SerializeField] private Transform holdPoint; // The point where the cup will be held
+    [SerializeField] private float throwForce = 10f; 
     [SerializeField] private float tiltSpeed = 2f;
-    [SerializeField] private float maxTiltAngle = 200f; // The maximum angle of tilt for the cup
+    [SerializeField] private float maxTiltAngle = 200f; 
 
-    [SerializeField] private float holdDistance = 1.5f; // The distance from the camera to the cup when held
-    [SerializeField] private float minScrollDistance = 0.5f; // The minimum distance from the camera to the cup when held 
-    [SerializeField] private float maxScrollDistance = 3f; // The maximum distance from the camera to the cup when held
-    [SerializeField] private float scrollSpeed = 2f; // The speed of the scroll wheel for adjusting the distance
+    [SerializeField] private float holdDistance = 1.5f; 
+    [SerializeField] private float minScrollDistance = 0.5f;
+    [SerializeField] private float maxScrollDistance = 3f;
+    [SerializeField] private float scrollSpeed = 2f;
 
-    [SerializeField] private ParticleSystem particleSystem; // Reference to the particle system for the cup
+    [SerializeField] private ParticleSystem particleSystem; 
 
-    private Vector2 tilt; // The tilt of the cup
+    private Vector2 tilt;
 
 
-    private Rigidbody rb; //Reference to the Rigidbody component of the cup    
-    private bool isHoldingCup = false; // Flag to check if the cup is being held
+    private Rigidbody rb;  
+    private bool isHoldingCup = false;
 
-    public LookAround lookAround; // Reference to the LookAround script
+    public LookAround lookAround; 
 
     private espressoAndCoffeeMachine machine;
 
@@ -54,17 +53,17 @@ public class GrabCup : MonoBehaviour
             }
             else
             {
-                lookAround.lockCursor = true; // Enable cursor locking when not rotating the cup
-                lookAround.canLookAround = true; // Enable looking around when not holding the cup
-                Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
+                lookAround.lockCursor = true; 
+                lookAround.canLookAround = true; 
+                Cursor.lockState = CursorLockMode.Locked; 
             }
 
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            throwCup(); // Throw the cup when pressing the "E" key
-            DropCup(); // Drop the cup
+            throwCup(); 
+            DropCup(); 
         }
 
         /*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
@@ -75,8 +74,8 @@ public class GrabCup : MonoBehaviour
     {
         if (isHoldingCup && rb != null && Input.GetMouseButtonDown(1))
         {
-            Vector3 upwards = rb.transform.up; // Get the up direction of the cup
-            float upRight = Vector3.Angle(upwards, Vector3.up); // Calculate the angle between the cup's up direction and the world up direction
+            Vector3 upwards = rb.transform.up;
+            float upRight = Vector3.Angle(upwards, Vector3.up);
 
             if (upRight < 30f)
             {
@@ -89,6 +88,7 @@ public class GrabCup : MonoBehaviour
         float tiltAngle = Vector3.Angle(Vector3.up, transform.up); // Calculate the angle between the cup's up direction and the world up direction
         if (tiltAngle > 80f)
         {
+            //Werkt niet
             if (!particleSystem.isPlaying)
             {
                 particleSystem.Play(); // Play the particle system if the cup is tilted too much
@@ -99,7 +99,7 @@ public class GrabCup : MonoBehaviour
             }
         }
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel"); // Get the scroll wheel input
+        float scroll = Input.GetAxis("Mouse ScrollWheel"); 
         if (scroll != 0f)
         {
             holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
@@ -108,19 +108,19 @@ public class GrabCup : MonoBehaviour
 
     private void grabCup()
     {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition); // Create a ray from the camera to the mouse position
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition); 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange))
         {
-            if (hit.collider.CompareTag("Cup")) // Check if the object hit by the ray has the tag "Cup"
+            if (hit.collider.CompareTag("Cup")) 
             {
 
-                rb = hit.rigidbody; // Get the Rigidbody component of the cup
-                rb.useGravity = false; // Disable gravity for the cup while holding it
-                rb.linearDamping = 10f; // Increase drag to slow down the cup's movement
-                isHoldingCup = true; // Set the flag to indicate that the cup is being held
-                rb.angularVelocity = Vector3.zero; // Reset the velocity of the cup
-                rb.constraints = RigidbodyConstraints.None; // Remove any constraints on the Rigidbody
+                rb = hit.rigidbody;
+                rb.useGravity = false;
+                rb.linearDamping = 10f; 
+                isHoldingCup = true; 
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None; 
             }
             else if (hit.collider.CompareTag("Coffee"))
             {
@@ -142,47 +142,47 @@ public class GrabCup : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.useGravity = true; // Enable gravity for the cup when dropping it
-            rb.linearDamping = 0f; // Reset drag to default
-            rb.angularVelocity = Vector3.zero; // Reset the angular velocity of the cup
-            rb.angularVelocity = Vector3.zero; // Reset the angular velocity of the cup
+            rb.useGravity = true;
+            rb.linearDamping = 0f; 
+            rb.angularVelocity = Vector3.zero; 
+            rb.angularVelocity = Vector3.zero; 
             rb.angularDamping = 1f;
-            rb.constraints = RigidbodyConstraints.None; // Freeze rotation to prevent unwanted spinning
-            rb = null; // Reset the Rigidbody reference
+            rb.constraints = RigidbodyConstraints.None;
+            rb = null;
         }
-        holdDistance = 1.5f; // Reset the hold distance to the default value
-        isHoldingCup = false; // Reset the flag to indicate that the cup is no longer being held
+        holdDistance = 1.5f;
+        isHoldingCup = false;
     }
 
     private void MoveCup()
     {
         /*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
 
-        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance; // Calculate the target position for the cup
-        Vector3 forceDirection = (targetPosition - rb.position); // Calculate the direction to move the cup towards the hold point
-        rb.AddForce(forceDirection * moveForce * Time.deltaTime); // Apply a force to move the cup towards the hold point
+        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance; 
+        Vector3 forceDirection = (targetPosition - rb.position); 
+        rb.AddForce(forceDirection * moveForce * Time.deltaTime); 
     }
 
     private void RotateCup()
     {
-        lookAround.lockCursor = false; // Disable cursor locking while rotating the cup
-        lookAround.canLookAround = false; // Disable looking around while holding the cup
-        float mouseX = Input.GetAxis("Mouse X"); // Get mouse input for rotation
+        lookAround.lockCursor = false; 
+        lookAround.canLookAround = false; 
+        float mouseX = Input.GetAxis("Mouse X"); 
         float mouseY = Input.GetAxis("Mouse Y");
 
         tilt.x = Mathf.Clamp(tilt.x + mouseX * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation
         tilt.y = Mathf.Clamp(tilt.y + mouseY * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation    
 
         Quaternion tiltRotation = Quaternion.Euler(tilt.y, 0f, -tilt.x);
-        rb.MoveRotation(playerCamera.transform.rotation * tiltRotation); // Apply the rotation to the cup
+        rb.MoveRotation(playerCamera.transform.rotation * tiltRotation); 
     }
 
     private void throwCup()
     {
-        rb.isKinematic = false; // Set the Rigidbody to non-kinematic to allow physics interactions
-        rb.transform.parent = null; // Remove the cup from the hold point's hierarchy
-        rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse); // Apply a force to throw the cup
-        isHoldingCup = false; // Reset the flag to indicate that the cup is no longer being held
+        rb.isKinematic = false; 
+        rb.transform.parent = null; 
+        rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse); 
+        isHoldingCup = false; 
     }
 
 
