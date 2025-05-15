@@ -2203,6 +2203,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 851deedcaaed3a946b86cf30ca4fccde, type: 3}
+--- !u!1001 &7869407669932707779
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481517552618699088, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259003817677267946, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
+      propertyPath: m_Name
+      value: MilkJar
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d4c069ced9bef245acf1e9f41597873, type: 3}
 --- !u!1001 &8430913063080138521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2338,3 +2395,4 @@ SceneRoots:
   - {fileID: 5682820643682894797}
   - {fileID: 6121702812942185145}
   - {fileID: 8631280568491977028}
+  - {fileID: 7869407669932707779}
