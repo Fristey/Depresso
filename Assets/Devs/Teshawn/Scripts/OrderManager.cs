@@ -5,9 +5,15 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private List<Recipes> possibleDrinks = new List<Recipes>();
     public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
     public Recipes orderGiven;
-
     public MixingCup mixingCup;
+    public CurrencyManager currency;
 
+    private void Start()
+    {
+        currency = FindAnyObjectByType<CurrencyManager>();
+    }
+
+    public float currencyFromCostumer;
     public void GeneratingOrder()
     {
         int givenOrder = Random.Range(0, possibleDrinks.Count);
@@ -20,6 +26,12 @@ public class OrderManager : MonoBehaviour
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
         mixingCup.cupIngredientes.Clear();
+
+        if (order.type == SatisfactionType.speed)
+        {
+            order.pointDecreaceStop = true;
+        }
+        currencyFromCostumer += order.maxCurrencyGiven;
     }
 
     public void FailOrder(CustomerOrder order, CustomerMovement customerMovement)

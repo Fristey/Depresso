@@ -6,9 +6,16 @@ public class HandleScript : MonoBehaviour
     private float rotationSpeed = 20f;
     private float minRotation = 50f;
     private float maxRotation = 125f;
-    private float currentAngle = 50f;
 
-    [SerializeField]private float minDispenseAmount;
+    [SerializeField] float gaugeRotationSpeed;
+    private float currentAngle = 50f;
+    private float gaugeMinRotation = -50;
+    private float gaugeMaxRotation = 183;
+    private float gaugeCurrentAngle = -50;
+    public GameObject gauge;
+
+
+    [SerializeField] private float minDispenseAmount;
 
     [SerializeField] private espressoAndCoffeeMachine coffeeMachine;
 
@@ -56,6 +63,7 @@ public class HandleScript : MonoBehaviour
 
             float mouseY = Input.GetAxis("Mouse Y");
             currentAngle = Mathf.Clamp(currentAngle + -mouseY * rotationSpeed * Time.deltaTime, minRotation, maxRotation);
+            gaugeCurrentAngle = Mathf.Clamp(gaugeCurrentAngle + -mouseY * gaugeRotationSpeed * Time.deltaTime, gaugeMinRotation, gaugeMaxRotation);
 
             Rotate();
 
@@ -77,7 +85,6 @@ public class HandleScript : MonoBehaviour
     private void Rotate()
     {
         transform.localRotation = Quaternion.Euler(currentAngle, 0f, 0f);
+        gauge.transform.localRotation = Quaternion.Euler(gaugeCurrentAngle, -90f, -90f);
     }
-
-
 }
