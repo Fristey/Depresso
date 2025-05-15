@@ -10,9 +10,6 @@ public class espressoAndCoffeeMachine : MonoBehaviour
 
     public State mode;
 
-    private bool isDispensing = false;
-    private bool isOncooldown = false;
-
     public Ingredientes ice;
     public Ingredientes hotWater;
     public Ingredientes coffee;

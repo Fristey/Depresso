@@ -9,7 +9,8 @@ public class CustomerOrder : MonoBehaviour
     private CustomerMovement customer;
     private OrderManager manager;
 
-    public List<Recipes> order = new List<Recipes>();
+    public List<Recipes> order;
+    public List<string> orderText;
     public float patiance;
     public int amountOfOrders;
 
@@ -19,13 +20,15 @@ public class CustomerOrder : MonoBehaviour
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
-
+        order = new List<Recipes>();
+        Debug.Log(manager);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
             order.Add(manager.orderGiven);
-            manager.activeOrders.Add(this);
+            orderText.Add(manager.orderGiven.nameOfDrink);
         }
+            manager.activeOrders.Add(this);
 
 
         patienceSlider.maxValue = patiance;
@@ -65,6 +68,7 @@ public class CustomerOrder : MonoBehaviour
     {
         if(order.Count <= 0)
         {
+            manager.CompleteOrder(this,customer);
             customer.Leave();
         }
     }

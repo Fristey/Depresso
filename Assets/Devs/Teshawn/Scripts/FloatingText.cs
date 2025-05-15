@@ -20,8 +20,8 @@ public class FloatingText : MonoBehaviour
         mixingCup = GetComponentInParent<MixingCup>();
         textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
 
-        
-       
+
+
         mainCam = Camera.main.transform;
         unit = transform.parent;
         worldSpaceCanvas = GetComponent<Canvas>().transform;
@@ -33,7 +33,8 @@ public class FloatingText : MonoBehaviour
     {
         if (orderOfThisCustomer != null)
         {
-            //textMeshPro.text = orderOfThisCustomer.order.nameOfDrink;
+            textMeshPro.text = string.Join("\n", orderOfThisCustomer.orderText);
+
         }
         else if (ingrediente != null)
         {
@@ -44,7 +45,7 @@ public class FloatingText : MonoBehaviour
             textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
 
         }
-            transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
-            transform.position = unit.position + offset;
+        transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
+        transform.position = unit.position + offset;
     }
 }

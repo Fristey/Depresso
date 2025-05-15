@@ -8,6 +8,8 @@ public class HandleScript : MonoBehaviour
     private float maxRotation = 125f;
     private float currentAngle = 50f;
 
+    [SerializeField]private float minDispenseAmount;
+
     [SerializeField] private espressoAndCoffeeMachine coffeeMachine;
 
     [SerializeField] private bool isHeldDown = false;
@@ -60,8 +62,8 @@ public class HandleScript : MonoBehaviour
         }
         float rotationAmount = Mathf.InverseLerp(minRotation, maxRotation, currentAngle);
 
-        maxTimeForDispense = Mathf.Lerp(5, 0, rotationAmount);
-        if (maxTimeForDispense < 5)
+        maxTimeForDispense = Mathf.Lerp(minDispenseAmount, 0, rotationAmount);
+        if (maxTimeForDispense < minDispenseAmount)
             timeForDispense += Time.deltaTime;
 
         if (timeForDispense >= maxTimeForDispense)
