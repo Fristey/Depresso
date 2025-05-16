@@ -18,6 +18,8 @@ public class MixingCup : MonoBehaviour
         }
     }
 
+
+
     public void Spill(float amount)
     {
         Debug.Log("Spilling amount: " + amount);

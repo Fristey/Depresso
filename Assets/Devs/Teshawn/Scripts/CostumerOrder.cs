@@ -67,9 +67,9 @@ public class CustomerOrder : MonoBehaviour
     {
         if (type == SatisfactionType.speed)
         {
-            GenerateExtraPoints(extraCurrency);
+            GenerateExtraSpeedPoints(extraCurrency);
         }
-        Debug.Log(type);
+
         if (isWaiting)
         {
             patiance -= Time.deltaTime;
@@ -80,6 +80,8 @@ public class CustomerOrder : MonoBehaviour
                 patiance = 0;
             }
         }
+
+
     }
 
     public void NoMoreOrders()
@@ -94,7 +96,7 @@ public class CustomerOrder : MonoBehaviour
             }
             else
             {
-                currencyManager.AddCurrency(currencyGiven);
+                GenerateExtraCupFillCurrency(currencyGiven);
             }
             customer.Leave();
             manager.CompleteOrder(this, customer);
@@ -130,7 +132,7 @@ public class CustomerOrder : MonoBehaviour
         return false;
     }
 
-    private void GenerateExtraPoints(float extraCurrency)
+    private void GenerateExtraSpeedPoints(float extraCurrency)
     {
 
         if (!pointDecreaceStop)
@@ -146,6 +148,19 @@ public class CustomerOrder : MonoBehaviour
             pointDecreaceStop = true;
         }
     }
+
+    private void GenerateExtraCupFillCurrency(int cupFillCurrency)
+    {
+        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount * 2);
+        for (int i = 0; i < cup.currentAmount; i++)
+        {
+            currencyGiven = cupFillCurrency + i;
+            cup.currentAmount = 0;
+        }
+        currencyManager.AddCurrency(currencyGiven);
+
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Cup"))

@@ -534,6 +534,8 @@ MonoBehaviour:
   - Ice
   - Milk
   ingredientesNames: []
+  maxAmount: 100
+  currentAmount: 50
 --- !u!54 &247817394
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -644,7 +646,7 @@ Transform:
   m_GameObject: {fileID: 247817392}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.81, y: 2.455, z: -4.37}
+  m_LocalPosition: {x: 6.98, y: 0.79, z: -2.642}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2947,7 +2949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Coffee
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3496,7 +3498,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 135511482153907213, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.34
+      value: 5.1
       objectReference: {fileID: 0}
     - target: {fileID: 135511482153907213, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3504,7 +3506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 135511482153907213, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.65
+      value: -2.91
       objectReference: {fileID: 0}
     - target: {fileID: 135511482153907213, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3990,7 +3992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8829804a1d31ec84da6888d8a9cf418c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 2
   cup: {fileID: 0}
   order: []
   orderText: []
