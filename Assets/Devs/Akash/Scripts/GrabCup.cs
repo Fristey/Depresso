@@ -90,21 +90,9 @@ public class GrabCup : MonoBehaviour
         }
 
         float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the cup's up direction and the world up direction
- /*       if (tiltAngle > 80f)
-        {
-            //Werkt niet
-            if (!particleSystem.isPlaying)
-            {
-                particleSystem.Play(); // Play the particle system if the cup is tilted too much
-            }
-            if (particleSystem.isPlaying)
-            {
-                particleSystem.Stop(); // Stop the particle system if the cup is upright
-            }
-        }*/
+
         if (tiltAngle > 30f)
         {
-            Debug.Log("Spilling!"); // Debug log for spilling
             float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
             MixingCup mixingCup = rb.GetComponent<MixingCup>();
             if (mixingCup != null)
@@ -112,7 +100,6 @@ public class GrabCup : MonoBehaviour
                 mixingCup.Spill(spillRate * Time.deltaTime);
             }
         }
-        Debug.Log(tiltAngle);
 
         float scroll = Input.GetAxis("Mouse ScrollWheel"); 
         if (scroll != 0f)
