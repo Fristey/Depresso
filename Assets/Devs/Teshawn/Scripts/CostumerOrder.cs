@@ -12,6 +12,7 @@ public class CustomerOrder : MonoBehaviour
     [SerializeField] private MixingCup cup;
     private CustomerMovement customer;
     private OrderManager manager;
+    private CurrencyManager currencyManager;
 
     public List<Recipes> order;
     public List<string> orderText;
@@ -21,6 +22,7 @@ public class CustomerOrder : MonoBehaviour
     public int maxCurrencyGiven;
 
     public bool pointDecreaceStop;
+    public bool isWaiting;
 
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
@@ -33,6 +35,7 @@ public class CustomerOrder : MonoBehaviour
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
+        currencyManager = FindFirstObjectByType<CurrencyManager>();
         order = new List<Recipes>();
         speedBonusTimer = 0f;
         if (type == SatisfactionType.speed)
@@ -66,40 +69,35 @@ public class CustomerOrder : MonoBehaviour
         {
             GenerateExtraPoints(extraCurrency);
         }
-
-        patiance -= Time.deltaTime;
-        patienceSlider.value = patiance;
-        if (patiance < 0)
+        Debug.Log(type);
+        if (isWaiting)
         {
-            patienceSlider.value = 0;
-            patiance = 0;
-        }
-    }
-
-    /// <summary>
-    /// this removes active orders out the list of the costumer
-    /// uses the manager component and the active orders in the  OderManager  
-    /// it also uses the CompleteOrder from the OrderManager
-    /// </summary>
-    public void RemoveFromActiveOrderes()
-    {
-        NoMoreOrders();
-
-        for (int i = 0; i < manager.activeOrders.Count; i++)
-        {
-            if (CompareOrder())
+            patiance -= Time.deltaTime;
+            patienceSlider.value = patiance;
+            if (patiance < 0)
             {
-                manager.CompleteOrder(manager.activeOrders[i], customer);
+                patienceSlider.value = 0;
+                patiance = 0;
             }
         }
     }
 
     public void NoMoreOrders()
     {
-        if (order.Count <= 0)
+        CompareOrder();
+        if (order.Count == 0)
         {
-            manager.CompleteOrder(this, customer);
+            isWaiting = false;
+            if (type == SatisfactionType.speed)
+            {
+                currencyManager.AddCurrency(maxCurrencyGiven);
+            }
+            else
+            {
+                currencyManager.AddCurrency(currencyGiven);
+            }
             customer.Leave();
+            manager.CompleteOrder(this, customer);
         }
     }
 
@@ -107,7 +105,6 @@ public class CustomerOrder : MonoBehaviour
     {
         if (patiance <= 0)
         {
-            Debug.Log("bu bye");
             manager.FailOrder(this, customer);
         }
     }
@@ -144,7 +141,7 @@ public class CustomerOrder : MonoBehaviour
             maxCurrencyGiven = (int)extraCurrency + currencyGiven;
         }
 
-        if(speedBonusTimer > 1)
+        if (speedBonusTimer > 1)
         {
             pointDecreaceStop = true;
         }
@@ -154,7 +151,7 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.CompareTag("Cup"))
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
-            RemoveFromActiveOrderes();
+            NoMoreOrders();
         }
     }
 }

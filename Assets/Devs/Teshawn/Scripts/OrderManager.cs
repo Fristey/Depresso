@@ -6,12 +6,6 @@ public class OrderManager : MonoBehaviour
     public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
     public Recipes orderGiven;
     public MixingCup mixingCup;
-    public CurrencyManager currency;
-
-    private void Start()
-    {
-        currency = FindAnyObjectByType<CurrencyManager>();
-    }
 
     public float currencyFromCostumer;
     public void GeneratingOrder()
@@ -31,7 +25,6 @@ public class OrderManager : MonoBehaviour
         {
             order.pointDecreaceStop = true;
         }
-        currencyFromCostumer += order.maxCurrencyGiven;
     }
 
     public void FailOrder(CustomerOrder order, CustomerMovement customerMovement)
