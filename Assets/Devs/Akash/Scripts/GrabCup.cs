@@ -72,6 +72,7 @@ public class GrabCup : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         if (isHoldingCup && rb != null && Input.GetMouseButtonDown(1))
         {
             Vector3 upwards = rb.transform.up;
@@ -83,10 +84,13 @@ public class GrabCup : MonoBehaviour
                 Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
                 rb.AddTorque(balance); // Apply torque to balance the cup
             }
+            Debug.Log(upRight); // Debug log for the angle between the cup's up direction and the world up direction
+
+
         }
 
-        float tiltAngle = Vector3.Angle(Vector3.up, transform.up); // Calculate the angle between the cup's up direction and the world up direction
-        if (tiltAngle > 80f)
+        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the cup's up direction and the world up direction
+ /*       if (tiltAngle > 80f)
         {
             //Werkt niet
             if (!particleSystem.isPlaying)
@@ -97,13 +101,26 @@ public class GrabCup : MonoBehaviour
             {
                 particleSystem.Stop(); // Stop the particle system if the cup is upright
             }
+        }*/
+        if (tiltAngle > 30f)
+        {
+            Debug.Log("Spilling!"); // Debug log for spilling
+            float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
+            MixingCup mixingCup = rb.GetComponent<MixingCup>();
+            if (mixingCup != null)
+            {
+                mixingCup.Spill(spillRate * Time.deltaTime);
+            }
         }
+        Debug.Log(tiltAngle);
 
         float scroll = Input.GetAxis("Mouse ScrollWheel"); 
         if (scroll != 0f)
         {
             holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
         }
+
+        Debug.Log("fixed update running");
     }
 
     private void grabCup()
