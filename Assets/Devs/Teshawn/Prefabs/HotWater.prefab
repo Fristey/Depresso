@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 7230725658164675021}
   - component: {fileID: 3393068636658599481}
   - component: {fileID: -5680263294757582462}
+  - component: {fileID: -3948265447085694996}
   m_Layer: 0
   m_Name: HotWater
-  m_TagString: Untagged
+  m_TagString: HotWater
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,3 +139,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3948265447085694996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2187363553037719716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0010fdcb62712b4b8af150b7ec6bfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientes: {fileID: 11400000, guid: 9d2a6b65161f9da4ca136354d880e8a1, type: 2}
+  nameOfIngredient: 
