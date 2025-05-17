@@ -35,34 +35,22 @@ public class GameManager : MonoBehaviour
             dayTimer = 0f;
             StartNextDay();
         }
-
-        Debug.Log(currentDayDuration);
     }
 
     private void Start()
     {
         dayCycle.StartDay(0);
-        Debug.Log("Starting day: " + dayCycle.currentDayIndex);
     }
 
     public void StartNextDay()
     { 
         int nextDay = dayCycle.currentDayIndex+1;
-        Debug.Log("Next day: " + nextDay);
         if (nextDay < dayCycle.days.Count)
         {
             dayCycle.StartDay(nextDay);
             RemoveAllCustomers();
         }
     }
-
-    public void StartNewDay(int dayNumber)
-    {
-        dayCycle.StartDay(dayNumber);
-        dayTimer = 0f;
-        hasDayStarted = true;
-    }
-
 
     private void RemoveAllCustomers()
     {
@@ -105,7 +93,6 @@ public class Daycycle
 
         if (CustomerSpawner.Instance != null)
         {
-            Debug.Log(currentDay.customerSpawnTimer);
             CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
         }
 
