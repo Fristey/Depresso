@@ -14,12 +14,23 @@ public class TurnInstation : MonoBehaviour
 
     public void CheckingOrder()
     {
-        for (int i = 0; i < turnInRecipe.Count; i++)
+        for (int i = 0; i < orderManager.activeOrders.Count; i++)
         {
-            orderManager.activeOrders[i].NoMoreOrders();
-            orderManager.activeOrders[i].costumerOrders.Remove(turnInRecipe[i]);
-            turnInRecipe.RemoveAt(i);
-            Debug.Log(i);
+            CustomerOrder order = orderManager.activeOrders[i];
+
+            for (int j = 0; j < order.costumerOrders.Count; j++)
+            {
+                if (turnInRecipe.Contains(order.costumerOrders[j]))
+                {
+                    turnInRecipe.Remove(order.costumerOrders[j]);
+                    order.costumerOrders.RemoveAt(j);
+                }
+            }
+            if (order.costumerOrders.Count <= 0)
+            {
+                orderManager.CompleteOrder(order);
+                order.NoMoreOrders();
+            }
         }
     }
 
@@ -29,7 +40,6 @@ public class TurnInstation : MonoBehaviour
         {
             cups = collision.gameObject.GetComponent<MixingCup>();
             turnInRecipe.Add(cups.drinkToserve);
-
             CheckingOrder();
         }
     }

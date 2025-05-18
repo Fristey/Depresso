@@ -38,6 +38,7 @@ public class CustomerOrder : MonoBehaviour
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
         currencyManager = FindFirstObjectByType<CurrencyManager>();
+        turnInStaton = FindFirstObjectByType<TurnInstation>();
         costumerOrders = new List<Recipes>();
         int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
@@ -67,7 +68,6 @@ public class CustomerOrder : MonoBehaviour
         {
             int randomSize = UnityEngine.Random.Range(0, enumSize);
             costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
-            Debug.Log(costumerOrders[i].drinkSize);
         }
 
 
@@ -92,24 +92,25 @@ public class CustomerOrder : MonoBehaviour
                 patiance = 0;
             }
         }
+
+        FailedTime();
     }
 
     public void NoMoreOrders()
     {
-        if (costumerOrders.Count == 0)
+        Debug.Log("leaving");
+        isWaiting = false;
+        if (type == SatisfactionType.speed)
         {
-            isWaiting = false;
-            if (type == SatisfactionType.speed)
-            {
-                currencyManager.AddCurrency(maxCurrencyGiven);
-            }
-            else
-            {
-                GenerateExtraCupFillCurrency(currencyGiven);
-            }
-            manager.CompleteOrder(this, customer);
-            customer.Leave();
+            Debug.Log("speed");
+            currencyManager.AddCurrency(maxCurrencyGiven);
         }
+        else
+        {
+            Debug.Log("no speed");
+            GenerateExtraCupFillCurrency(currencyGiven);
+        }
+        customer.Leave();
     }
 
     public void FailedTime()
@@ -118,12 +119,6 @@ public class CustomerOrder : MonoBehaviour
         {
             manager.FailOrder(this, customer);
         }
-    }
-
-    public bool CompareSize()
-    {
-
-        return true;
     }
 
     private void GenerateExtraSpeedPoints(float extraCurrency)
@@ -145,17 +140,13 @@ public class CustomerOrder : MonoBehaviour
 
     private void GenerateExtraCupFillCurrency(int cupFillCurrency)
     {
-        if (costumerOrders.Count > 0)
+        cupFillCurrency = Mathf.FloorToInt(turnInStaton.cups.currentAmount * 2);
+        for (int i = 0; i < turnInStaton.cups.currentAmount; i++)
         {
-            cupFillCurrency = Mathf.FloorToInt(turnInStaton.cups.currentAmount * 2);
-            for (int i = 0; i < turnInStaton.cups.currentAmount; i++)
-            {
-                currencyGiven = cupFillCurrency + i;
-                turnInStaton.cups.currentAmount = 0;
-            }
-            currencyManager.AddCurrency(currencyGiven);
+            currencyGiven += cupFillCurrency + i;
+            turnInStaton.cups.currentAmount = 0;
         }
-
+        currencyManager.AddCurrency(currencyGiven);
     }
 
     //private void OnCollisionEnter(Collision collision)

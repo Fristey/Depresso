@@ -15,7 +15,7 @@ public class OrderManager : MonoBehaviour
     }
 
 
-    public void CompleteOrder(CustomerOrder order, CustomerMovement customerMovement)
+    public void CompleteOrder(CustomerOrder order)
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
