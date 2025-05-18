@@ -625,7 +625,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 247817392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b4c0bdd1392f12458c33ebb377110e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 82c99e71d9b7731459f9e202b51beca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cupIngredientes: []
@@ -636,7 +636,7 @@ MonoBehaviour:
   ingredientesNames: []
   drinkToserve: {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
   maxAmount: 100
-  currentAmount: 50
+  currentAmount: 0
 --- !u!54 &247817394
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2151,6 +2151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnInRecipe: []
+  cups: {fileID: 0}
 --- !u!1 &610111233
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,7 +2497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  cup: {fileID: 0}
+  turnInStaton: {fileID: 0}
   costumerOrders: []
   orderText: []
   patiance: 5000
@@ -3382,7 +3383,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1015633824}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b4c0bdd1392f12458c33ebb377110e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 82c99e71d9b7731459f9e202b51beca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cupIngredientes: []
@@ -3391,9 +3392,9 @@ MonoBehaviour:
   - Ice
   - Milk
   ingredientesNames: []
-  drinkToserve: {fileID: 11400000, guid: 562364dd1c53cb443ba34df6837490f6, type: 2}
+  drinkToserve: {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
   maxAmount: 100
-  currentAmount: 50
+  currentAmount: 0
 --- !u!54 &1015633826
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3545,7 +3546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  cup: {fileID: 0}
+  turnInStaton: {fileID: 0}
   costumerOrders: []
   orderText: []
   patiance: 20
@@ -4095,7 +4096,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1266989964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b4c0bdd1392f12458c33ebb377110e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 82c99e71d9b7731459f9e202b51beca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cupIngredientes: []
@@ -4106,7 +4107,7 @@ MonoBehaviour:
   ingredientesNames: []
   drinkToserve: {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
   maxAmount: 100
-  currentAmount: 50
+  currentAmount: 0
 --- !u!54 &1266989966
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4712,11 +4713,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  cup: {fileID: 0}
+  turnInStaton: {fileID: 0}
   costumerOrders: []
   orderText: []
   patiance: 5000
-  amountOfOrders: 2
+  amountOfOrders: 3
   currencyGiven: 20
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
@@ -5131,7 +5132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  cup: {fileID: 0}
+  turnInStaton: {fileID: 0}
   costumerOrders: []
   orderText: []
   patiance: 200000
@@ -5248,11 +5249,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  cup: {fileID: 0}
+  turnInStaton: {fileID: 0}
   costumerOrders: []
   orderText: []
   patiance: 5000
-  amountOfOrders: 3
+  amountOfOrders: 2
   currencyGiven: 20
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
@@ -6575,7 +6576,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleDrinks:
   - {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
-  - {fileID: 11400000, guid: 562364dd1c53cb443ba34df6837490f6, type: 2}
   activeOrders: []
   orderGiven: {fileID: 0}
   mixingCup: {fileID: 0}

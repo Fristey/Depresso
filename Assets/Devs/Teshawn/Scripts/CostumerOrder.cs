@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 public enum SatisfactionType { scene, speed, none }
@@ -10,7 +9,7 @@ public class CustomerOrder : MonoBehaviour
     public SatisfactionType type;
 
 
-    [SerializeField] private MixingCup cup;
+    [SerializeField] private TurnInstation turnInStaton;
     private CustomerMovement customer;
     private OrderManager manager;
     private CurrencyManager currencyManager;
@@ -93,8 +92,6 @@ public class CustomerOrder : MonoBehaviour
                 patiance = 0;
             }
         }
-
-
     }
 
     public void NoMoreOrders()
@@ -110,8 +107,8 @@ public class CustomerOrder : MonoBehaviour
             {
                 GenerateExtraCupFillCurrency(currencyGiven);
             }
-            customer.Leave();
             manager.CompleteOrder(this, customer);
+            customer.Leave();
         }
     }
 
@@ -125,7 +122,7 @@ public class CustomerOrder : MonoBehaviour
 
     public bool CompareSize()
     {
-       
+
         return true;
     }
 
@@ -148,13 +145,16 @@ public class CustomerOrder : MonoBehaviour
 
     private void GenerateExtraCupFillCurrency(int cupFillCurrency)
     {
-        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount * 2);
-        for (int i = 0; i < cup.currentAmount; i++)
+        if (costumerOrders.Count > 0)
         {
-            currencyGiven = cupFillCurrency + i;
-            cup.currentAmount = 0;
+            cupFillCurrency = Mathf.FloorToInt(turnInStaton.cups.currentAmount * 2);
+            for (int i = 0; i < turnInStaton.cups.currentAmount; i++)
+            {
+                currencyGiven = cupFillCurrency + i;
+                turnInStaton.cups.currentAmount = 0;
+            }
+            currencyManager.AddCurrency(currencyGiven);
         }
-        currencyManager.AddCurrency(currencyGiven);
 
     }
 
@@ -162,7 +162,7 @@ public class CustomerOrder : MonoBehaviour
     //{
     //    if (collision.gameObject.CompareTag("Cup"))
     //    {
-    //        cup = collision.gameObject.GetComponent<MixingCup>();
+    //        turnInStaton = collision.gameObject.GetComponent<MixingCup>();
     //        NoMoreOrders();
     //    }
     //}

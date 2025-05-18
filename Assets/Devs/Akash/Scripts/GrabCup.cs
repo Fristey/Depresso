@@ -46,7 +46,7 @@ public class GrabCup : MonoBehaviour
         if (isHoldingCup && rb != null)
         {
             MoveCup();
-            if (Input.GetMouseButton(1)) // Right mouse button to rotate the cup
+            if (Input.GetMouseButton(1)) // Right mouse button to rotate the turnInStaton
             {
                 RotateCup();
                 Cursor.lockState = CursorLockMode.Locked;
@@ -82,24 +82,24 @@ public class GrabCup : MonoBehaviour
             {
                 Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); // Set the target rotation to upright
                 Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
-                rb.AddTorque(balance); // Apply torque to balance the cup
+                rb.AddTorque(balance); // Apply torque to balance the turnInStaton
             }
-            Debug.Log(upRight); // Debug log for the angle between the cup's up direction and the world up direction
+            Debug.Log(upRight); // Debug log for the angle between the turnInStaton's up direction and the world up direction
 
 
         }
 
-        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the cup's up direction and the world up direction
+        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the turnInStaton's up direction and the world up direction
  /*       if (tiltAngle > 80f)
         {
             //Werkt niet
             if (!particleSystem.isPlaying)
             {
-                particleSystem.Play(); // Play the particle system if the cup is tilted too much
+                particleSystem.Play(); // Play the particle system if the turnInStaton is tilted too much
             }
             if (particleSystem.isPlaying)
             {
-                particleSystem.Stop(); // Stop the particle system if the cup is upright
+                particleSystem.Stop(); // Stop the particle system if the turnInStaton is upright
             }
         }*/
         if (tiltAngle > 30f)

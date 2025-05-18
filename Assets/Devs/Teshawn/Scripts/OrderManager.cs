@@ -19,7 +19,6 @@ public class OrderManager : MonoBehaviour
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
         activeOrders.RemoveAt(customerOrderToRemove);
-        mixingCup.cupIngredientes.Clear();
 
         if (order.type == SatisfactionType.speed)
         {

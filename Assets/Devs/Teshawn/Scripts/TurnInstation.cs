@@ -5,6 +5,7 @@ public class TurnInstation : MonoBehaviour
 {
     private OrderManager orderManager;
     [SerializeField] private List<Recipes> turnInRecipe;
+    public MixingCup cups;
 
     void Start()
     {
@@ -15,11 +16,10 @@ public class TurnInstation : MonoBehaviour
     {
         for (int i = 0; i < turnInRecipe.Count; i++)
         {
-            if (orderManager.activeOrders[i].costumerOrders.Contains(turnInRecipe[i]))
-            {
-                orderManager.activeOrders[i].costumerOrders.Remove(turnInRecipe[i]);
-                turnInRecipe.RemoveAt(i);
-            }
+            orderManager.activeOrders[i].NoMoreOrders();
+            orderManager.activeOrders[i].costumerOrders.Remove(turnInRecipe[i]);
+            turnInRecipe.RemoveAt(i);
+            Debug.Log(i);
         }
     }
 
@@ -27,7 +27,9 @@ public class TurnInstation : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Cup"))
         {
-            turnInRecipe.Add(collision.gameObject.GetComponent<MixingCup>().drinkToserve);
+            cups = collision.gameObject.GetComponent<MixingCup>();
+            turnInRecipe.Add(cups.drinkToserve);
+
             CheckingOrder();
         }
     }
