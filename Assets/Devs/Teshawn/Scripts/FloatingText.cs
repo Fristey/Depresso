@@ -42,8 +42,15 @@ public class FloatingText : MonoBehaviour
         }
         else if (mixingCup != null)
         {
-            textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
-
+            if (mixingCup.ingredientesNames.Count > 0) 
+            {
+                textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
+            }
+            else if(mixingCup.drinkToserve != null)
+            {
+                textMeshPro.text = mixingCup.drinkToserve.nameOfDrink;
+            }
+            
         }
         transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
         transform.position = unit.position + offset;

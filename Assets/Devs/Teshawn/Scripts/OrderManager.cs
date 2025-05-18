@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class OrderManager : MonoBehaviour
 {
-    [SerializeField] private List<Recipes> possibleDrinks = new List<Recipes>();
+    public List<Recipes> possibleDrinks = new List<Recipes>();
     public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
     public Recipes orderGiven;
     public MixingCup mixingCup;

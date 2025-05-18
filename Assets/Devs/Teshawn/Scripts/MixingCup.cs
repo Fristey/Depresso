@@ -6,16 +6,22 @@ public class MixingCup : MonoBehaviour
     public List<Ingredientes> cupIngredientes;
     public List<string> taglist = new List<string> {"Coffee","Ice","Milk"};
     public List<string> ingredientesNames;
+    public Recipes drinkToserve;
 
     public float maxAmount = 100f;
     public float currentAmount = 0f;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (taglist.Contains(other.tag))
-        {   
-            cupIngredientes.Add(other.gameObject.GetComponent<Ingredientes>());
+        //if (taglist.Contains(other.gameObject.tag))
+        //{
+        //    cupIngredientes.Add(other.gameObject.GetComponent<Ingredientes>());
+        //}
+        if (other.gameObject.CompareTag("MixingStation"))
+        {
+            other.gameObject.GetComponent<MixingStation>().CreateDrink();
         }
+
     }
 
 
