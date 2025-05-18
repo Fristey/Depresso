@@ -158,12 +158,12 @@ public class CustomerOrder : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Cup"))
-        {
-            cup = collision.gameObject.GetComponent<MixingCup>();
-            NoMoreOrders();
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Cup"))
+    //    {
+    //        cup = collision.gameObject.GetComponent<MixingCup>();
+    //        NoMoreOrders();
+    //    }
+    //}
 }

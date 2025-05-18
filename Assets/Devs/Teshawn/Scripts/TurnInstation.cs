@@ -13,12 +13,12 @@ public class TurnInstation : MonoBehaviour
 
     public void CheckingOrder()
     {
-        for (int i = 0; i < orderManager.activeOrders.Count; i++)
+        for (int i = 0; i < turnInRecipe.Count; i++)
         {
             if (orderManager.activeOrders[i].costumerOrders.Contains(turnInRecipe[i]))
             {
                 orderManager.activeOrders[i].costumerOrders.Remove(turnInRecipe[i]);
-                break;
+                turnInRecipe.RemoveAt(i);
             }
         }
     }
