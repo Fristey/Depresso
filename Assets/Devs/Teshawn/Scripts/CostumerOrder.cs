@@ -98,16 +98,14 @@ public class CustomerOrder : MonoBehaviour
 
     public void NoMoreOrders()
     {
-        Debug.Log("leaving");
+
         isWaiting = false;
         if (type == SatisfactionType.speed)
         {
-            Debug.Log("speed");
             currencyManager.AddCurrency(maxCurrencyGiven);
         }
         else
         {
-            Debug.Log("no speed");
             GenerateExtraCupFillCurrency(currencyGiven);
         }
         customer.Leave();
