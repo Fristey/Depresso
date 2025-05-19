@@ -31,7 +31,7 @@ public class EventManager : MonoBehaviour
     [SerializeField] private float totalTempEventDur;
     [SerializeField] private float playedTime;
 
-    static EventManager instance;
+    public static EventManager instance;
 
     //Temp variables
     [Header("Temporary variables")]
@@ -40,8 +40,6 @@ public class EventManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> PHtempEvents = new List<GameObject>();
     [SerializeField] private List<GameObject> PHpermEvents = new List<GameObject>();
-
-
 
 
     //Makking sure this is the only EventManager active
