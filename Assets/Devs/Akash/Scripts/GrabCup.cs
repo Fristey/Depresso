@@ -46,7 +46,7 @@ public class GrabCup : MonoBehaviour
         if (isHoldingCup && rb != null)
         {
             MoveCup();
-            if (Input.GetMouseButton(1)) // Right mouse button to rotate the turnInStaton
+            if (Input.GetMouseButton(1)) // Right mouse button to rotate the cup
             {
                 RotateCup();
                 Cursor.lockState = CursorLockMode.Locked;
@@ -82,29 +82,17 @@ public class GrabCup : MonoBehaviour
             {
                 Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); // Set the target rotation to upright
                 Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
-                rb.AddTorque(balance); // Apply torque to balance the turnInStaton
+                rb.AddTorque(balance); // Apply torque to balance the cup
             }
-            Debug.Log(upRight); // Debug log for the angle between the turnInStaton's up direction and the world up direction
+            Debug.Log(upRight); // Debug log for the angle between the cup's up direction and the world up direction
 
 
         }
 
-        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the turnInStaton's up direction and the world up direction
- /*       if (tiltAngle > 80f)
-        {
-            //Werkt niet
-            if (!particleSystem.isPlaying)
-            {
-                particleSystem.Play(); // Play the particle system if the turnInStaton is tilted too much
-            }
-            if (particleSystem.isPlaying)
-            {
-                particleSystem.Stop(); // Stop the particle system if the turnInStaton is upright
-            }
-        }*/
+        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the cup's up direction and the world up direction
+
         if (tiltAngle > 30f)
         {
-            Debug.Log("Spilling!"); // Debug log for spilling
             float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
             MixingCup mixingCup = rb.GetComponent<MixingCup>();
             if (mixingCup != null)
@@ -112,7 +100,6 @@ public class GrabCup : MonoBehaviour
                 mixingCup.Spill(spillRate * Time.deltaTime);
             }
         }
-        Debug.Log(tiltAngle);
 
         float scroll = Input.GetAxis("Mouse ScrollWheel"); 
         if (scroll != 0f)

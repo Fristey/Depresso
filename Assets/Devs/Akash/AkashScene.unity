@@ -587,6 +587,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 42fd365212589d34a8e3b0033177a0b6, type: 3}
   m_PrefabInstance: {fileID: 2059354857}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1081239799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081239787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4c0bdd1392f12458c33ebb377110e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cupIngredientes: []
+  taglist:
+  - Coffee
+  - Ice
+  - Milk
+  ingredientesNames: []
+  maxAmount: 100
+  currentAmount: 0
 --- !u!1001 &1129281321
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5946,6 +5966,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42fd365212589d34a8e3b0033177a0b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1081239793}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42fd365212589d34a8e3b0033177a0b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1081239799}
   m_SourcePrefab: {fileID: 100100000, guid: 42fd365212589d34a8e3b0033177a0b6, type: 3}
 --- !u!1 &2087717004
 GameObject:
