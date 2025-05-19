@@ -91,17 +91,19 @@ public class CatScript : MonoBehaviour
 
     private void CheckForCups()
     {
+        //Gets all nearby cups inside a radius around the cat
         Collider[] cups = Physics.OverlapSphere(transform.position, 3, cupCheckMask);
-        GameObject[] cupsGO = new GameObject[cups.Length];
 
+        //Converts the colider array into a GameObject one
+        GameObject[] cupsGO = new GameObject[cups.Length];
         for (int i = 0; i < cups.Length; i++)
         {
             cupsGO[i] = cups[i].gameObject;
-
         }
 
-
         GameObject target = FindNearestCup(cupsGO);
+
+        //Checks if a target was found and if so making the cat move in it's direction + state swap
         if(target != null) 
         {
             destination = target.transform.position;
