@@ -56,7 +56,7 @@ public class EventManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SetDayEvents(PHtempEvents, PHpermEvents, 3);
+        SetDayEvents(PHtempEvents, PHpermEvents, 3,60);
 
         state = EventManagerStates.Inactive;
     }
@@ -66,8 +66,10 @@ public class EventManager : MonoBehaviour
     }
 
     //Allowing the gameManager to set the days events and preparing these for the day (A kind of awake function)
-    public void SetDayEvents(List<GameObject> curDayTempEvents, List<GameObject> curDayPermEvents, int curEventAmount)
+    public void SetDayEvents(List<GameObject> curDayTempEvents, List<GameObject> curDayPermEvents, int curEventAmount, float curDayDur)
     {
+        dayDur = curDayDur;
+
         tempEvents = new List<GameObject>(curDayTempEvents);
         playableTempEvents = new List<GameObject>(curDayTempEvents);
 
@@ -104,15 +106,27 @@ public class EventManager : MonoBehaviour
             case EventManagerStates.Waiting:
                 if(eventAmount > 0)
                 {
-                    Debug.Log("StartEvent");
-
+                    //Spawn New Event
                     curEvent = Instantiate(SelectEvent(), transform.position, Quaternion.identity);
+
+                    eventDur = GetEventDur();
                     StartCoroutine(EventDur());
                 }
                 break;
             case EventManagerStates.Playing:
                 break;
         }
+    }
+
+    private float GetEventDur()
+    {
+        TempEvent temp = curEvent.GetComponent<TempEvent>();
+        if (temp != null)
+        {
+            return temp.duration;
+        }
+
+        return 7;
     }
 
     //Allowing the gameManager to end current events (A kind of end function)
@@ -134,8 +148,6 @@ public class EventManager : MonoBehaviour
         playedTime += eventDur;
 
         yield return new WaitForSeconds(eventDur);
-        Debug.Log("Event ended");
-
 
         Destroy(curEvent);
         StartCoroutine (EventCD());
@@ -144,15 +156,11 @@ public class EventManager : MonoBehaviour
     {
         state = EventManagerStates.Playing;
 
-        Debug.Log("Timer started");
-
         float cd = Random.Range(minWait, maxWait);
 
         yield return new WaitForSeconds(cd);
 
         playedTime += cd;
-
-        Debug.Log("TimerFinished");
 
         CalculateMaxWait();
 
