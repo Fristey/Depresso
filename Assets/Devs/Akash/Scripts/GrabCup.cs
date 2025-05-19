@@ -2,27 +2,27 @@ using UnityEngine;
 
 public class GrabCup : MonoBehaviour
 {
-    [SerializeField] private Camera playerCamera; 
-    [SerializeField] private float grabRange = 3f; 
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float grabRange = 3f;
     [SerializeField] private float moveForce = 50f;
-    [SerializeField] private float throwForce = 10f; 
+    [SerializeField] private float throwForce = 10f;
     [SerializeField] private float tiltSpeed = 2f;
-    [SerializeField] private float maxTiltAngle = 200f; 
+    [SerializeField] private float maxTiltAngle = 200f;
 
-    [SerializeField] private float holdDistance = 1.5f; 
+    [SerializeField] private float holdDistance = 1.5f;
     [SerializeField] private float minScrollDistance = 0.5f;
     [SerializeField] private float maxScrollDistance = 3f;
     [SerializeField] private float scrollSpeed = 2f;
 
-    [SerializeField] private ParticleSystem particleSystem; 
+    [SerializeField] private ParticleSystem particleSystem;
 
     private Vector2 tilt;
 
 
-    private Rigidbody rb;  
+    private Rigidbody rb;
     private bool isHoldingCup = false;
 
-    public LookAround lookAround; 
+    public LookAround lookAround;
 
     private espressoAndCoffeeMachine machine;
 
@@ -53,17 +53,17 @@ public class GrabCup : MonoBehaviour
             }
             else
             {
-                lookAround.lockCursor = true; 
-                lookAround.canLookAround = true; 
-                Cursor.lockState = CursorLockMode.Locked; 
+                lookAround.lockCursor = true;
+                lookAround.canLookAround = true;
+                Cursor.lockState = CursorLockMode.Locked;
             }
 
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            throwCup(); 
-            DropCup(); 
+            throwCup();
+            DropCup();
         }
 
         /*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
@@ -72,7 +72,7 @@ public class GrabCup : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
         if (isHoldingCup && rb != null && Input.GetMouseButtonDown(1))
         {
             Vector3 upwards = rb.transform.up;
@@ -101,7 +101,7 @@ public class GrabCup : MonoBehaviour
             }
         }
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel"); 
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
             holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
@@ -112,19 +112,19 @@ public class GrabCup : MonoBehaviour
 
     private void grabCup()
     {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition); 
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange))
         {
-            if (hit.collider.CompareTag("Cup")) 
+            if (hit.collider.CompareTag("Cup"))
             {
 
                 rb = hit.rigidbody;
                 rb.useGravity = false;
-                rb.linearDamping = 10f; 
-                isHoldingCup = true; 
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None; 
+                rb.constraints = RigidbodyConstraints.None;
             }
             else if (hit.collider.CompareTag("Coffee"))
             {
@@ -138,6 +138,10 @@ public class GrabCup : MonoBehaviour
             {
                 machine.mode = State.Hot;
             }
+            else if (hit.collider.CompareTag("Furniture"))
+            {
+                hit.collider.gameObject.GetComponent<Upgrade>().upgradeMenu.SetActive(true);
+            }
 
         }
     }
@@ -147,9 +151,9 @@ public class GrabCup : MonoBehaviour
         if (rb != null)
         {
             rb.useGravity = true;
-            rb.linearDamping = 0f; 
-            rb.angularVelocity = Vector3.zero; 
-            rb.angularVelocity = Vector3.zero; 
+            rb.linearDamping = 0f;
+            rb.angularVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             rb.angularDamping = 1f;
             rb.constraints = RigidbodyConstraints.None;
             rb = null;
@@ -162,31 +166,31 @@ public class GrabCup : MonoBehaviour
     {
         /*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
 
-        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance; 
-        Vector3 forceDirection = (targetPosition - rb.position); 
-        rb.AddForce(forceDirection * moveForce * Time.deltaTime); 
+        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance;
+        Vector3 forceDirection = (targetPosition - rb.position);
+        rb.AddForce(forceDirection * moveForce * Time.deltaTime);
     }
 
     private void RotateCup()
     {
-        lookAround.lockCursor = false; 
-        lookAround.canLookAround = false; 
-        float mouseX = Input.GetAxis("Mouse X"); 
+        lookAround.lockCursor = false;
+        lookAround.canLookAround = false;
+        float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
         tilt.x = Mathf.Clamp(tilt.x + mouseX * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation
         tilt.y = Mathf.Clamp(tilt.y + mouseY * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation    
 
         Quaternion tiltRotation = Quaternion.Euler(tilt.y, 0f, -tilt.x);
-        rb.MoveRotation(playerCamera.transform.rotation * tiltRotation); 
+        rb.MoveRotation(playerCamera.transform.rotation * tiltRotation);
     }
 
     private void throwCup()
     {
-        rb.isKinematic = false; 
-        rb.transform.parent = null; 
-        rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse); 
-        isHoldingCup = false; 
+        rb.isKinematic = false;
+        rb.transform.parent = null;
+        rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse);
+        isHoldingCup = false;
     }
 
 
