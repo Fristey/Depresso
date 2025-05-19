@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &815026242323556179
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3399401729482455574}
+  - component: {fileID: 4714913806383604193}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3399401729482455574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815026242323556179}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.27269, y: 6.2233567, z: -11.234036}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4714913806383604193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815026242323556179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a970b67de05429f4faae0e4c0359914c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayCycle:
+    days:
+    - customerSpawnTimer: 3
+      maxCustomers: 3
+      dayDuration: 10
+      temporaryEvents: []
+      permanentEvents: []
+    - customerSpawnTimer: 5
+      maxCustomers: 2
+      dayDuration: 10
+      temporaryEvents: []
+      permanentEvents: []
+    - customerSpawnTimer: 4
+      maxCustomers: 10
+      dayDuration: 10
+      temporaryEvents: []
+      permanentEvents: []
+    - customerSpawnTimer: 6
+      maxCustomers: 10
+      dayDuration: 10
+      temporaryEvents: []
+      permanentEvents: []
+    - customerSpawnTimer: 7
+      maxCustomers: 10
+      dayDuration: 10
+      temporaryEvents: []
+      permanentEvents: []
+    currentDayIndex: 0
