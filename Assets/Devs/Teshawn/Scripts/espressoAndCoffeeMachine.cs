@@ -3,11 +3,13 @@ using UnityEngine;
 public enum State { Hot, Cold, Coffee }
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
+    public enum FixedOrBroken { Fixed, Broken }
     [SerializeField] private MixingCup cup;
     [SerializeField] private Rigidbody handleRb;
     [SerializeField] private HandleScript handle;
     [SerializeField] private Transform dispensePoint;
 
+    public FixedOrBroken fixedOrBroken;
     public State mode;
 
     public Ingredientes ice;
@@ -30,8 +32,11 @@ public class espressoAndCoffeeMachine : MonoBehaviour
 
     public void Dispense()
     {
-        currentIngredient();
-        Instantiate(handle.objectToDispence, dispensePoint.position, Quaternion.identity);
+        if (fixedOrBroken == FixedOrBroken.Fixed)
+        {
+            currentIngredient();
+            Instantiate(handle.objectToDispence, dispensePoint.position, Quaternion.identity);
+        }
     }
 
     public void currentIngredient()
