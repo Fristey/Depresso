@@ -1,15 +1,35 @@
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+public enum SatisfactionType { scene, speed, none }
 
 public class CustomerOrder : MonoBehaviour
 {
-    [SerializeField] private MixingCup cup;
+    public SatisfactionType type;
+
+
+    [SerializeField] private TurnInstation turnInStaton;
     private CustomerMovement customer;
     private OrderManager manager;
+    private CurrencyManager currencyManager;
 
-    public Recipes order;
+    public List<Recipes> costumerOrders;
+    public List<string> orderText;
     public float patiance;
+    public int amountOfOrders;
+    public int currencyGiven = 20;
+    public int maxCurrencyGiven;
+    private int randomSatisfactionMode = Enum.GetValues(typeof(SatisfactionType)).Length;
+    private int enumSize = Enum.GetValues(typeof(Size)).Length;
+
+    public bool pointDecreaceStop;
+    public bool isWaiting;
+
+    [SerializeField] private float extraCurrency;
+    [SerializeField] private int maxExtraCurrency;
+    public float extraPatience = 5;
+    [SerializeField] private float speedBonusTimer;
 
     public Slider patienceSlider;
 
@@ -17,62 +37,124 @@ public class CustomerOrder : MonoBehaviour
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
-        manager.GeneratingOrder();
-        order = manager.orderGiven;
-        manager.activeOrders.Add(this);
+        currencyManager = FindFirstObjectByType<CurrencyManager>();
+        turnInStaton = FindFirstObjectByType<TurnInstation>();
+        costumerOrders = new List<Recipes>();
+        int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
+        type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
 
-        patienceSlider.maxValue = patiance;
+
+        speedBonusTimer = 0f;
+        if (type == SatisfactionType.speed)
+        {
+            extraCurrency = maxExtraCurrency;
+            maxCurrencyGiven = currencyGiven + (int)extraCurrency;
+
+        }
+        if (type == SatisfactionType.scene)
+        {
+            patiance += extraPatience;
+        }
+
+        //set random range later
+        for (int i = 0; i < amountOfOrders; i++)
+        {
+            manager.GeneratingOrder();
+            costumerOrders.Add(manager.orderGiven);
+            orderText.Add(manager.orderGiven.nameOfDrink);
+        }
+        manager.activeOrders.Add(this);
+        for (int i = 0; i < costumerOrders.Count; i++)
+        {
+            int randomSize = UnityEngine.Random.Range(0, enumSize);
+            costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
+        }
+
+
         StartCoroutine(customer.LeaveAfterTime(patiance));
+        patienceSlider.maxValue = patiance;
     }
 
     private void Update()
     {
-        patiance -= Time.deltaTime;
-        patienceSlider.value = patiance;
-        if (patiance < 0)
+        if (type == SatisfactionType.speed)
         {
-            patienceSlider.value = 0;
-            patiance = 0;
+            GenerateExtraSpeedPoints(extraCurrency);
         }
-    }
-    public void CheckOrder()
-    {
-        for (int i = 0; i < manager.activeOrders.Count; i++)
+
+        if (isWaiting)
         {
-            if (CompareOrder())
+            patiance -= Time.deltaTime;
+            patienceSlider.value = patiance;
+            if (patiance < 0)
             {
-                manager.CompleteOrder(this,customer);
+                patienceSlider.value = 0;
+                patiance = 0;
             }
         }
+
+        FailedTime();
     }
 
-    public bool CompareOrder()
+    public void NoMoreOrders()
     {
-        cup.cupIngredientes.Sort();
-        order.requiredIngredientes.Sort();
-
-        if (cup.cupIngredientes.Count != order.requiredIngredientes.Count)
+        Debug.Log("leaving");
+        isWaiting = false;
+        if (type == SatisfactionType.speed)
         {
-            return false;
+            Debug.Log("speed");
+            currencyManager.AddCurrency(maxCurrencyGiven);
         }
-
-        for (int i = 0; order.requiredIngredientes.Count > 0; i++)
+        else
         {
-            if (order.requiredIngredientes[i] == cup.cupIngredientes[i])
-            {
-                return true;
-            }
+            Debug.Log("no speed");
+            GenerateExtraCupFillCurrency(currencyGiven);
         }
-       return false;
+        customer.Leave();
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    public void FailedTime()
     {
-        if (collision.gameObject.CompareTag("Cup"))
+        if (patiance <= 0)
         {
-            cup = collision.gameObject.GetComponent<MixingCup>();
-            CheckOrder();
+            manager.FailOrder(this, customer);
         }
     }
+
+    private void GenerateExtraSpeedPoints(float extraCurrency)
+    {
+
+        if (!pointDecreaceStop)
+        {
+            speedBonusTimer += Time.deltaTime / (patiance * 0.5f);
+            extraCurrency = Mathf.Lerp(maxExtraCurrency, 0, speedBonusTimer);
+            extraCurrency = Mathf.FloorToInt(extraCurrency);
+            maxCurrencyGiven = (int)extraCurrency + currencyGiven;
+        }
+
+        if (speedBonusTimer > 1)
+        {
+            pointDecreaceStop = true;
+        }
+    }
+
+    private void GenerateExtraCupFillCurrency(int cupFillCurrency)
+    {
+        cupFillCurrency = Mathf.FloorToInt(turnInStaton.cups.currentAmount * 2);
+        for (int i = 0; i < turnInStaton.cups.currentAmount; i++)
+        {
+            currencyGiven += cupFillCurrency + i;
+            turnInStaton.cups.currentAmount = 0;
+        }
+        currencyManager.AddCurrency(currencyGiven);
+    }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Cup"))
+    //    {
+    //        turnInStaton = collision.gameObject.GetComponent<MixingCup>();
+    //        NoMoreOrders();
+    //    }
+    //}
 }

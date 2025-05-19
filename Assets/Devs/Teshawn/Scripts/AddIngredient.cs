@@ -5,6 +5,7 @@ public class AddIngredient : MonoBehaviour
     public Ingredientes ingredientes;
     public string nameOfIngredient;
 
+
     private void Start()
     {
         nameOfIngredient = ingredientes.nameOfIngredient;
@@ -13,8 +14,21 @@ public class AddIngredient : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Cup"))
         {
-            collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Add(ingredientes);
-            collision.gameObject.GetComponent<MixingCup>().ingredientesNames.Add(nameOfIngredient);
+            if (collision.gameObject.GetComponent<MixingCup>().currentAmount < collision.gameObject.GetComponent<MixingCup>().maxAmount)
+            {
+                if (collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Contains(ingredientes))
+                {
+                    collision.gameObject.GetComponent<MixingCup>().currentAmount++;
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+                    collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Add(ingredientes);
+                    collision.gameObject.GetComponent<MixingCup>().ingredientesNames.Add(nameOfIngredient);
+                    Destroy(this.gameObject);
+                }
+
+            }
         }
     }
 }
