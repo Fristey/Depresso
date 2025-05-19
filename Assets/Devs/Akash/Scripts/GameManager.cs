@@ -86,12 +86,15 @@ public class Daycycle
 
         [SerializeField] public List<GameObject> temporaryEvents = new List<GameObject>();
         [SerializeField] public List<GameObject> permanentEvents = new List<GameObject>();
+        public int eventAmount;
     }
     [SerializeField] public List<Day> days = new List<Day>();
     [SerializeField] public int currentDayIndex = 0;
 
     public void StartDay(int dayNumber)
     {
+        Debug.Log("Start the day");
+
         currentDayIndex = dayNumber; 
 
         Day currentDay = days[currentDayIndex];
@@ -103,7 +106,7 @@ public class Daycycle
 
         if(EventManager.instance != null)
         {
-            EventManager.instance.SetDayEvents(days[dayNumber].temporaryEvents, days[dayNumber].permanentEvents, days[dayNumber].temporaryEvents.Count, days[dayNumber].dayDuration);
+            EventManager.instance.SetDayEvents(days[dayNumber].temporaryEvents, days[dayNumber].permanentEvents, days[dayNumber].eventAmount, days[dayNumber].dayDuration);
 
             EventManager.instance.StartEvents();
         }

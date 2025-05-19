@@ -54,13 +54,7 @@ public class EventManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SetDayEvents(PHtempEvents, PHpermEvents, 3,60);
-
         state = EventManagerStates.Inactive;
-    }
-    private void Start()
-    {
-        StartEvents();
     }
 
     //Allowing the gameManager to set the days events and preparing these for the day (A kind of awake function)
