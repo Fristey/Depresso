@@ -3,6 +3,10 @@ using UnityEngine;
 public enum State { Hot, Cold, Coffee }
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
+    [SerializeField] private float maxFixingTime = 10;
+    [SerializeField] private float fixingTime;
+    [SerializeField] private bool isfixing;
+
     public enum FixedOrBroken { Fixed, Broken }
     [SerializeField] private MixingCup cup;
     [SerializeField] private Rigidbody handleRb;
@@ -26,6 +30,41 @@ public class espressoAndCoffeeMachine : MonoBehaviour
             else
             {
                 cup = null;
+            }
+        }
+        else if (collision.gameObject.CompareTag("Wrench"))
+        {
+            Debug.Log("working on it");
+            isfixing = true;
+        }
+        else
+        {
+            isfixing = false;
+        }
+    }
+
+
+    private void Update()
+    {
+        if (fixedOrBroken == FixedOrBroken.Broken)
+        {
+            if (isfixing)
+            {
+                fixingTime += Time.deltaTime;
+            }
+            else
+            {
+                fixingTime -= Time.deltaTime;
+            }
+
+            if (fixingTime < 0)
+            {
+                fixingTime = 0;
+            }
+
+            if (fixingTime > maxFixingTime)
+            {
+                fixedOrBroken = FixedOrBroken.Fixed;
             }
         }
     }
@@ -54,5 +93,11 @@ public class espressoAndCoffeeMachine : MonoBehaviour
         {
             handle.objectToDispence = coffee.ingredientToSpawn;
         }
+    }
+
+
+    public void FixingMachine()
+    {
+
     }
 }
