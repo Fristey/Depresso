@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour
 
     public void StartNextDay()
     { 
+        if(EventManager.instance != null)
+        {
+            EventManager.instance.ClearEvents();
+        }
+
         int nextDay = dayCycle.currentDayIndex+1;
         if (nextDay < dayCycle.days.Count)
         {
@@ -79,14 +84,17 @@ public class Daycycle
         public int maxCustomers = 5;
         public float dayDuration = 60f;
 
-        [SerializeField] private List<GameObject> temporaryEvents = new List<GameObject>();
-        [SerializeField] private List<GameObject> permanentEvents = new List<GameObject>();
+        [SerializeField] public List<GameObject> temporaryEvents = new List<GameObject>();
+        [SerializeField] public List<GameObject> permanentEvents = new List<GameObject>();
+        public int eventAmount;
     }
     [SerializeField] public List<Day> days = new List<Day>();
     [SerializeField] public int currentDayIndex = 0;
 
     public void StartDay(int dayNumber)
     {
+        Debug.Log("Start the day");
+
         currentDayIndex = dayNumber; 
 
         Day currentDay = days[currentDayIndex];
@@ -96,7 +104,12 @@ public class Daycycle
             CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
         }
 
-        //If statement voor de eventmanager (?)
+        if(EventManager.instance != null)
+        {
+            EventManager.instance.SetDayEvents(days[dayNumber].temporaryEvents, days[dayNumber].permanentEvents, days[dayNumber].eventAmount, days[dayNumber].dayDuration);
+
+            EventManager.instance.StartEvents();
+        }
 
 
     }
