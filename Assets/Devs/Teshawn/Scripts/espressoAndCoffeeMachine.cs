@@ -27,19 +27,22 @@ public class espressoAndCoffeeMachine : MonoBehaviour
             {
                 cup = collision.gameObject.GetComponent<MixingCup>();
             }
-            else
-            {
-                cup = null;
-            }
         }
         else if (collision.gameObject.CompareTag("Wrench"))
         {
-            Debug.Log("working on it");
             isfixing = true;
         }
-        else
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (isfixing) 
         {
-            isfixing = false;
+            isfixing = false; 
+        }
+
+        if (cup != null) 
+        {
+            cup = null;
         }
     }
 
@@ -65,6 +68,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
             if (fixingTime > maxFixingTime)
             {
                 fixedOrBroken = FixedOrBroken.Fixed;
+                fixingTime = 0;
             }
         }
     }

@@ -43,4 +43,13 @@ public class TurnInstation : MonoBehaviour
             CheckingOrder();
         }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (cups != null) 
+        {
+            cups = null;
+        }
+
+    }
 }
