@@ -767,26 +767,31 @@ MonoBehaviour:
       dayDuration: 10
       temporaryEvents: []
       permanentEvents: []
+      eventAmount: 0
     - customerSpawnTimer: 5
       maxCustomers: 2
       dayDuration: 10
       temporaryEvents: []
       permanentEvents: []
+      eventAmount: 0
     - customerSpawnTimer: 4
       maxCustomers: 10
       dayDuration: 10
       temporaryEvents: []
       permanentEvents: []
+      eventAmount: 0
     - customerSpawnTimer: 6
       maxCustomers: 10
       dayDuration: 10
       temporaryEvents: []
       permanentEvents: []
+      eventAmount: 0
     - customerSpawnTimer: 7
       maxCustomers: 10
       dayDuration: 10
       temporaryEvents: []
       permanentEvents: []
+      eventAmount: 0
     currentDayIndex: 0
 --- !u!4 &1320484582
 Transform:
@@ -6470,7 +6475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5354371361291391642, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
       propertyPath: scrollSpeed
-      value: 1
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
