@@ -12,7 +12,7 @@ public class GrabCup : MonoBehaviour
     [SerializeField] private float holdDistance = 1.5f;
     [SerializeField] private float minScrollDistance = 0.5f;
     [SerializeField] private float maxScrollDistance = 3f;
-    [SerializeField] private float scrollSpeed = 2f;
+    [SerializeField] private float scrollSpeed = 70f;
 
     [SerializeField] private ParticleSystem particleSystem;
 
@@ -80,16 +80,15 @@ public class GrabCup : MonoBehaviour
 
             if (upRight < 30f)
             {
-                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); // Set the target rotation to upright
+                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); 
                 Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
-                rb.AddTorque(balance); // Apply torque to balance the cup
+                rb.AddTorque(balance);
             }
-            Debug.Log(upRight); // Debug log for the angle between the cup's up direction and the world up direction
 
 
         }
 
-        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up); // Calculate the angle between the cup's up direction and the world up direction
+        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up);
 
         if (tiltAngle > 30f)
         {
@@ -104,7 +103,8 @@ public class GrabCup : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
+            //holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
+            holdDistance = Mathf.Lerp(holdDistance, Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance), Time.deltaTime * 5f);
         }
 
         Debug.Log("fixed update running");
