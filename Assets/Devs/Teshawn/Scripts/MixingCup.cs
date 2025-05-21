@@ -13,10 +13,6 @@ public class MixingCup : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        //if (taglist.Contains(other.gameObject.tag))
-        //{
-        //    cupIngredientes.Add(other.gameObject.GetComponent<Ingredientes>());
-        //}
         if (other.gameObject.CompareTag("MixingStation"))
         {
             other.gameObject.GetComponent<MixingStation>().CreateDrink();
