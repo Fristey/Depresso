@@ -12,7 +12,7 @@ public class TurnInstation : MonoBehaviour
         orderManager = FindAnyObjectByType<OrderManager>();
     }
 
-    public void CheckingOrder()
+    public void TurnInOrders()
     {
         for (int i = 0; i < orderManager.activeOrders.Count; i++)
         {
@@ -40,7 +40,16 @@ public class TurnInstation : MonoBehaviour
         {
             cups = collision.gameObject.GetComponent<MixingCup>();
             turnInRecipe.Add(cups.drinkToserve);
-            CheckingOrder();
+            TurnInOrders();
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (cups != null) 
+        {
+            cups = null;
+        }
+
     }
 }

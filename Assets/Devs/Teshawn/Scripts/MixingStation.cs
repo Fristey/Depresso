@@ -45,4 +45,12 @@ public class MixingStation : MonoBehaviour
             cup = collision.gameObject.GetComponent<MixingCup>();
         }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (cup != null)
+        {
+            cup = null;
+        }
+    }
 }

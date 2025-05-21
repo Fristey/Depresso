@@ -14,11 +14,13 @@ TagManager:
   - MixingStation
   - Scizzor
   - Furniture
+  - Wrench
+  - ingredientes
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - pickupLayer
   - Water
   - UI
   - NavMesh

@@ -17,6 +17,8 @@ public class GrabCup : MonoBehaviour
 
     [SerializeField] private ParticleSystem particleSystem;
 
+    [SerializeField] private LayerMask pickupLayer;
+
     private Vector2 tilt;
 
 
@@ -81,7 +83,7 @@ public class GrabCup : MonoBehaviour
 
             if (upRight < 30f)
             {
-                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); 
+                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up);
                 Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
                 rb.AddTorque(balance);
             }
@@ -89,18 +91,20 @@ public class GrabCup : MonoBehaviour
 
         }
 
-        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up);
-
-        if (tiltAngle > 30f)
+        if (rb != null)
         {
-            float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
-            MixingCup mixingCup = rb.GetComponent<MixingCup>();
-            if (mixingCup != null)
+            float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up);
+
+            if (tiltAngle > 30f)
             {
-                mixingCup.Spill(spillRate * Time.deltaTime);
+                float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
+                MixingCup mixingCup = rb.GetComponent<MixingCup>();
+                if (mixingCup != null)
+                {
+                    mixingCup.Spill(spillRate * Time.deltaTime);
+                }
             }
         }
-
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
@@ -115,10 +119,8 @@ public class GrabCup : MonoBehaviour
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, grabRange))
+        if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            if (hit.collider.CompareTag("Cup"))
-            {
 
                 rb = hit.rigidbody;
                 rb.useGravity = false;
@@ -126,8 +128,8 @@ public class GrabCup : MonoBehaviour
                 isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.None;
-            }
-            else if (hit.collider.CompareTag("Coffee"))
+
+             if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }

@@ -20,12 +20,12 @@ public class Upgrade : MonoBehaviour
 
     public void UpgradeFurniture()
     {
-        if(currencyManager != null)
+        if (upgradeMaterial != null)
         {
-            if(currencyManager.playerCurrency > price)
+            if (currencyManager.playerCurrency > price)
             {
                 currencyManager.playerCurrency -= price;
-                if(upgradeMaterial != null)
+                if (upgradeMaterial != null)
                 {
                     this.gameObject.GetComponent<Renderer>().material = upgradeMaterial;
                     confermMenu.SetActive(false);

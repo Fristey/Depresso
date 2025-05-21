@@ -3,7 +3,12 @@ using UnityEngine;
 public enum State { Hot, Cold, Coffee }
 public class espressoAndCoffeeMachine : MonoBehaviour
 {
+    [SerializeField] private float maxFixingTime = 10;
+    [SerializeField] private float fixingTime;
+    [SerializeField] private bool isfixing;
+
     public enum FixedOrBroken { Fixed, Broken }
+    public GameObject VFX;
     [SerializeField] private MixingCup cup;
     [SerializeField] private Rigidbody handleRb;
     [SerializeField] private HandleScript handle;
@@ -23,10 +28,54 @@ public class espressoAndCoffeeMachine : MonoBehaviour
             {
                 cup = collision.gameObject.GetComponent<MixingCup>();
             }
+        }
+        else if (collision.gameObject.CompareTag("Wrench"))
+        {
+            isfixing = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (isfixing) 
+        {
+            isfixing = false; 
+        }
+
+        if (cup != null) 
+        {
+            cup = null;
+        }
+    }
+
+
+    private void Update()
+    {
+        if (fixedOrBroken == FixedOrBroken.Broken)
+        {
+            VFX.SetActive(true);
+            if (isfixing)
+            {
+                fixingTime += Time.deltaTime;
+            }
             else
             {
-                cup = null;
+                fixingTime -= Time.deltaTime;
             }
+
+            if (fixingTime < 0)
+            {
+                fixingTime = 0;
+            }
+
+            if (fixingTime > maxFixingTime)
+            {
+                fixedOrBroken = FixedOrBroken.Fixed;
+                fixingTime = 0;
+            }
+        }
+        else
+        {
+            VFX.SetActive(false);
         }
     }
 

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 
 enum CatStates
@@ -8,6 +10,14 @@ enum CatStates
     Sitting,
     Walking,
     Interacting,
+}
+
+public enum CalledFunction
+{
+    walk,
+    sit,
+    walkToCup,
+    walkToMachine
 }
 public class CatScript : MonoBehaviour
 {
@@ -23,12 +33,27 @@ public class CatScript : MonoBehaviour
     [SerializeField] private float walkChance;
     [SerializeField] private float sitChance;
     [SerializeField] private float walkToCupChance;
+    [SerializeField] private float walkToMachineChance;
 
     [SerializeField] private LayerMask cupCheckMask;
     [SerializeField] private float cupLaunchForce;
     [SerializeField] private float cupLauchCD;
-    private bool canLaunch = true;
 
+    private bool canLaunch = true;
+    private bool canDmg = true;
+
+    private bool walkingToMachine = false;
+
+
+
+    [SerializeField] private List<CatGoal> catGoals = new List<CatGoal>();
+
+    [System.Serializable]
+    public class CatGoal
+    {
+        public Vector2 chance;
+        public CalledFunction function;
+    }
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -74,7 +99,15 @@ public class CatScript : MonoBehaviour
             case CatStates.Walking:
                 if (Vector3.Distance(transform.position, destination) < 1)
                 {
-                    DestinationReached();
+                    if (walkingToMachine)
+                    {
+                        Debug.Log("Dmg");
+                        walkingToMachine = false;
+                    } else
+                    {
+                        DestinationReached();
+                    }
+
                 }
                 break;
             case CatStates.Interacting:
@@ -115,25 +148,39 @@ public class CatScript : MonoBehaviour
 
     private void DestinationReached()
     {
-        int rolledNum = Random.Range(0, 100);
+        int rolledNum = UnityEngine.Random.Range(0, 100);
 
-        if (rolledNum >= walkChance)
+        if (rolledNum > walkChance)
         {
             destination = GenerateTarget();
             agent.destination = destination;
 
             state = CatStates.Walking;
         }
-        else if (rolledNum >= sitChance)
+        else if (rolledNum < walkChance && rolledNum >= walkToCupChance + walkToMachineChance)
         {
             StartCoroutine(SitTimer());
             state = CatStates.Sitting;
         }
-        else if (rolledNum >= walkToCupChance)
+        else if (rolledNum < sitChance && rolledNum >= walkToMachineChance)
         {
             if(canLaunch)
             {
                 destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+            } else
+            {
+                destination = GenerateTarget();
+            }
+
+            agent.destination = destination;
+
+            state = CatStates.Walking;
+        }else 
+        {
+            if(canDmg)
+            {
+                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine")).transform.position;
+                walkingToMachine = true;
             } else
             {
                 destination = GenerateTarget();
@@ -147,7 +194,7 @@ public class CatScript : MonoBehaviour
 
     private Vector3 GenerateTarget()
     {
-        Vector3 potentiolTarget = new Vector3(center.transform.position.x - Random.Range(-range, range), center.transform.position.y, center.transform.position.z - Random.Range(-range, range));
+        Vector3 potentiolTarget = new Vector3(center.transform.position.x - UnityEngine.Random.Range(-range, range), center.transform.position.y, center.transform.position.z - UnityEngine.Random.Range(-range, range));
 
         NavMeshHit hit;
         NavMesh.SamplePosition(potentiolTarget, out hit, range, generationMask);
@@ -180,7 +227,7 @@ public class CatScript : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
 
-        int num = Random.Range(0, 100);
+        int num = UnityEngine.Random.Range(0, 100);
 
         if (num <= walkToCupChance)
         {
