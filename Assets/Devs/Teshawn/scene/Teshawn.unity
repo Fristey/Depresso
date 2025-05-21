@@ -4523,6 +4523,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834410013}
   m_CullTransparentMesh: 1
+--- !u!1 &882766061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1167502508045837929, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
+  m_PrefabInstance: {fileID: 1745567241}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &882766065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882766061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b591ae7d354b364090e74ba4dd6ead9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShaking: 0
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 12.165321
+      outSlope: 12.165321
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.08220087
+      value: 1
+      inSlope: -0.016131362
+      outSlope: -0.016131362
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1327762
+    - serializedVersion: 3
+      time: 5
+      value: 0.014465332
+      inSlope: -0.20040157
+      outSlope: -0.20040157
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &901624245
 GameObject:
   m_ObjectHideFlags: 0
@@ -8759,6 +8811,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4781155807596625754, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
       insertIndex: -1
       addedObject: {fileID: 771020538}
+    - targetCorrespondingSourceObject: {fileID: 1167502508045837929, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 882766065}
   m_SourcePrefab: {fileID: 100100000, guid: b9b5236eda6f0644abb879a8660c6a29, type: 3}
 --- !u!1 &1753283931
 GameObject:
