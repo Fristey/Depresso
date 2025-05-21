@@ -16,7 +16,7 @@ public class AddIngredient : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<MixingCup>().currentAmount < collision.gameObject.GetComponent<MixingCup>().maxAmount)
             {
-                if (collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Contains(ingredientes))
+                if (collision.gameObject.GetComponent<MixingCup>().drinkToserve != null)
                 {
                     collision.gameObject.GetComponent<MixingCup>().currentAmount++;
                     Destroy(this.gameObject);

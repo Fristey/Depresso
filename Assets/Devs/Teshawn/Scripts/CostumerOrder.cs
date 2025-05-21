@@ -100,6 +100,7 @@ public class CustomerOrder : MonoBehaviour
         if (costumerOrders.Contains(cup.drinkToserve))  
         {
             costumerOrders.Remove(cup.drinkToserve);
+            orderText.Remove(cup.drinkToserve.nameOfDrink);
         }
 
         if(costumerOrders.Count <= 0)
