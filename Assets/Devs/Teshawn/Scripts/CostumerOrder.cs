@@ -9,7 +9,7 @@ public class CustomerOrder : MonoBehaviour
     public SatisfactionType type;
 
 
-    [SerializeField] private TurnInstation turnInStaton;
+    [SerializeField] private MixingCup cup;
     private CustomerMovement customer;
     private OrderManager manager;
     private CurrencyManager currencyManager;
@@ -38,7 +38,6 @@ public class CustomerOrder : MonoBehaviour
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
         currencyManager = FindFirstObjectByType<CurrencyManager>();
-        turnInStaton = FindFirstObjectByType<TurnInstation>();
         costumerOrders = new List<Recipes>();
         int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
@@ -96,6 +95,20 @@ public class CustomerOrder : MonoBehaviour
         FailedTime();
     }
 
+    public void CompareOrder()
+    {
+        if (costumerOrders.Contains(cup.drinkToserve))  
+        {
+            costumerOrders.Remove(cup.drinkToserve);
+            orderText.Remove(cup.drinkToserve.nameOfDrink);
+        }
+
+        if(costumerOrders.Count <= 0)
+        {
+            NoMoreOrders();
+        }
+    }
+
     public void NoMoreOrders()
     {
 
@@ -138,21 +151,21 @@ public class CustomerOrder : MonoBehaviour
 
     private void GenerateExtraCupFillCurrency(int cupFillCurrency)
     {
-        cupFillCurrency = Mathf.FloorToInt(turnInStaton.cups.currentAmount * 2);
-        for (int i = 0; i < turnInStaton.cups.currentAmount; i++)
+        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount * 2);
+        for (int i = 0; i < cup.currentAmount; i++)
         {
             currencyGiven += cupFillCurrency + i;
-            turnInStaton.cups.currentAmount = 0;
+            cup.currentAmount = 0;
         }
         currencyManager.AddCurrency(currencyGiven);
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Cup"))
-    //    {
-    //        turnInStaton = collision.gameObject.GetComponent<MixingCup>();
-    //        NoMoreOrders();
-    //    }
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Cup"))
+        {
+            cup = collision.gameObject.GetComponent<MixingCup>();
+            CompareOrder();
+        }
+    }
 }
