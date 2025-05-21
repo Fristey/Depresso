@@ -16,6 +16,8 @@ public class GrabCup : MonoBehaviour
 
     [SerializeField] private ParticleSystem particleSystem;
 
+    [SerializeField] private LayerMask pickupLayer;
+
     private Vector2 tilt;
 
 
@@ -116,10 +118,8 @@ public class GrabCup : MonoBehaviour
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, grabRange))
+        if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            if (hit.collider.CompareTag("Cup") || hit.collider.CompareTag("Wrench") || hit.collider.CompareTag("ingredientes"))
-            {
 
                 rb = hit.rigidbody;
                 rb.useGravity = false;
@@ -127,8 +127,8 @@ public class GrabCup : MonoBehaviour
                 isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.None;
-            }
-            else if (hit.collider.CompareTag("Coffee"))
+
+             if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }
