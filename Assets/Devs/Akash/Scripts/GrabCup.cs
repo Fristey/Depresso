@@ -80,7 +80,7 @@ public class GrabCup : MonoBehaviour
 
             if (upRight < 30f)
             {
-                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up); 
+                Quaternion targetRotation = Quaternion.FromToRotation(upwards, Vector3.up);
                 Vector3 balance = new Vector3(targetRotation.x, targetRotation.y, targetRotation.z) * 10f;
                 rb.AddTorque(balance);
             }
@@ -88,18 +88,20 @@ public class GrabCup : MonoBehaviour
 
         }
 
-        float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up);
-
-        if (tiltAngle > 30f)
+        if (rb != null)
         {
-            float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
-            MixingCup mixingCup = rb.GetComponent<MixingCup>();
-            if (mixingCup != null)
+            float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up);
+
+            if (tiltAngle > 30f)
             {
-                mixingCup.Spill(spillRate * Time.deltaTime);
+                float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
+                MixingCup mixingCup = rb.GetComponent<MixingCup>();
+                if (mixingCup != null)
+                {
+                    mixingCup.Spill(spillRate * Time.deltaTime);
+                }
             }
         }
-
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
