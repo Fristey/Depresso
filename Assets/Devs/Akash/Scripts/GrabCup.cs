@@ -118,7 +118,7 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange))
         {
-            if (hit.collider.CompareTag("Cup") || hit.collider.CompareTag("Wrench"))
+            if (hit.collider.CompareTag("Cup") || hit.collider.CompareTag("Wrench") || hit.collider.CompareTag("ingredientes"))
             {
 
                 rb = hit.rigidbody;
