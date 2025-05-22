@@ -33,12 +33,15 @@ public class CustomerOrder : MonoBehaviour
 
     public Slider patienceSlider;
 
-    private void Start()
+    private void Awake()
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
         currencyManager = FindFirstObjectByType<CurrencyManager>();
         costumerOrders = new List<Recipes>();
+    }
+    private void Start()
+    {
         int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
 
@@ -55,7 +58,7 @@ public class CustomerOrder : MonoBehaviour
             patiance += extraPatience;
         }
 
-        //set random range later
+        amountOfOrders = UnityEngine.Random.Range(1, 3);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
