@@ -10,6 +10,7 @@ public class CustomerManager : MonoBehaviour
     public List<GameObject> waitPoints = new List<GameObject>();
     public GameObject exitPoint;
     public GameObject spawnPoint;
+    public Animator animations;
 
     private void Awake()
     {
