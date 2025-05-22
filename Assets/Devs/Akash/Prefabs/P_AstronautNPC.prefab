@@ -101,13 +101,13 @@ PrefabInstance:
       addedObject: {fileID: 4909949988539798078}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb396ea942bd5e5409feffceaf619f23, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5912520455998503854}
+      addedObject: {fileID: -3892399195772910164}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb396ea942bd5e5409feffceaf619f23, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4202946882176053373}
+      addedObject: {fileID: 6355372836546320516}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb396ea942bd5e5409feffceaf619f23, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7508856287948709793}
+      addedObject: {fileID: 6138586556543050803}
   m_SourcePrefab: {fileID: 100100000, guid: cb396ea942bd5e5409feffceaf619f23, type: 3}
 --- !u!1 &414787141567392194 stripped
 GameObject:
@@ -136,26 +136,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5912520455998503854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414787141567392194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 844cd37da74d32e4fa4860161cb801e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 1
-  navMeshAgent: {fileID: 4688527225226314931, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
-  orderManager: {fileID: 0}
-  order: {fileID: 0}
-  walkSpeed: 5
-  Counter: {fileID: 0}
-  animator: {fileID: 0}
---- !u!195 &4202946882176053373
+--- !u!195 &-3892399195772910164
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +158,27 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7508856287948709793
+--- !u!114 &6355372836546320516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414787141567392194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844cd37da74d32e4fa4860161cb801e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 1
+  navMeshAgent: {fileID: -3892399195772910164}
+  orderManager: {fileID: 0}
+  order: {fileID: 0}
+  elapsedTime: 0
+  walkSpeed: 5
+  Counter: {fileID: 0}
+  animator: {fileID: 0}
+--- !u!114 &6138586556543050803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,12 +194,12 @@ MonoBehaviour:
   cup: {fileID: 0}
   costumerOrders: []
   orderText: []
-  patiance: 10
+  patiance: 15
   amountOfOrders: 0
   currencyGiven: 20
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
-  isWaiting: 0
+  isWaiting: 1
   extraCurrency: 0
   maxExtraCurrency: 0
   extraPatience: 5
