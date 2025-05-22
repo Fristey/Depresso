@@ -61,7 +61,7 @@ public class CustomerMovement : MonoBehaviour
                 {
                     startLeaving = true;
                     currentState = CustomerState.Sitting;
-                    animator.SetTrigger("Ordering");
+                    animator.SetTrigger("Sitting");
                     //StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
@@ -78,6 +78,7 @@ public class CustomerMovement : MonoBehaviour
                 usedStools.Add(stool);
                 navMeshAgent.SetDestination(currentSpot.transform.position);
                 currentState = CustomerState.Walking;
+                animator.SetTrigger("Leaving");
                 return;
             }
         }
@@ -90,7 +91,7 @@ public class CustomerMovement : MonoBehaviour
                 usedWaitSpots.Add(waitSpot);
                 navMeshAgent.SetDestination(currentSpot.transform.position);
                 currentState = CustomerState.Waiting;
-                animator.SetTrigger("Ordering");
+                animator.SetTrigger("Idle");
                 waitingCustomers.Add(this);
                 return;
             }
