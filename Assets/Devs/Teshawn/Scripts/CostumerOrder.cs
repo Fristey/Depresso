@@ -73,7 +73,7 @@ public class CustomerOrder : MonoBehaviour
         }
 
 
-        StartCoroutine(customer.LeaveAfterTime(patiance));
+        //StartCoroutine(customer.LeaveAfterTime(patiance));
         patienceSlider.maxValue = patiance;
     }
 
