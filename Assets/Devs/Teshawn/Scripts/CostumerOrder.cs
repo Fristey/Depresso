@@ -28,7 +28,7 @@ public class CustomerOrder : MonoBehaviour
 
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
-    public float extraPatience = 5;
+    public float extraPatience;
     [SerializeField] private float speedBonusTimer;
 
     public Slider patienceSlider;
@@ -89,6 +89,7 @@ public class CustomerOrder : MonoBehaviour
             {
                 patienceSlider.value = 0;
                 patiance = 0;
+                isWaiting = false;
             }
         }
 
@@ -126,9 +127,10 @@ public class CustomerOrder : MonoBehaviour
 
     public void FailedTime()
     {
-        if (patiance <= 0)
+        if (!isWaiting)
         {
             manager.FailOrder(this, customer);
+            Debug.Log("leaving");
         }
     }
 
