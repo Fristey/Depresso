@@ -145,7 +145,7 @@ public class GrabCup : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Furniture"))
             {
-                hit.collider.gameObject.GetComponent<Upgrade>().upgradeMenu.SetActive(true);
+                hit.collider.gameObject.GetComponent<UpgradeFurniture>().upgradeMenu.SetActive(true);
             }
 
         }
