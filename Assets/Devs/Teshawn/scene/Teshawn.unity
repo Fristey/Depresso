@@ -1097,9 +1097,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GetRecipes, Assembly-CSharp
-        m_MethodName: LearningRecipe
+      - m_Target: {fileID: 1529434958}
+        m_TargetAssemblyTypeName: UnlockRecipe, Assembly-CSharp
+        m_MethodName: UnlockMoreRecipes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1759,7 +1759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5816877085264668631, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: patiance
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5816877085264668631, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: isWaiting
@@ -1949,6 +1949,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &440369003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440369005}
+  - component: {fileID: 440369004}
+  m_Layer: 0
+  m_Name: CustomerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &440369004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440369003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f00813cad9bf3141b5fdcf95e1b9674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterStools:
+  - {fileID: 1217786104}
+  waitPoints:
+  - {fileID: 1217786104}
+  exitPoint: {fileID: 1281616674}
+  spawnPoint: {fileID: 1281616674}
+--- !u!4 &440369005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440369003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &446220297
 GameObject:
   m_ObjectHideFlags: 0
@@ -5232,13 +5282,14 @@ GameObject:
   - component: {fileID: 1529434955}
   - component: {fileID: 1529434954}
   - component: {fileID: 1529434953}
+  - component: {fileID: 1529434958}
   m_Layer: 3
   m_Name: RecipeBook
   m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!54 &1529434953
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5356,6 +5407,19 @@ Transform:
   - {fileID: 1476809380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1529434958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529434952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6103a028e3166448b01ff338e58d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipe: {fileID: 11400000, guid: 94f05c2ec34452846a9c8a6f70d70773, type: 2}
 --- !u!1 &1597691274
 GameObject:
   m_ObjectHideFlags: 0
@@ -5624,7 +5688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: UnluckRecipe
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7870,3 +7934,4 @@ SceneRoots:
   - {fileID: 1051523945}
   - {fileID: 1281616675}
   - {fileID: 1217786105}
+  - {fileID: 440369005}

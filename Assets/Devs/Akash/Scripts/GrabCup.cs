@@ -121,15 +121,17 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
+            if (hit.collider.CompareTag("Untagged"))
+            {
 
-            rb = hit.rigidbody;
-            rb.useGravity = false;
-            rb.linearDamping = 10f;
-            isHoldingCup = true;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.None;
-
-            if (hit.collider.CompareTag("Coffee"))
+                rb = hit.rigidbody;
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
+            }
+            else if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }
