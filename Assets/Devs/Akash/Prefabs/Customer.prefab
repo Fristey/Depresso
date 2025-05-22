@@ -241,9 +241,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8829804a1d31ec84da6888d8a9cf418c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   cup: {fileID: 0}
-  order: {fileID: 0}
-  patiance: 50
+  costumerOrders: []
+  orderText: []
+  patiance: 2
+  amountOfOrders: 3
+  currencyGiven: 20
+  maxCurrencyGiven: 0
+  pointDecreaceStop: 0
+  isWaiting: 1
+  extraCurrency: 0
+  maxExtraCurrency: 0
+  extraPatience: 5
+  speedBonusTimer: 0
   patienceSlider: {fileID: 1224569698140335374}
 --- !u!1 &2496213612778467876
 GameObject:
@@ -809,4 +820,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bf8faefba3fcc44b47490a1220cab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   offset: {x: 0, y: 1.25, z: 0}

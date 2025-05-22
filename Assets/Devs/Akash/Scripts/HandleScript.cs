@@ -32,7 +32,7 @@ public class HandleScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerCamera = Camera.main;
+        playerCamera = FindFirstObjectByType<Camera>();
     }
 
     void Update()

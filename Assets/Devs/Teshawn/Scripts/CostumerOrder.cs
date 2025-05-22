@@ -28,17 +28,20 @@ public class CustomerOrder : MonoBehaviour
 
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
-    public float extraPatience = 5;
+    public float extraPatience;
     [SerializeField] private float speedBonusTimer;
 
     public Slider patienceSlider;
 
-    private void Start()
+    private void Awake()
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
         currencyManager = FindFirstObjectByType<CurrencyManager>();
         costumerOrders = new List<Recipes>();
+    }
+    private void Start()
+    {
         int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
 
@@ -55,7 +58,7 @@ public class CustomerOrder : MonoBehaviour
             patiance += extraPatience;
         }
 
-        //set random range later
+        amountOfOrders = UnityEngine.Random.Range(1, 3);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
@@ -68,9 +71,6 @@ public class CustomerOrder : MonoBehaviour
             int randomSize = UnityEngine.Random.Range(0, enumSize);
             costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
         }
-
-
-        StartCoroutine(customer.LeaveAfterTime(patiance));
         patienceSlider.maxValue = patiance;
     }
 
@@ -89,6 +89,7 @@ public class CustomerOrder : MonoBehaviour
             {
                 patienceSlider.value = 0;
                 patiance = 0;
+                isWaiting = false;
             }
         }
 
@@ -126,9 +127,10 @@ public class CustomerOrder : MonoBehaviour
 
     public void FailedTime()
     {
-        if (patiance <= 0)
+        if (!isWaiting)
         {
             manager.FailOrder(this, customer);
+            Debug.Log("leaving");
         }
     }
 

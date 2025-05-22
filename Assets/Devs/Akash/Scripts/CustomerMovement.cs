@@ -15,6 +15,7 @@ public class CustomerMovement : MonoBehaviour
 
     [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private GameObject Counter;
+    [SerializeField] Animator animator;
     private List<GameObject> waitPoints;
     private List<GameObject> counterStools;
     private GameObject exitPoint;
@@ -41,6 +42,7 @@ public class CustomerMovement : MonoBehaviour
         waitPoints = CustomerManager.Instance.waitPoints;
         exitPoint = CustomerManager.Instance.exitPoint;
         spawnPoint = CustomerManager.Instance.spawnPoint;
+        animator = CustomerManager.Instance.animations;
 
         navMeshAgent.speed = walkSpeed;
         currentState = CustomerState.Walking;
@@ -59,6 +61,7 @@ public class CustomerMovement : MonoBehaviour
                 {
                     startLeaving = true;
                     currentState = CustomerState.Sitting;
+                    animator.SetTrigger("Sitting");
                     //StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
@@ -75,6 +78,7 @@ public class CustomerMovement : MonoBehaviour
                 usedStools.Add(stool);
                 navMeshAgent.SetDestination(currentSpot.transform.position);
                 currentState = CustomerState.Walking;
+                animator.SetTrigger("Leaving");
                 return;
             }
         }
@@ -87,6 +91,7 @@ public class CustomerMovement : MonoBehaviour
                 usedWaitSpots.Add(waitSpot);
                 navMeshAgent.SetDestination(currentSpot.transform.position);
                 currentState = CustomerState.Waiting;
+                animator.SetTrigger("Idle");
                 waitingCustomers.Add(this);
                 return;
             }
@@ -149,10 +154,11 @@ public class CustomerMovement : MonoBehaviour
 
     public void Leave()
     {
+        animator.SetTrigger("Leaving");
         currentState = CustomerState.Leaving;
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(exitPoint.transform.position);
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 2f);
         CustomerSpawner.Instance.currentCustomerCount -= 1;
     }
 

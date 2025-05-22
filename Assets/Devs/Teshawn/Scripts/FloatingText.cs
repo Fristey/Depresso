@@ -8,8 +8,8 @@ public class FloatingText : MonoBehaviour
     private CustomerOrder orderOfThisCustomer;
     private MixingCup mixingCup;
 
-    Transform mainCam;
-    Transform unit;
+    public Camera mainCam;
+    private Transform unit;
     Transform worldSpaceCanvas;
 
     public Vector3 offset;
@@ -21,8 +21,7 @@ public class FloatingText : MonoBehaviour
         textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
 
 
-
-        mainCam = Camera.main.transform;
+        mainCam = FindFirstObjectByType<Camera>();
         unit = transform.parent;
         worldSpaceCanvas = GetComponent<Canvas>().transform;
 

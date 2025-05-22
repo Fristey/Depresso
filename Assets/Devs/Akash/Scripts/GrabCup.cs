@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GrabCup : MonoBehaviour
@@ -120,6 +121,8 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
+            if (hit.collider.CompareTag("Untagged"))
+            {
 
                 rb = hit.rigidbody;
                 rb.useGravity = false;
@@ -127,8 +130,8 @@ public class GrabCup : MonoBehaviour
                 isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.None;
-
-             if (hit.collider.CompareTag("Coffee"))
+            }
+            else if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }
@@ -142,7 +145,7 @@ public class GrabCup : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Furniture"))
             {
-                hit.collider.gameObject.GetComponent<Upgrade>().upgradeMenu.SetActive(true);
+                hit.collider.gameObject.GetComponent<UpgradeFurniture>().upgradeMenu.SetActive(true);
             }
 
         }
