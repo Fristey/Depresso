@@ -1984,6 +1984,7 @@ MonoBehaviour:
   - {fileID: 1217786104}
   exitPoint: {fileID: 1281616674}
   spawnPoint: {fileID: 1281616674}
+  animations: {fileID: 0}
 --- !u!4 &440369005
 Transform:
   m_ObjectHideFlags: 0
@@ -2593,6 +2594,7 @@ MonoBehaviour:
   order: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &675745030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3310,6 +3312,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008042742}
   m_CullTransparentMesh: 1
+--- !u!114 &1014000608 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1289460842479018428, guid: 1bd88d3baa4f79b47a2362d373659b6a, type: 3}
+  m_PrefabInstance: {fileID: 4217670416705448361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b08caf944486942b43714b8ed1ae7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1037912335
 GameObject:
   m_ObjectHideFlags: 0
@@ -4962,6 +4975,7 @@ MonoBehaviour:
   order: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1459354119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5981,6 +5995,7 @@ MonoBehaviour:
   order: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1716629834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7755,12 +7770,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5460109022666997963, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6434964973361056101, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: lookAround
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1014000608}
     - target: {fileID: 7017965525324211095, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: m_Layer
       value: 0

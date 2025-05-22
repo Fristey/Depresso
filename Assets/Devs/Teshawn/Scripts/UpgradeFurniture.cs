@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Upgrade : MonoBehaviour
+public class UpgradeFurniture : MonoBehaviour
 {
     private CurrencyManager currencyManager;
     [SerializeField] private int price;
@@ -18,7 +18,7 @@ public class Upgrade : MonoBehaviour
         currencyManager = FindFirstObjectByType<CurrencyManager>();
     }
 
-    public void UpgradeFurniture()
+    public void Upgrade()
     {
         if (upgradeMaterial != null)
         {
