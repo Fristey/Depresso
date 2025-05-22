@@ -121,14 +121,14 @@ public class GrabCup : MonoBehaviour
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
 
-                rb = hit.rigidbody;
-                rb.useGravity = false;
-                rb.linearDamping = 10f;
-                isHoldingCup = true;
-                rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None;
+            rb = hit.rigidbody;
+            rb.useGravity = false;
+            rb.linearDamping = 10f;
+            isHoldingCup = true;
+            rb.angularVelocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.None;
 
-             if (hit.collider.CompareTag("Coffee"))
+            if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }
@@ -143,6 +143,7 @@ public class GrabCup : MonoBehaviour
             else if (hit.collider.CompareTag("Furniture"))
             {
                 hit.collider.gameObject.GetComponent<Upgrade>().upgradeMenu.SetActive(true);
+                Debug.Log("can upgrade");
             }
 
         }
