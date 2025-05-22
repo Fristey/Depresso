@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 enum CatStates
 {
@@ -21,39 +22,39 @@ public enum CalledFunction
 }
 public class CatScript : MonoBehaviour
 {
-    private NavMeshAgent agent;
-
+    [Header("Behaviour")]
+    [SerializeField] private CatType type;
     [SerializeField] private CatStates state;
+    [SerializeField] private float anoyance;
 
+    [Header("Movement")]
     [SerializeField] private GameObject center;
     [SerializeField] private float range;
     [SerializeField] private LayerMask generationMask;
     [SerializeField] private Vector3 destination;
+
+    [SerializeField] private Transform accesibleArea;
+    [SerializeField] private MeshRenderer accesibleAreaRen;
+
+    [Header("CupLaunch")]
+    [SerializeField] private LayerMask cupCheckMask;
+    [SerializeField] private float cupLaunchForce;
+    [SerializeField] private float cupLauchCD;
+
+    //Componenets
+    private NavMeshAgent agent;
+
+    //Misc
+    private bool canLaunch = true;
+    private bool canDmg = true;
+    private bool walkingToMachine = false;
+
 
     [SerializeField] private float walkChance;
     [SerializeField] private float sitChance;
     [SerializeField] private float walkToCupChance;
     [SerializeField] private float walkToMachineChance;
 
-    [SerializeField] private LayerMask cupCheckMask;
-    [SerializeField] private float cupLaunchForce;
-    [SerializeField] private float cupLauchCD;
-
-    private bool canLaunch = true;
-    private bool canDmg = true;
-
-    private bool walkingToMachine = false;
-
-
-
-    [SerializeField] private List<CatGoal> catGoals = new List<CatGoal>();
-
-    [System.Serializable]
-    public class CatGoal
-    {
-        public Vector2 chance;
-        public CalledFunction function;
-    }
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -61,7 +62,7 @@ public class CatScript : MonoBehaviour
 
     private void Start()
     {
-        DestinationReached();
+        StartNewAction();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,11 +76,11 @@ public class CatScript : MonoBehaviour
 
         rb.AddForce(dir * cupLaunchForce);
 
-        Vector3 angle = other.transform.rotation.eulerAngles + (dir*cupLaunchForce);
+        Vector3 angle = other.transform.rotation.eulerAngles + (dir * cupLaunchForce);
 
         rb.AddTorque(angle);
 
-        DestinationReached();
+        StartNewAction();
         StartCoroutine(CupLaunchCooldown());
     }
 
@@ -103,9 +104,10 @@ public class CatScript : MonoBehaviour
                     {
                         Debug.Log("Dmg");
                         walkingToMachine = false;
-                    } else
+                    }
+                    else
                     {
-                        DestinationReached();
+                        StartNewAction();
                     }
 
                 }
@@ -137,7 +139,7 @@ public class CatScript : MonoBehaviour
         GameObject target = FindNearestCup(cupsGO);
 
         //Checks if a target was found and if so making the cat move in it's direction + state swap
-        if(target != null) 
+        if (target != null)
         {
             destination = target.transform.position;
             agent.SetDestination(destination);
@@ -146,55 +148,75 @@ public class CatScript : MonoBehaviour
         }
     }
 
-    private void DestinationReached()
+    private void StartNewAction()
     {
-        int rolledNum = UnityEngine.Random.Range(0, 100);
+        int rolledNum = UnityEngine.Random.Range(0, 101);
 
-        if (rolledNum > walkChance)
+        for (int i = 0; i < type.catActions.Count; i++)
         {
-            destination = GenerateTarget();
-            agent.destination = destination;
+            Vector2 actionWindow = type.catActions[i].GetWindow(anoyance);
 
-            state = CatStates.Walking;
-        }
-        else if (rolledNum < walkChance && rolledNum >= walkToCupChance + walkToMachineChance)
-        {
-            StartCoroutine(SitTimer());
-            state = CatStates.Sitting;
-        }
-        else if (rolledNum < sitChance && rolledNum >= walkToMachineChance)
-        {
-            if(canLaunch)
+            if (rolledNum >= actionWindow.x && rolledNum < actionWindow.y)
             {
-                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
-            } else
-            {
-                destination = GenerateTarget();
+                switch (type.catActions[i].function)
+                {
+                    case CalledFunction.walk:
+                        destination = GenerateTarget();
+                        agent.destination = destination;
+
+                        state = CatStates.Walking;
+                        break;
+                    case CalledFunction.sit:
+                        StartCoroutine(SitTimer());
+                        state = CatStates.Sitting;
+                        break;
+                    case CalledFunction.walkToCup:
+                        if (canLaunch)
+                        {
+                            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+                        }
+                        else
+                        {
+                            destination = GenerateTarget();
+                        }
+
+                        agent.destination = destination;
+
+                        state = CatStates.Walking;
+                        break;
+                    case CalledFunction.walkToMachine:
+                        if (canDmg)
+                        {
+                            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine")).transform.position;
+                            walkingToMachine = true;
+                        }
+                        else
+                        {
+                            destination = GenerateTarget();
+                        }
+
+                        agent.destination = destination;
+
+                        state = CatStates.Walking;
+                        break;
+                }
             }
-
-            agent.destination = destination;
-
-            state = CatStates.Walking;
-        }else 
-        {
-            if(canDmg)
-            {
-                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine")).transform.position;
-                walkingToMachine = true;
-            } else
-            {
-                destination = GenerateTarget();
-            }
-
-            agent.destination = destination;
-
-            state = CatStates.Walking;
         }
     }
 
     private Vector3 GenerateTarget()
     {
-        Vector3 potentiolTarget = new Vector3(center.transform.position.x - UnityEngine.Random.Range(-range, range), center.transform.position.y, center.transform.position.z - UnityEngine.Random.Range(-range, range));
+        float x = accesibleAreaRen.bounds.size.x;
+        float y = accesibleAreaRen.bounds.size.y;
+        float z = accesibleAreaRen.bounds.size.z;
+        
+        Vector3 bounds = new Vector3(x,y,z);
+
+        Vector3 topRight = accesibleArea.position + bounds;
+        Vector3 bottemLeft = accesibleArea.position - bounds;
+
+
+        Vector3 potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x,bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
 
         NavMeshHit hit;
         NavMesh.SamplePosition(potentiolTarget, out hit, range, generationMask);
@@ -220,7 +242,8 @@ public class CatScript : MonoBehaviour
             }
 
             return targetCup;
-        } else { return null; }
+        }
+        else { return null; }
     }
 
     private IEnumerator SitTimer()

@@ -393,7 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 261796203}
   - component: {fileID: 261796202}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: NavMeshCat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1188,6 +1188,10 @@ PrefabInstance:
       value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
+      propertyPath: type
+      value: 
+      objectReference: {fileID: 11400000, guid: 85e49ecdd79a5384892e7ea62b85bad2, type: 2}
+    - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
       propertyPath: center
       value: 
       objectReference: {fileID: 575866052}
@@ -1204,8 +1208,12 @@ PrefabInstance:
       value: -0.222744
       objectReference: {fileID: 0}
     - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
+      propertyPath: catGoals.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
       propertyPath: generationMask.m_Bits
-      value: 4294967295
+      value: 247
       objectReference: {fileID: 0}
     - target: {fileID: 7877032100439265021, guid: 14d7af4476f388841b923baeb9539949, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1489,7 +1497,7 @@ MonoBehaviour:
   m_SerializedVersion: 1
   m_AgentTypeID: -1372625422
   m_StartPoint: {x: -8.290982, y: 9.02269, z: 6}
-  m_EndPoint: {x: -8.837536, y: 7.5579786, z: 6}
+  m_EndPoint: {x: -9.192406, y: 7.6836715, z: 6}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
@@ -1526,7 +1534,8 @@ GameObject:
   - component: {fileID: 1599539253}
   - component: {fileID: 1599539252}
   - component: {fileID: 1599539255}
-  m_Layer: 0
+  - component: {fileID: 1599539256}
+  m_Layer: 8
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1595,8 +1604,8 @@ Transform:
   m_GameObject: {fileID: 1599539250}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.49, y: -1.33, z: 0}
-  m_LocalScale: {x: 1.5, y: 1, z: 1}
+  m_LocalPosition: {x: 6.3498, y: -1.33, z: 2.0371}
+  m_LocalScale: {x: 0.72813827, y: 1, z: 1.0103322}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1620,8 +1629,8 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
+    m_Bits: 256
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
@@ -1633,6 +1642,27 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: b3ca24dc1645da34b8fd73dfca05410f, type: 2}
   m_BuildHeightMesh: 0
+--- !u!65 &1599539256
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599539250}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1751411456
 GameObject:
   m_ObjectHideFlags: 0
