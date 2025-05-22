@@ -143,7 +143,6 @@ public class GrabCup : MonoBehaviour
             else if (hit.collider.CompareTag("Furniture"))
             {
                 hit.collider.gameObject.GetComponent<Upgrade>().upgradeMenu.SetActive(true);
-                Debug.Log("can upgrade");
             }
 
         }
