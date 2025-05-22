@@ -152,7 +152,7 @@ public class CustomerMovement : MonoBehaviour
         currentState = CustomerState.Leaving;
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(exitPoint.transform.position);
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 2f);
         CustomerSpawner.Instance.currentCustomerCount -= 1;
     }
 

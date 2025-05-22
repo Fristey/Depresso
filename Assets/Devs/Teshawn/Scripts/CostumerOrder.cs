@@ -71,9 +71,6 @@ public class CustomerOrder : MonoBehaviour
             int randomSize = UnityEngine.Random.Range(0, enumSize);
             costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
         }
-
-
-        //StartCoroutine(customer.LeaveAfterTime(patiance));
         patienceSlider.maxValue = patiance;
     }
 
