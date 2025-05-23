@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.Rendering;
+using static UnityEditorInternal.ReorderableList;
 
 enum CatStates
 {
@@ -32,6 +33,7 @@ public class CatScript : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private LayerMask generationMask;
     [SerializeField] private Vector3 destination;
+    private Vector3 potDest;
 
     [SerializeField] private Transform accesibleArea;
     [SerializeField] private MeshRenderer accesibleAreaRen;
@@ -173,7 +175,17 @@ public class CatScript : MonoBehaviour
                     case CalledFunction.walkToCup:
                         if (canLaunch)
                         {
-                            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+                            Vector3 v3 = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+
+                            if(v3 != null)
+                            {
+                                destination = v3;
+                            }
+                            else
+                            {
+                                destination = GenerateTarget();
+                            }
+ 
                         }
                         else
                         {
@@ -206,20 +218,23 @@ public class CatScript : MonoBehaviour
 
     private Vector3 GenerateTarget()
     {
-        float x = accesibleAreaRen.bounds.size.x;
-        float y = accesibleAreaRen.bounds.size.y;
-        float z = accesibleAreaRen.bounds.size.z;
-        
-        Vector3 bounds = new Vector3(x,y,z);
+        float x = accesibleAreaRen.bounds.size.x/2;
+        float y = accesibleAreaRen.bounds.size.y/2;
+        float z = accesibleAreaRen.bounds.size.z/2;
+
+        Vector3 bounds = new Vector3(x, y, z);
 
         Vector3 topRight = accesibleArea.position + bounds;
         Vector3 bottemLeft = accesibleArea.position - bounds;
 
+        Vector3 potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y,bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
 
-        Vector3 potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x,bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
+        potDest = potentiolTarget;
 
         NavMeshHit hit;
-        NavMesh.SamplePosition(potentiolTarget, out hit, range, generationMask);
+        var catWalkableMask = 1 << NavMesh.GetAreaFromName("CatWalkable");
+
+        bool b = NavMesh.SamplePosition(potentiolTarget, out hit, range,catWalkableMask);
 
         return hit.position;
     }
@@ -235,15 +250,27 @@ public class CatScript : MonoBehaviour
                 float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
                 float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
 
-                if (potDist < curDist)
+                NavMeshPath path = new NavMeshPath();
+                agent.CalculatePath(cups[i].transform.position, path);
+
+                if (path.status == NavMeshPathStatus.PathComplete)
                 {
-                    targetCup = cups[i];
+                    if (potDist < curDist)
+                    {
+                        targetCup = cups[i];
+                    }
                 }
             }
 
-            return targetCup;
+            NavMeshPath path1 = new NavMeshPath();
+            agent.CalculatePath(targetCup.transform.position, path1);
+
+            if (path1.status == NavMeshPathStatus.PathComplete)
+            {
+                return targetCup;
+            }
         }
-        else { return null; }
+        return null;
     }
 
     private IEnumerator SitTimer()
@@ -256,7 +283,16 @@ public class CatScript : MonoBehaviour
         {
             if (canLaunch)
             {
-                destination = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+                Vector3 cup = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+
+                if(cup != null)
+                {
+                    destination = cup;
+                } else
+                {
+                    destination = GenerateTarget();
+                }
+
             }
             else
             {
