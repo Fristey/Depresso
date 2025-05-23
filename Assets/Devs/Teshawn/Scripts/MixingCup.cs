@@ -5,7 +5,6 @@ using UnityEngine;
 public class MixingCup : MonoBehaviour
 {
     public List<Ingredientes> cupIngredientes;
-    public List<string> taglist = new List<string> { "Coffee", "Ice", "Milk" };
     public List<string> ingredientesNames;
     public Recipes drinkToserve;
 

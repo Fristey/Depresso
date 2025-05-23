@@ -12,7 +12,7 @@ public class AddIngredient : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Cup"))
+        if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             if (collision.gameObject.GetComponent<MixingCup>().currentAmount < collision.gameObject.GetComponent<MixingCup>().maxAmount)
             {

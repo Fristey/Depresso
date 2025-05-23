@@ -120,14 +120,17 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            rb = hit.rigidbody;
-            rb.useGravity = false;
-            rb.linearDamping = 10f;
-            isHoldingCup = true;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.None;
+            if (hit.collider.gameObject.CompareTag("Untagged"))
+            {
 
-            if (hit.collider.CompareTag("Coffee"))
+                rb = hit.rigidbody;
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
+            }
+            else if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }
@@ -145,7 +148,7 @@ public class GrabCup : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<UpgradeFurniture>().upgradeMenu.SetActive(true);
                 }
-                else if(hit.collider.gameObject.GetComponents<UnlockRecipe>() != null)
+                else if (hit.collider.gameObject.GetComponents<UnlockRecipe>() != null)
                 {
                     hit.collider.gameObject.GetComponent<UnlockRecipe>().unlockRecipeMenu.SetActive(true);
                 }
