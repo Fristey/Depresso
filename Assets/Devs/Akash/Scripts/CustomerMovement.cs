@@ -21,6 +21,7 @@ public class CustomerMovement : MonoBehaviour
     private GameObject exitPoint;
     private GameObject spawnPoint;
     private GameObject currentSpot;
+    private float elapsedTime;
 
     public static List<GameObject> usedStools = new List<GameObject>();
     public static List<GameObject> usedWaitSpots = new List<GameObject>();
@@ -38,11 +39,16 @@ public class CustomerMovement : MonoBehaviour
 
     private void Start()
     {
+        elapsedTime = order.patiance;
         counterStools = CustomerManager.Instance.counterStools;
         waitPoints = CustomerManager.Instance.waitPoints;
         exitPoint = CustomerManager.Instance.exitPoint;
         spawnPoint = CustomerManager.Instance.spawnPoint;
-        animator = CustomerManager.Instance.animations;
+
+        if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
 
         navMeshAgent.speed = walkSpeed;
         currentState = CustomerState.Walking;
@@ -61,10 +67,17 @@ public class CustomerMovement : MonoBehaviour
                 {
                     startLeaving = true;
                     currentState = CustomerState.Sitting;
-                    animator.SetTrigger("Sitting");
+/*                    animator.SetTrigger("SittingDown");*/
                     //StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
+        }
+
+        elapsedTime -= Time.deltaTime;
+        if (currentState == CustomerState.Sitting)
+        {
+            animator.SetTrigger("SittingDown");
+            animator.SetTrigger("Sitting");
         }
     }
 
@@ -78,7 +91,6 @@ public class CustomerMovement : MonoBehaviour
                 usedStools.Add(stool);
                 navMeshAgent.SetDestination(currentSpot.transform.position);
                 currentState = CustomerState.Walking;
-                animator.SetTrigger("Leaving");
                 return;
             }
         }
