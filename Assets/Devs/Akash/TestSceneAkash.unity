@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 14304764}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.82, y: 0, z: 0.32}
+  m_LocalPosition: {x: 6.879, y: 0, z: 3.902}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1459,7 +1459,7 @@ Transform:
   m_GameObject: {fileID: 1391170189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.25, y: 0, z: 0.32}
+  m_LocalPosition: {x: 8.914, y: 0, z: 4.401}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1682,7 +1682,7 @@ Transform:
   m_GameObject: {fileID: 1599539250}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.49, y: -1.33, z: 0}
+  m_LocalPosition: {x: 5.57, y: -1.33, z: 0}
   m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2116,6 +2116,14 @@ PrefabInstance:
       propertyPath: dayCycle.days.Array.data[0].dayDuration
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: dayCycle.days.Array.data[0].maxCustomers
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: dayCycle.days.Array.data[0].customerSpawnTimer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2445,6 +2453,7 @@ SceneRoots:
   - {fileID: 476953672}
   - {fileID: 1226911346}
   - {fileID: 7369607139174502595}
+  - {fileID: 2081870914}
   - {fileID: 1751411457}
   - {fileID: 1843402359}
   - {fileID: 1061638600}
@@ -2455,7 +2464,6 @@ SceneRoots:
   - {fileID: 7586823409201017042}
   - {fileID: 1447839224}
   - {fileID: 7572055138721730014}
-  - {fileID: 2081870914}
   - {fileID: 1095203622}
   - {fileID: 974427551}
   - {fileID: 982328290}
