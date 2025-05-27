@@ -6,7 +6,7 @@ public class MixingCup : MonoBehaviour
 {
     public List<Ingredientes> cupIngredientes;
     public List<string> ingredientesNames;
-    private MeshRenderer drinkToServeRenderer;
+    private MeshRenderer drinkToServeColor;
     private MeshFilter drinkToServeFilter;
 
     public Recipes drinkToserve;
@@ -19,7 +19,7 @@ public class MixingCup : MonoBehaviour
     private void Start()
     {
         orderManager = FindAnyObjectByType<OrderManager>();
-        drinkToServeRenderer = GetComponent<MeshRenderer>();
+        drinkToServeColor = GetComponent<MeshRenderer>();
         drinkToServeFilter = GetComponent<MeshFilter>();
     }
 
@@ -29,17 +29,17 @@ public class MixingCup : MonoBehaviour
 
         if (drinkToserve != null)
         {
-            drinkToServeRenderer = drinkToserve.drink;
             drinkToServeFilter.mesh = drinkToserve.drinkFilter;
+            drinkToServeColor.material = drinkToserve.colorOfDrink;
         }
     }
     public bool CreateDrink()
     {
         ingredientesNames.Sort();
+        cupIngredientes.Sort();
         for (int i = 0; i < orderManager.possibleDrinks.Count; i++)
         {
             orderManager.possibleDrinks[i].requiredIngredientes.Sort();
-
             if (cupIngredientes.SequenceEqual(orderManager.possibleDrinks[i].requiredIngredientes))
             {
                 drinkToserve = orderManager.possibleDrinks[i];

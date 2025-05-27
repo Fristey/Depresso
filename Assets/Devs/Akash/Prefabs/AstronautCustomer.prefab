@@ -246,7 +246,7 @@ MonoBehaviour:
   maxExtraCurrency: 0
   extraPatience: 5
   speedBonusTimer: 0
-  patienceSlider: {fileID: 1224569698140335374, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
+  patienceSlider: {fileID: 6074503228052218516}
 --- !u!4 &1047735735755895672 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cb396ea942bd5e5409feffceaf619f23, type: 3}
@@ -364,6 +364,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8245543105833749632, guid: d9465665f969cfe45983d10028bf0397, type: 3}
+      propertyPath: offset.y
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -374,3 +378,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6800848692257201438, guid: d9465665f969cfe45983d10028bf0397, type: 3}
   m_PrefabInstance: {fileID: 7732468546670987630}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6074503228052218516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4540692393924537338, guid: d9465665f969cfe45983d10028bf0397, type: 3}
+  m_PrefabInstance: {fileID: 7732468546670987630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
