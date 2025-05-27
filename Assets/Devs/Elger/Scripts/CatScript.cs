@@ -2,10 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine.Rendering;
-using static UnityEditorInternal.ReorderableList;
 
 enum CatStates
 {
@@ -26,14 +22,14 @@ public class CatScript : MonoBehaviour
     [Header("Behaviour")]
     [SerializeField] private CatType type;
     [SerializeField] private CatStates state;
-    [SerializeField] private float anoyance;
+    [SerializeField] private float annoyance;
+     private float annoyancePerSec;
 
     [Header("Movement")]
     [SerializeField] private GameObject center;
     [SerializeField] private float range;
     [SerializeField] private LayerMask generationMask;
     [SerializeField] private Vector3 destination;
-    private Vector3 potDest;
 
     [SerializeField] private Transform accesibleArea;
     [SerializeField] private MeshRenderer accesibleAreaRen;
@@ -50,16 +46,12 @@ public class CatScript : MonoBehaviour
     private bool canLaunch = true;
     private bool canDmg = true;
     private bool walkingToMachine = false;
-
-
-    [SerializeField] private float walkChance;
-    [SerializeField] private float sitChance;
-    [SerializeField] private float walkToCupChance;
-    [SerializeField] private float walkToMachineChance;
+    private espressoAndCoffeeMachine curCoffeeMachine;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        annoyancePerSec = type.annoyancePerSec;
     }
 
     private void Start()
@@ -100,12 +92,19 @@ public class CatScript : MonoBehaviour
             case CatStates.Sitting:
                 break;
             case CatStates.Walking:
+                if (Vector3.Distance(transform.position, destination) < 1.5f && walkingToMachine)
+                {
+                    state = CatStates.Interacting;
+                    walkingToMachine = false;
+                    agent.isStopped = true;
+                    break;
+                }
+              
                 if (Vector3.Distance(transform.position, destination) < 1)
                 {
                     if (walkingToMachine)
                     {
                         Debug.Log("Dmg");
-                        walkingToMachine = false;
                     }
                     else
                     {
@@ -113,17 +112,24 @@ public class CatScript : MonoBehaviour
                     }
 
                 }
+
+                if (canLaunch && !walkingToMachine)
+                {
+                    CheckForCups();
+                }
                 break;
             case CatStates.Interacting:
+                BreakMachine();
+
                 break;
             default:
                 break;
         }
 
-        if (canLaunch)
-        {
-            CheckForCups();
-        }
+        agent.speed = type.speed.Evaluate(annoyance);
+
+        annoyance += annoyancePerSec * Time.deltaTime;
+        Mathf.Clamp(annoyance, 0, 100);
     }
 
     private void CheckForCups()
@@ -156,7 +162,7 @@ public class CatScript : MonoBehaviour
 
         for (int i = 0; i < type.catActions.Count; i++)
         {
-            Vector2 actionWindow = type.catActions[i].GetWindow(anoyance);
+            Vector2 actionWindow = type.catActions[i].GetWindow(annoyance);
 
             if (rolledNum >= actionWindow.x && rolledNum < actionWindow.y)
             {
@@ -229,8 +235,6 @@ public class CatScript : MonoBehaviour
 
         Vector3 potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y,bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
 
-        potDest = potentiolTarget;
-
         NavMeshHit hit;
         var catWalkableMask = 1 << NavMesh.GetAreaFromName("CatWalkable");
 
@@ -267,6 +271,10 @@ public class CatScript : MonoBehaviour
 
             if (path1.status == NavMeshPathStatus.PathComplete)
             {
+                if(targetCup.tag == "CoffeeMachine")
+                {
+                    curCoffeeMachine = targetCup.GetComponent<espressoAndCoffeeMachine>();
+                }
                 return targetCup;
             }
         }
@@ -279,35 +287,15 @@ public class CatScript : MonoBehaviour
 
         int num = UnityEngine.Random.Range(0, 100);
 
-        if (num <= walkToCupChance)
-        {
-            if (canLaunch)
-            {
-                Vector3 cup = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
-
-                if(cup != null)
-                {
-                    destination = cup;
-                } else
-                {
-                    destination = GenerateTarget();
-                }
-
-            }
-            else
-            {
-                destination = GenerateTarget();
-            }
-            agent.destination = destination;
-
-            state = CatStates.Walking;
-        }
-        else
-        {
-            destination = GenerateTarget();
-            agent.destination = destination;
-
-            state = CatStates.Walking;
-        }
+        StartNewAction();
     }
+
+    public void BreakMachine()
+    {
+        curCoffeeMachine.fixedOrBroken = espressoAndCoffeeMachine.FixedOrBroken.Broken;
+        agent.isStopped = false;
+        state = CatStates.Walking;
+
+        StartNewAction();
+    } 
 }

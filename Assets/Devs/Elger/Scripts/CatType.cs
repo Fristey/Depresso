@@ -6,6 +6,9 @@ public class CatType : ScriptableObject
 {
     public List<CatAction> catActions = new List<CatAction>();
 
+    public float annoyancePerSec;
+    public AnimationCurve speed;
+
     [System.Serializable]
     public class CatAction
     {

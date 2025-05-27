@@ -1413,6 +1413,10 @@ PrefabInstance:
       value: -0.222744
       objectReference: {fileID: 0}
     - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
+      propertyPath: anoyancePerSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
       propertyPath: accesibleAreaRen
       value: 
       objectReference: {fileID: 55062690}
@@ -1710,7 +1714,7 @@ MonoBehaviour:
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
-  m_Width: 8.423773
+  m_Width: 6.09
   m_CostModifier: 1
   m_IsOverridingCost: 0
   m_Bidirectional: 1
@@ -1725,7 +1729,7 @@ Transform:
   m_GameObject: {fileID: 1495027842}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.215191, y: -8.937848, z: -5.195431}
+  m_LocalPosition: {x: 10.215191, y: -8.937848, z: -4.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
