@@ -6,6 +6,9 @@ public class MixingCup : MonoBehaviour
 {
     public List<Ingredientes> cupIngredientes;
     public List<string> ingredientesNames;
+    private MeshRenderer drinkToServeRenderer;
+    private MeshFilter drinkToServeFilter;
+
     public Recipes drinkToserve;
 
     OrderManager orderManager;
@@ -16,11 +19,19 @@ public class MixingCup : MonoBehaviour
     private void Start()
     {
         orderManager = FindAnyObjectByType<OrderManager>();
+        drinkToServeRenderer = GetComponent<MeshRenderer>();
+        drinkToServeFilter = GetComponent<MeshFilter>();
     }
 
     private void Update()
     {
         CreateDrink();
+
+        if (drinkToserve != null)
+        {
+            drinkToServeRenderer = drinkToserve.drink;
+            drinkToServeFilter.mesh = drinkToserve.drinkFilter;
+        }
     }
     public bool CreateDrink()
     {
@@ -44,8 +55,8 @@ public class MixingCup : MonoBehaviour
 
     public void Spill(float amount)
     {
-        Debug.Log("Spilling amount: " + amount);
+        //Debug.Log("Spilling amount: " + amount);
         currentAmount = Mathf.Max(currentAmount - amount, 0f);
-        Debug.Log("Current Amount:" + currentAmount);
+        //Debug.Log("Current Amount:" + currentAmount);
     }
 }

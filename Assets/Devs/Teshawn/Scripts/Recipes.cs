@@ -9,5 +9,6 @@ public class Recipes : ScriptableObject
 
     public Size drinkSize;
     public string nameOfDrink;
-    public GameObject drink;
+    public MeshRenderer drink;
+    public Mesh drinkFilter;
 }
