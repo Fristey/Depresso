@@ -115,6 +115,7 @@ public class CustomerMovement : MonoBehaviour
     public IEnumerator LeaveAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
+        animator.SetTrigger("Leaving");
         if (currentSpot != null)
         {
             if (counterStools.Contains(currentSpot))
