@@ -72,6 +72,8 @@ public class CustomerOrder : MonoBehaviour
             costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
         }
         patienceSlider.maxValue = patiance;
+
+        isWaiting = true;
     }
 
     private void Update()
@@ -81,7 +83,7 @@ public class CustomerOrder : MonoBehaviour
             GenerateExtraSpeedPoints(extraCurrency);
         }
 
-        if (isWaiting)
+        if (customer.currentState == CustomerMovement.CustomerState.Waiting || customer.currentState == CustomerMovement.CustomerState.Sitting)
         {
             patiance -= Time.deltaTime;
             patienceSlider.value = patiance;
@@ -113,7 +115,6 @@ public class CustomerOrder : MonoBehaviour
     public void NoMoreOrders()
     {
 
-        isWaiting = false;
         if (type == SatisfactionType.speed)
         {
             currencyManager.AddCurrency(maxCurrencyGiven);
@@ -130,7 +131,6 @@ public class CustomerOrder : MonoBehaviour
         if (!isWaiting)
         {
             manager.FailOrder(this, customer);
-            Debug.Log("leaving");
         }
     }
 

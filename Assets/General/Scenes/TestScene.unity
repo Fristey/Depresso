@@ -1221,6 +1221,10 @@ PrefabInstance:
       propertyPath: maxCustomers
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6899603114261344477, guid: 56d9dd95428ad2a42b6cbc678238a3e6, type: 3}
+      propertyPath: customerPrefab
+      value: 
+      objectReference: {fileID: 414787141567392194, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
