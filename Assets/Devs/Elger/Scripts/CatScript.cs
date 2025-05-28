@@ -8,6 +8,7 @@ enum CatStates
     Sitting,
     Walking,
     Interacting,
+    Distracted
 }
 
 public enum CalledFunction
@@ -149,7 +150,7 @@ public class CatScript : MonoBehaviour
         //Checks if a target was found and if so making the cat move in it's direction + state swap
         if (target != null)
         {
-            destination = target.transform.position;
+            destination = GenerateTarget(target.transform.position);
             agent.SetDestination(destination);
 
             state = CatStates.Walking;
@@ -222,18 +223,26 @@ public class CatScript : MonoBehaviour
         }
     }
 
-    private Vector3 GenerateTarget()
+    private Vector3 GenerateTarget(Vector3 target = default(Vector3))
     {
-        float x = accesibleAreaRen.bounds.size.x/2;
-        float y = accesibleAreaRen.bounds.size.y/2;
-        float z = accesibleAreaRen.bounds.size.z/2;
+        Vector3 potentiolTarget = Vector3.zero;
 
-        Vector3 bounds = new Vector3(x, y, z);
+        if (target != default(Vector3))
+        {
+            float x = accesibleAreaRen.bounds.size.x / 2;
+            float y = accesibleAreaRen.bounds.size.y / 2;
+            float z = accesibleAreaRen.bounds.size.z / 2;
 
-        Vector3 topRight = accesibleArea.position + bounds;
-        Vector3 bottemLeft = accesibleArea.position - bounds;
+            Vector3 bounds = new Vector3(x, y, z);
 
-        Vector3 potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y,bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
+            Vector3 topRight = accesibleArea.position + bounds;
+            Vector3 bottemLeft = accesibleArea.position - bounds;
+
+            potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
+        } else
+        {
+            potentiolTarget = target;
+        }
 
         NavMeshHit hit;
         var catWalkableMask = 1 << NavMesh.GetAreaFromName("CatWalkable");
