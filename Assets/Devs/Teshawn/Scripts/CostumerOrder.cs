@@ -8,7 +8,6 @@ public class CustomerOrder : MonoBehaviour
 {
     public SatisfactionType type;
 
-
     [SerializeField] private MixingCup cup;
     private CustomerMovement customer;
     private OrderManager manager;
@@ -21,7 +20,6 @@ public class CustomerOrder : MonoBehaviour
     public int currencyGiven = 20;
     public int maxCurrencyGiven;
     private int randomSatisfactionMode = Enum.GetValues(typeof(SatisfactionType)).Length;
-    private int enumSize = Enum.GetValues(typeof(Size)).Length;
 
     public bool pointDecreaceStop;
     public bool isWaiting;
@@ -66,11 +64,7 @@ public class CustomerOrder : MonoBehaviour
             orderText.Add(manager.orderGiven.nameOfDrink);
         }
         manager.activeOrders.Add(this);
-        for (int i = 0; i < costumerOrders.Count; i++)
-        {
-            int randomSize = UnityEngine.Random.Range(0, enumSize);
-            costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
-        }
+        
         patienceSlider.maxValue = patiance;
 
         isWaiting = true;
