@@ -1037,7 +1037,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &247817393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,7 +1052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cupIngredientes: []
   ingredientesNames: []
-  drinkToserve: {fileID: 0}
+  drinkToserve: {fileID: 11400000, guid: 94f05c2ec34452846a9c8a6f70d70773, type: 2}
   maxAmount: 100
   currentAmount: 0
 --- !u!54 &247817394
@@ -6582,7 +6582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1907691068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6597,7 +6597,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleDrinks:
   - {fileID: 11400000, guid: 652b3c8a07f1e6b45837378185afb4be, type: 2}
-  - {fileID: 11400000, guid: bb7ec66a5f5cee245a50713c40eb7ad4, type: 2}
   activeOrders: []
   orderGiven: {fileID: 0}
   currencyFromCostumer: 0
@@ -6760,10 +6759,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AstronautCustomer
       objectReference: {fileID: 0}
-    - target: {fileID: 414787141567392194, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1047735735755895672, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.608372
@@ -6806,23 +6801,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3034940348897407952, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3034940348897407952, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242422748648026300, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242422748648026300, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242422748648026300, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
