@@ -210,6 +210,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2079796262884608677, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4747858832049551921, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
@@ -2272,7 +2276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1891891953968488360, guid: 3f45dd719a12b274fbf30e76f139ba93, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1936493240578375519, guid: 3f45dd719a12b274fbf30e76f139ba93, type: 3}
       propertyPath: m_Camera

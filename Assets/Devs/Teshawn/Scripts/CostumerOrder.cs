@@ -64,7 +64,7 @@ public class CustomerOrder : MonoBehaviour
             orderText.Add(manager.orderGiven.nameOfDrink);
         }
         manager.activeOrders.Add(this);
-        
+
         patienceSlider.maxValue = patiance;
 
         isWaiting = true;
@@ -94,13 +94,13 @@ public class CustomerOrder : MonoBehaviour
 
     public void CompareOrder()
     {
-        if (costumerOrders.Contains(cup.drinkToserve))  
+        if (costumerOrders.Contains(cup.drinkToserve))
         {
             costumerOrders.Remove(cup.drinkToserve);
             orderText.Remove(cup.drinkToserve.nameOfDrink);
         }
 
-        if(costumerOrders.Count <= 0)
+        if (costumerOrders.Count <= 0)
         {
             NoMoreOrders();
         }
@@ -161,6 +161,18 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
+            if(cup.drinkToserve != null)
+            {
+                for (int i = 0; i < costumerOrders.Count; i++)
+                {
+                    if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
+                    {
+                        costumerOrders.RemoveAt(i);
+                        orderText.RemoveAt(i);
+                        collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
+                    }
+                }
+            }
             CompareOrder();
         }
     }
