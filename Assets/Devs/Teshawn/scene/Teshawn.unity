@@ -6759,10 +6759,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AstronautCustomer
       objectReference: {fileID: 0}
-    - target: {fileID: 414787141567392194, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1047735735755895672, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.608372
@@ -6826,39 +6822,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 414787141567392194, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2009044213}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
---- !u!1 &2009044207 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 414787141567392194, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
-  m_PrefabInstance: {fileID: 2001490632}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &2009044213
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009044207}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.21
-  m_Height: 1.96
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.460199, z: 0}
 --- !u!1 &2025832531
 GameObject:
   m_ObjectHideFlags: 0
