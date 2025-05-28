@@ -7,6 +7,7 @@ public class Trashcan : MonoBehaviour
         if (collision.gameObject.CompareTag("Cup"))
         {
             collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Clear();
+            collision.gameObject.GetComponent<MixingCup>().currentAmount = 0;
         }
     }
 }

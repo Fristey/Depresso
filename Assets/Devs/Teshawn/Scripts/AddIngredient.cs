@@ -19,13 +19,13 @@ public class AddIngredient : MonoBehaviour
                 if (collision.gameObject.GetComponent<MixingCup>().drinkToserve != null)
                 {
                     collision.gameObject.GetComponent<MixingCup>().currentAmount++;
-                    Destroy(this.gameObject);
+                   // Destroy(this.gameObject);
                 }
-                else
+                else if(!collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Contains(ingredientes))
                 {
                     collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Add(ingredientes);
                     collision.gameObject.GetComponent<MixingCup>().ingredientesNames.Add(nameOfIngredient);
-                    Destroy(this.gameObject);
+                    //Destroy(this.gameObject);
                 }
 
             }
