@@ -1,3 +1,4 @@
+using Copying;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,8 +30,8 @@ public class MixingCup : MonoBehaviour
 
         if (drinkToserve != null)
         {
-            drinkToServeFilter.mesh = drinkToserve.drinkFilter;
-            drinkToServeColor.material = drinkToserve.colorOfDrink;
+            if (Input.GetKeyUp(KeyCode.Q))
+                Copy.CopyingComponents(drinkToserve.drink, this.gameObject);
         }
     }
     public bool CreateDrink()

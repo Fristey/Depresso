@@ -7,6 +7,5 @@ public class Recipes : ScriptableObject
     public List<Ingredientes> requiredIngredientes = new List<Ingredientes>();
 
     public string nameOfDrink;
-    public Material colorOfDrink;
-    public Mesh drinkFilter;
+    public GameObject drink;
 }
