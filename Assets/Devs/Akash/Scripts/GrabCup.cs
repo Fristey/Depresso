@@ -16,6 +16,8 @@ public class GrabCup : MonoBehaviour
 
     [SerializeField] private ParticleSystem particleSystem;
 
+    [SerializeField] private LayerMask pickupLayer;
+
     private Vector2 tilt;
 
 
@@ -116,9 +118,9 @@ public class GrabCup : MonoBehaviour
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, grabRange))
+        if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            if (hit.collider.CompareTag("Cup") || hit.collider.CompareTag("Wrench"))
+            if (hit.collider.gameObject.CompareTag("Untagged"))
             {
 
                 rb = hit.rigidbody;
@@ -142,7 +144,14 @@ public class GrabCup : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Furniture"))
             {
-                hit.collider.gameObject.GetComponent<Upgrade>().upgradeMenu.SetActive(true);
+                if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
+                {
+                    hit.collider.gameObject.GetComponent<UpgradeFurniture>().upgradeMenu.SetActive(true);
+                }
+                else if (hit.collider.gameObject.GetComponents<UnlockRecipe>() != null)
+                {
+                    hit.collider.gameObject.GetComponent<UnlockRecipe>().unlockRecipeMenu.SetActive(true);
+                }
             }
 
         }

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 public class CustomerMovement : MonoBehaviour
 {
@@ -13,13 +14,15 @@ public class CustomerMovement : MonoBehaviour
     public OrderManager orderManager;
     public CustomerOrder order;
 
-    [SerializeField] private float walkSpeed = 1f;
+    [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private GameObject Counter;
+    [SerializeField] Animator animator;
     private List<GameObject> waitPoints;
     private List<GameObject> counterStools;
     private GameObject exitPoint;
     private GameObject spawnPoint;
     private GameObject currentSpot;
+    private float elapsedTime;
 
     public static List<GameObject> usedStools = new List<GameObject>();
     public static List<GameObject> usedWaitSpots = new List<GameObject>();
@@ -37,18 +40,28 @@ public class CustomerMovement : MonoBehaviour
 
     private void Start()
     {
+        elapsedTime = order.patiance;
         counterStools = CustomerManager.Instance.counterStools;
         waitPoints = CustomerManager.Instance.waitPoints;
         exitPoint = CustomerManager.Instance.exitPoint;
         spawnPoint = CustomerManager.Instance.spawnPoint;
 
+        if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
         navMeshAgent.speed = walkSpeed;
         currentState = CustomerState.Walking;
         TryFindingFreeSpot();
+
+
+
     }
 
     private void Update()
     {
+        Debug.Log(navMeshAgent.velocity.magnitude);
         if (currentSpot != null && !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && currentState != CustomerState.Sitting && currentState != CustomerState.Leaving)
         {
             if (counterStools.Contains(currentSpot))
@@ -59,10 +72,40 @@ public class CustomerMovement : MonoBehaviour
                 {
                     startLeaving = true;
                     currentState = CustomerState.Sitting;
+/*                    animator.SetTrigger("SittingDown");*/
                     //StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
         }
+
+        if (currentState == CustomerState.Sitting)
+        {
+            animator.SetTrigger("sitDown");
+            animator.SetBool("Sitting", true);
+
+        }
+
+        if(currentState == CustomerState.Waiting && navMeshAgent.velocity.magnitude == 0)
+        {
+            animator.SetBool("Waiting", true);
+        }
+        else
+        {
+            animator.SetBool("Waiting", false);
+        }
+
+
+        elapsedTime -= Time.deltaTime;
+
+
+        if (elapsedTime < 5)
+        {
+            animator.SetBool("Sitting", false);
+            animator.SetTrigger("standUp");
+        }
+
+        float animSpeed = navMeshAgent.velocity.magnitude;
+        animator.SetFloat("walkSpeed", animSpeed);
     }
 
     private void TryFindingFreeSpot()
@@ -74,6 +117,7 @@ public class CustomerMovement : MonoBehaviour
                 currentSpot = stool;
                 usedStools.Add(stool);
                 navMeshAgent.SetDestination(currentSpot.transform.position);
+                animator.SetBool("isWalking", true);
                 currentState = CustomerState.Walking;
                 return;
             }
@@ -91,7 +135,6 @@ public class CustomerMovement : MonoBehaviour
                 return;
             }
         }
-
         navMeshAgent.isStopped = true;
     }
 
@@ -139,7 +182,9 @@ public class CustomerMovement : MonoBehaviour
                 nextCustomer.currentSpot = stool;
                 usedStools.Add(stool);
                 nextCustomer.navMeshAgent.isStopped = false;
+                animator.SetBool("Waiting", false);
                 nextCustomer.navMeshAgent.SetDestination(stool.transform.position);
+                animator.SetBool("isWalking", true);
                 nextCustomer.currentState = CustomerState.Walking;
 
                 break;
@@ -149,10 +194,18 @@ public class CustomerMovement : MonoBehaviour
 
     public void Leave()
     {
+        animator.SetBool("isWalking", true);
+        animator.SetBool("Leaving", true);
         currentState = CustomerState.Leaving;
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(exitPoint.transform.position);
         Destroy(gameObject, 5f);
+        if(currentSpot != null && counterStools.Contains(currentSpot))
+        {
+            usedStools.Remove(currentSpot);
+            FreeStoolCheck();
+        }
+
         CustomerSpawner.Instance.currentCustomerCount -= 1;
     }
 

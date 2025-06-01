@@ -8,6 +8,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     [SerializeField] private bool isfixing;
 
     public enum FixedOrBroken { Fixed, Broken }
+    public GameObject VFX;
     [SerializeField] private MixingCup cup;
     [SerializeField] private Rigidbody handleRb;
     [SerializeField] private HandleScript handle;
@@ -51,6 +52,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     {
         if (fixedOrBroken == FixedOrBroken.Broken)
         {
+            VFX.SetActive(true);
             if (isfixing)
             {
                 fixingTime += Time.deltaTime;
@@ -70,6 +72,10 @@ public class espressoAndCoffeeMachine : MonoBehaviour
                 fixedOrBroken = FixedOrBroken.Fixed;
                 fixingTime = 0;
             }
+        }
+        else
+        {
+            VFX.SetActive(false);
         }
     }
 
@@ -97,11 +103,5 @@ public class espressoAndCoffeeMachine : MonoBehaviour
         {
             handle.objectToDispence = coffee.ingredientToSpawn;
         }
-    }
-
-
-    public void FixingMachine()
-    {
-
     }
 }

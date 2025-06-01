@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,23 +18,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.6087612
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7933536
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -255
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -51,14 +51,14 @@ PrefabInstance:
     - target: {fileID: -7922568445391075577, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a9a87251d8dbb054bba1e93bcde86edf, type: 2}
+      objectReference: {fileID: 2100000, guid: 94f4a526518fd69479230b10de02b15e, type: 2}
     - target: {fileID: -2050683002306716479, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 8724f3dbcc1636b4da4101cb03ea23c4, type: 2}
     - target: {fileID: 919132149155446097, guid: a62df6bcc3ca88947852498556ab4816, type: 3}
       propertyPath: m_Name
-      value: CandyCaneJar
+      value: P_CandyCaneJar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

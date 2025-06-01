@@ -5,7 +5,6 @@ public class OrderManager : MonoBehaviour
     public List<Recipes> possibleDrinks = new List<Recipes>();
     public List<CustomerOrder> activeOrders = new List<CustomerOrder>();
     public Recipes orderGiven;
-    public MixingCup mixingCup;
 
     public float currencyFromCostumer;
     public void GeneratingOrder()

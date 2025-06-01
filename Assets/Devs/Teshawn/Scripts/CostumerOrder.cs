@@ -8,8 +8,7 @@ public class CustomerOrder : MonoBehaviour
 {
     public SatisfactionType type;
 
-
-    [SerializeField] private TurnInstation turnInStaton;
+    [SerializeField] private MixingCup cup;
     private CustomerMovement customer;
     private OrderManager manager;
     private CurrencyManager currencyManager;
@@ -21,25 +20,26 @@ public class CustomerOrder : MonoBehaviour
     public int currencyGiven = 20;
     public int maxCurrencyGiven;
     private int randomSatisfactionMode = Enum.GetValues(typeof(SatisfactionType)).Length;
-    private int enumSize = Enum.GetValues(typeof(Size)).Length;
 
     public bool pointDecreaceStop;
     public bool isWaiting;
 
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
-    public float extraPatience = 5;
+    public float extraPatience;
     [SerializeField] private float speedBonusTimer;
 
     public Slider patienceSlider;
 
-    private void Start()
+    private void Awake()
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
         currencyManager = FindFirstObjectByType<CurrencyManager>();
-        turnInStaton = FindFirstObjectByType<TurnInstation>();
         costumerOrders = new List<Recipes>();
+    }
+    private void Start()
+    {
         int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
 
@@ -56,7 +56,7 @@ public class CustomerOrder : MonoBehaviour
             patiance += extraPatience;
         }
 
-        //set random range later
+        amountOfOrders = UnityEngine.Random.Range(1, 3);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
@@ -64,15 +64,10 @@ public class CustomerOrder : MonoBehaviour
             orderText.Add(manager.orderGiven.nameOfDrink);
         }
         manager.activeOrders.Add(this);
-        for (int i = 0; i < costumerOrders.Count; i++)
-        {
-            int randomSize = UnityEngine.Random.Range(0, enumSize);
-            costumerOrders[i].drinkSize = (Size)Enum.Parse(typeof(Size), randomSize.ToString());
-        }
 
-
-        StartCoroutine(customer.LeaveAfterTime(patiance));
         patienceSlider.maxValue = patiance;
+
+        isWaiting = true;
     }
 
     private void Update()
@@ -82,7 +77,7 @@ public class CustomerOrder : MonoBehaviour
             GenerateExtraSpeedPoints(extraCurrency);
         }
 
-        if (isWaiting)
+        if (customer.currentState == CustomerMovement.CustomerState.Waiting || customer.currentState == CustomerMovement.CustomerState.Sitting)
         {
             patiance -= Time.deltaTime;
             patienceSlider.value = patiance;
@@ -90,16 +85,30 @@ public class CustomerOrder : MonoBehaviour
             {
                 patienceSlider.value = 0;
                 patiance = 0;
+                isWaiting = false;
             }
         }
 
         FailedTime();
     }
 
+    public void CompareOrder()
+    {
+        if (costumerOrders.Contains(cup.drinkToserve))
+        {
+            costumerOrders.Remove(cup.drinkToserve);
+            orderText.Remove(cup.drinkToserve.nameOfDrink);
+        }
+
+        if (costumerOrders.Count <= 0)
+        {
+            NoMoreOrders();
+        }
+    }
+
     public void NoMoreOrders()
     {
 
-        isWaiting = false;
         if (type == SatisfactionType.speed)
         {
             currencyManager.AddCurrency(maxCurrencyGiven);
@@ -113,7 +122,7 @@ public class CustomerOrder : MonoBehaviour
 
     public void FailedTime()
     {
-        if (patiance <= 0)
+        if (!isWaiting)
         {
             manager.FailOrder(this, customer);
         }
@@ -138,21 +147,33 @@ public class CustomerOrder : MonoBehaviour
 
     private void GenerateExtraCupFillCurrency(int cupFillCurrency)
     {
-        cupFillCurrency = Mathf.FloorToInt(turnInStaton.cups.currentAmount * 2);
-        for (int i = 0; i < turnInStaton.cups.currentAmount; i++)
+        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount * 2);
+        for (int i = 0; i < cup.currentAmount; i++)
         {
             currencyGiven += cupFillCurrency + i;
-            turnInStaton.cups.currentAmount = 0;
+            cup.currentAmount = 0;
         }
         currencyManager.AddCurrency(currencyGiven);
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Cup"))
-    //    {
-    //        turnInStaton = collision.gameObject.GetComponent<MixingCup>();
-    //        NoMoreOrders();
-    //    }
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<MixingCup>() != null)
+        {
+            cup = collision.gameObject.GetComponent<MixingCup>();
+            if(cup.drinkToserve != null)
+            {
+                for (int i = 0; i < costumerOrders.Count; i++)
+                {
+                    if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
+                    {
+                        costumerOrders.RemoveAt(i);
+                        orderText.RemoveAt(i);
+                        collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
+                    }
+                }
+            }
+            CompareOrder();
+        }
+    }
 }

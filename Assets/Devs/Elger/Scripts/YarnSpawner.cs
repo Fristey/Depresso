@@ -10,7 +10,7 @@ enum YarnSpawnStates
 }
 public class YarnSpawner : MonoBehaviour
 {
-    [SerializeField] private YarnSpawnStates state = YarnSpawnStates.In;
+    YarnSpawnStates state = YarnSpawnStates.In;
 
     [SerializeField] private GameObject yarn;
     [SerializeField] private GameObject spawn;
@@ -34,15 +34,24 @@ public class YarnSpawner : MonoBehaviour
     {
         if (trigger)
         {
-            GrabYarn();
             trigger = false;
+            GrabYarn();
+        }
+
+        switch (state)
+        {
+            case YarnSpawnStates.Waiting:
+                break;
+            case YarnSpawnStates.In:
+                break;
+            case YarnSpawnStates.Out:
+                break;
         }
     }
 
     private void ReturnYarn()
     {
-        yarn.transform.position = spawn.transform.position;
-        yarnScript.Release();
+
     }
 
     private void SpawnYarn()
@@ -56,7 +65,6 @@ public class YarnSpawner : MonoBehaviour
     {
         if (state == YarnSpawnStates.In)
         {
-            yarnScript.Release();
             state = YarnSpawnStates.Out;
         }
         else if (state == YarnSpawnStates.Out)
