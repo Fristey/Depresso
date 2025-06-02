@@ -32,11 +32,7 @@ namespace Copying
             to.transform.rotation = oldRot;
 
             Vector3 parentScale = to.transform.parent ? to.transform.parent.lossyScale : Vector3.one;
-            to.transform.localScale = new Vector3(
-                oldScale.x / parentScale.x,
-                oldScale.y / parentScale.y,
-                oldScale.z / parentScale.z
-            );
+            to.transform.localScale = new Vector3(oldScale.x / parentScale.x, oldScale.y / parentScale.y, oldScale.z / parentScale.z);
 
             to.transform.SetSiblingIndex(from.transform.GetSiblingIndex());
             to.name = from.name;
@@ -116,20 +112,17 @@ namespace Copying
             {
                 if (sourceComp == null || sourceComp is Transform) continue;
 
-                if (isRoot && (sourceComp is Collider))
-                    continue;
+                if (isRoot && (sourceComp is Collider)) continue;
 
-                if (sourceComp is Rigidbody)
-                    continue;
+                if (sourceComp is Rigidbody) continue;
 
                 if (sourceComp is MonoBehaviour script)
                 {
-                    if (PrefabUtility.IsPartOfPrefabAsset(script) || PrefabUtility.IsPartOfPrefabInstance(script))
-                        continue;
+                    if (PrefabUtility.IsPartOfPrefabAsset(script) || PrefabUtility.IsPartOfPrefabInstance(script)) continue;
                 }
 
                 var type = sourceComp.GetType();
-                var destComp = to.GetComponent(type);
+                Component destComp = to.GetComponent(type);
                 if (!destComp)
                     destComp = to.AddComponent(type);
 

@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0010fdcb62712b4b8af150b7ec6bfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientes: {fileID: 11400000, guid: b70aec18317e07c46a14652e683dae1f, type: 2}
+  ingredientes: {fileID: 11400000, guid: 34f18c99010516f4884dd286c5974e53, type: 2}
   nameOfIngredient: BlackHole
 --- !u!54 &681089827
 Rigidbody:
@@ -2958,7 +2958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_Name
-      value: BlackHole
+      value: Catnib
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_IsActive
@@ -3630,7 +3630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_TagString
@@ -5939,7 +5939,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleDrinks:
   - {fileID: 11400000, guid: 652b3c8a07f1e6b45837378185afb4be, type: 2}
-  - {fileID: 11400000, guid: 6a1715555f400d84eb812aedab6d5275, type: 2}
   activeOrders: []
   orderGiven: {fileID: 0}
   currencyFromCostumer: 0
