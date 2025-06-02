@@ -5939,6 +5939,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleDrinks:
   - {fileID: 11400000, guid: 652b3c8a07f1e6b45837378185afb4be, type: 2}
+  - {fileID: 11400000, guid: c1c25d07d305d004b8cc0aa5a17ed420, type: 2}
+  - {fileID: 11400000, guid: 6a1715555f400d84eb812aedab6d5275, type: 2}
+  - {fileID: 11400000, guid: d39e31b1821303543b2a59cad50584f1, type: 2}
   activeOrders: []
   orderGiven: {fileID: 0}
   currencyFromCostumer: 0
@@ -6534,7 +6537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cupIngredientes: []
   ingredientesNames: []
-  drinkToserve: {fileID: 0}
+  drinkToserve: {fileID: 11400000, guid: c1c25d07d305d004b8cc0aa5a17ed420, type: 2}
   maxAmount: 100
   currentAmount: 50
 --- !u!135 &2070882876
