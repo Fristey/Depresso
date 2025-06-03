@@ -100,28 +100,14 @@ namespace Copying
         /// <param name="isRoot">checks if it is the scene object</param>
         private static void CopySingleObjectComponents(GameObject from, GameObject to, bool isRoot)
         {
-            if (from.GetComponent<MeshFilter>() == null && to.GetComponent<MeshFilter>() != null)
-                Object.DestroyImmediate(to.GetComponent<MeshFilter>());
-
-            if (from.GetComponent<MeshRenderer>() == null && to.GetComponent<MeshRenderer>() != null)
-                Object.DestroyImmediate(to.GetComponent<MeshRenderer>());
-
             Component[] sourceComponents = from.GetComponents<Component>();
 
             foreach (var sourceComp in sourceComponents)
             {
                 if (sourceComp == null || sourceComp is Transform) continue;
 
-                if (isRoot && (sourceComp is Collider)) continue;
-
-                if (sourceComp is Rigidbody) continue;
-
-                if (sourceComp is MonoBehaviour script)
-                {
-                    if (PrefabUtility.IsPartOfPrefabAsset(script) || PrefabUtility.IsPartOfPrefabInstance(script)) continue;
-                }
-
                 var type = sourceComp.GetType();
+
                 Component destComp = to.GetComponent(type);
                 if (!destComp)
                     destComp = to.AddComponent(type);
@@ -130,6 +116,32 @@ namespace Copying
                 {
                     ComponentUtility.CopyComponent(sourceComp);
                     ComponentUtility.PasteComponentValues(destComp);
+
+                    if (sourceComp is MeshFilter srcMF && destComp is MeshFilter dstMF)
+                        dstMF.sharedMesh = srcMF.sharedMesh;
+                }
+            }
+
+            var destComponents = to.GetComponents<Component>();
+            foreach (var destComp in destComponents)
+            {
+                if (destComp == null || destComp is Transform) continue;
+
+                var destType = destComp.GetType();
+
+                bool typeFoundInSource = false;
+                foreach (var sourceComp in sourceComponents)
+                {
+                    if (sourceComp != null && sourceComp.GetType() == destType)
+                    {
+                        typeFoundInSource = true;
+                        break;
+                    }
+                }
+
+                if (!typeFoundInSource && !(destComp is Rigidbody) && !(destComp is Collider) && !(destComp is MonoBehaviour))
+                {
+                    Object.Destroy(destComp);
                 }
             }
         }
