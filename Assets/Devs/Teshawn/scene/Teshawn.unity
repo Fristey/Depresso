@@ -1525,7 +1525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7974807372564479050, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7974807372564479050, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1533,7 +1533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9102458899032391462, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9102458899032391462, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1541,7 +1541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9102458899032391462, guid: 8c0f6824fa7842747bdbd3d67fe26303, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0010fdcb62712b4b8af150b7ec6bfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientes: {fileID: 11400000, guid: 34f18c99010516f4884dd286c5974e53, type: 2}
+  ingredientes: {fileID: 11400000, guid: b70aec18317e07c46a14652e683dae1f, type: 2}
   nameOfIngredient: BlackHole
 --- !u!54 &681089827
 Rigidbody:
@@ -2958,7 +2958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_Name
-      value: Catnib
+      value: BlackHole
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_IsActive
@@ -3630,7 +3630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7662804765620885147, guid: 856357f9fea69764ca8ed89c4f972ff3, type: 3}
       propertyPath: m_TagString
@@ -5938,10 +5938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleDrinks:
-  - {fileID: 11400000, guid: 652b3c8a07f1e6b45837378185afb4be, type: 2}
-  - {fileID: 11400000, guid: c1c25d07d305d004b8cc0aa5a17ed420, type: 2}
   - {fileID: 11400000, guid: 6a1715555f400d84eb812aedab6d5275, type: 2}
-  - {fileID: 11400000, guid: d39e31b1821303543b2a59cad50584f1, type: 2}
   activeOrders: []
   orderGiven: {fileID: 0}
   currencyFromCostumer: 0
@@ -6110,7 +6107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 414787141567392194, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1047735735755895672, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6154,23 +6151,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3034940348897407952, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3034940348897407952, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242422748648026300, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242422748648026300, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242422748648026300, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138586556543050803, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: patiance
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6537,7 +6538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cupIngredientes: []
   ingredientesNames: []
-  drinkToserve: {fileID: 11400000, guid: c1c25d07d305d004b8cc0aa5a17ed420, type: 2}
+  drinkToserve: {fileID: 0}
   maxAmount: 100
   currentAmount: 50
 --- !u!135 &2070882876

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Copying;
 public enum SatisfactionType { scene, speed, none }
 
 public class CustomerOrder : MonoBehaviour
@@ -170,6 +171,7 @@ public class CustomerOrder : MonoBehaviour
                         costumerOrders.RemoveAt(i);
                         orderText.RemoveAt(i);
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
+                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
                     }
                 }
             }
