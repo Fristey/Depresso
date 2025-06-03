@@ -17,7 +17,7 @@ namespace Copying
 
             for (int i = to.transform.childCount - 1; i >= 0; i--)
             {
-                Object.DestroyImmediate(to.transform.GetChild(i).gameObject);
+                Object.Destroy(to.transform.GetChild(i).gameObject);
             }
 
             CopyComponentsRecursive(from.transform, to.transform, true);
@@ -39,7 +39,7 @@ namespace Copying
 
             Collider colTo = to.GetComponent<Collider>();
             if (colTo != null)
-                Object.DestroyImmediate(colTo);
+                Object.Destroy(colTo);
 
             Collider colFrom = from.GetComponent<Collider>();
             if (colFrom != null)
