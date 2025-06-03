@@ -7,9 +7,7 @@ public class MixingCup : MonoBehaviour
 {
     public List<Ingredientes> cupIngredientes;
     public List<string> ingredientesNames;
-    private MeshRenderer drinkToServeColor;
-    private MeshFilter drinkToServeFilter;
-
+    public GameObject normalCup;
     public Recipes drinkToserve;
 
     OrderManager orderManager;
@@ -20,8 +18,6 @@ public class MixingCup : MonoBehaviour
     private void Start()
     {
         orderManager = FindAnyObjectByType<OrderManager>();
-        drinkToServeColor = GetComponent<MeshRenderer>();
-        drinkToServeFilter = GetComponent<MeshFilter>();
     }
 
     private void Update()
