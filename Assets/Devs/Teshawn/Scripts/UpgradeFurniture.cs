@@ -8,11 +8,9 @@ public class UpgradeFurniture : MonoBehaviour
     public GameObject upgradeMenu;
     public GameObject confermMenu;
 
-    public Material redUpgrade;
-    public Material blueUpgrade;
-    public Material greenUpgrade;
+    [SerializeField] private GameObject normalObject, fancyObject;
 
-    public Material upgradeMaterial;
+    public GameObject upgradeObject;
     void Start()
     {
         currencyManager = FindFirstObjectByType<CurrencyManager>();
@@ -20,14 +18,15 @@ public class UpgradeFurniture : MonoBehaviour
 
     public void Upgrade()
     {
-        if (upgradeMaterial != null)
+        if (upgradeObject != null)
         {
             if (currencyManager.playerCurrency > price)
             {
                 currencyManager.playerCurrency -= price;
-                if (upgradeMaterial != null)
+                if (upgradeObject != null)
                 {
-                    this.gameObject.GetComponent<Renderer>().material = upgradeMaterial;
+                    upgradeObject.SetActive(true);
+                    normalObject.SetActive(false);
                     confermMenu.SetActive(false);
                 }
             }
@@ -46,18 +45,8 @@ public class UpgradeFurniture : MonoBehaviour
         confermMenu.SetActive(true);
     }
 
-    public void Red()
+    public void FancyChairUpgrade()
     {
-        upgradeMaterial = redUpgrade;
-    }
-
-    public void Green()
-    {
-        upgradeMaterial = greenUpgrade;
-    }
-
-    public void Blue()
-    {
-        upgradeMaterial = blueUpgrade;
+        upgradeObject = fancyObject;
     }
 }
