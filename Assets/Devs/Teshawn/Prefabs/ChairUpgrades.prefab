@@ -553,7 +553,7 @@ GameObject:
   - component: {fileID: 5066430854948580902}
   - component: {fileID: 5593012206505260702}
   - component: {fileID: 4286913420721511580}
-  - component: {fileID: 3973066459003102488}
+  - component: {fileID: 1443791452482295904}
   m_Layer: 3
   m_Name: UpgradeMenu
   m_TagString: Untagged
@@ -568,7 +568,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556659302965049013}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.29289, y: 0.29289, z: 0.29289}
   m_ConstrainProportionsScale: 0
@@ -579,7 +579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.47}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5066430854948580902
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &3973066459003102488
+--- !u!114 &1443791452482295904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -654,9 +654,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1556659302965049013}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fcc280e4211304a8a6a1fe500b8ff9, type: 3}
+  m_Script: {fileID: 11500000, guid: a172e12c499452444ae827bfccdb7fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &1650287837391770505
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +670,7 @@ GameObject:
   - component: {fileID: 5925821601440645260}
   - component: {fileID: 2681642758206826860}
   - component: {fileID: 5087684871194250896}
-  - component: {fileID: 6475188868321218153}
+  - component: {fileID: 2136776742798396014}
   m_Layer: 3
   m_Name: ConfermScreen
   m_TagString: Untagged
@@ -695,7 +696,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.47}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5925821601440645260
@@ -761,7 +762,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &6475188868321218153
+--- !u!114 &2136776742798396014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -770,9 +771,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1650287837391770505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fcc280e4211304a8a6a1fe500b8ff9, type: 3}
+  m_Script: {fileID: 11500000, guid: a172e12c499452444ae827bfccdb7fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &2858872693696016077
 GameObject:
   m_ObjectHideFlags: 0

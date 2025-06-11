@@ -3,31 +3,59 @@ using UnityEngine;
 public class UpgradeFurniture : MonoBehaviour
 {
     private CurrencyManager currencyManager;
+    private TabletcamObjectSelector tabletcamObjectSelector;
+    private Inventory inventory;
+
     [SerializeField] private int price;
 
-    public GameObject upgradeMenu;
-    public GameObject confermMenu;
+    public GameObject PurchaseConfermMenu;
+    public GameObject placeConfermMenu;
+    public GameObject selectMenu;
+    public GameObject placeMenu;
+    public GameObject purchaseMenu;
 
-    [SerializeField] private GameObject normalObject, fancyObject;
+    [SerializeField] private GameObject normalObject, fancyObject, CyberObject;
 
+    [SerializeField] private GameObject currentObject;
+    [SerializeField] private GameObject previousObject;
     public GameObject upgradeObject;
     void Start()
     {
         currencyManager = FindFirstObjectByType<CurrencyManager>();
+        tabletcamObjectSelector = FindAnyObjectByType<TabletcamObjectSelector>();
+        inventory = FindFirstObjectByType<Inventory>();
+        tabletcamObjectSelector.upgradeFurnitureList.Add(this);
+    }
+
+    public void Purchase()
+    {
+        if (currencyManager.playerCurrency > price)
+        {
+            currencyManager.playerCurrency -= price;
+            inventory.furniture.Add(upgradeObject);
+        }
     }
 
     public void Upgrade()
     {
         if (upgradeObject != null)
         {
-            if (currencyManager.playerCurrency > price)
+            if (inventory.furniture.Contains(upgradeObject))
             {
-                currencyManager.playerCurrency -= price;
-                if (upgradeObject != null)
+                currentObject = upgradeObject;
+                if (currentObject != previousObject)
                 {
-                    upgradeObject.SetActive(true);
-                    normalObject.SetActive(false);
-                    confermMenu.SetActive(false);
+                    currentObject.SetActive(true);
+                }
+                if (previousObject != null)
+                {
+                    previousObject.SetActive(false);
+                    currentObject.SetActive(true);
+                    previousObject = currentObject;
+                }
+                else
+                {
+                    previousObject = currentObject;
                 }
             }
         }
@@ -35,18 +63,42 @@ public class UpgradeFurniture : MonoBehaviour
 
     public void Deny()
     {
-        upgradeMenu.SetActive(true);
-        confermMenu.SetActive(false);
     }
 
     public void SelectUpgrade()
     {
-        upgradeMenu.SetActive(false);
-        confermMenu.SetActive(true);
     }
 
-    public void FancyChairUpgrade()
+    public void FancyUpgrade()
     {
+        price = 20;
         upgradeObject = fancyObject;
+    }
+
+    public void CyberUpgrade()
+    {
+        price = 30;
+        upgradeObject = CyberObject;
+
+    }
+
+    public void NormalObject()
+    {
+        price = 10;
+        upgradeObject = normalObject;
+    }
+
+    public void ExitUpgrade()
+    {
+    }
+
+    public void PurchaseFurniture()
+    {
+        purchaseMenu.SetActive(true);
+    }
+
+    public void PlaceFurniture()
+    {
+        placeMenu.SetActive(true);
     }
 }
