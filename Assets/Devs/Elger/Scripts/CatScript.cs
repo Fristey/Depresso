@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,7 +26,7 @@ public class CatScript : MonoBehaviour
     [SerializeField] private CatType type;
     [SerializeField] private CatStates state;
     [SerializeField] private float annoyance;
-     private float annoyancePerSec;
+    private float annoyancePerSec;
 
     [Header("Movement")]
     [SerializeField] private GameObject center;
@@ -39,6 +41,8 @@ public class CatScript : MonoBehaviour
     [SerializeField] private LayerMask cupCheckMask;
     [SerializeField] private float cupLaunchForce;
     [SerializeField] private float cupLauchCD;
+
+    private GameObject yarnBall;
 
     //Componenets
     private NavMeshAgent agent;
@@ -100,7 +104,7 @@ public class CatScript : MonoBehaviour
                     agent.isStopped = true;
                     break;
                 }
-              
+
                 if (Vector3.Distance(transform.position, destination) < 1)
                 {
                     if (walkingToMachine)
@@ -122,6 +126,18 @@ public class CatScript : MonoBehaviour
             case CatStates.Interacting:
                 BreakMachine();
 
+                break;
+            case CatStates.Distracted:
+
+                if (CheckPath(yarnBall.transform.position))
+                {
+                    destination = yarnBall.transform.position;
+                    agent.destination = destination;
+                } else
+                {
+                    Destroy(yarnBall);
+                    StartNewAction();
+                }
                 break;
             default:
                 break;
@@ -184,7 +200,7 @@ public class CatScript : MonoBehaviour
                         {
                             Vector3 v3 = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
 
-                            if(v3 != null)
+                            if (v3 != null)
                             {
                                 destination = v3;
                             }
@@ -192,7 +208,7 @@ public class CatScript : MonoBehaviour
                             {
                                 destination = GenerateTarget();
                             }
- 
+
                         }
                         else
                         {
@@ -239,7 +255,8 @@ public class CatScript : MonoBehaviour
             Vector3 bottemLeft = accesibleArea.position - bounds;
 
             potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
-        } else
+        }
+        else
         {
             potentiolTarget = target;
         }
@@ -247,11 +264,24 @@ public class CatScript : MonoBehaviour
         NavMeshHit hit;
         var catWalkableMask = 1 << NavMesh.GetAreaFromName("CatWalkable");
 
-        bool b = NavMesh.SamplePosition(potentiolTarget, out hit, range,catWalkableMask);
+        bool b = NavMesh.SamplePosition(potentiolTarget, out hit, range, catWalkableMask);
 
         return hit.position;
     }
 
+    private bool CheckPath(Vector3 goal)
+    {
+        NavMeshPath path = new NavMeshPath();
+        agent.CalculatePath(goal, path);
+
+        if(path.status == NavMeshPathStatus.PathComplete)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
     private GameObject FindNearestCup(GameObject[] cups)
     {
         if (cups.Length > 0)
@@ -263,10 +293,7 @@ public class CatScript : MonoBehaviour
                 float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
                 float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
 
-                NavMeshPath path = new NavMeshPath();
-                agent.CalculatePath(cups[i].transform.position, path);
-
-                if (path.status == NavMeshPathStatus.PathComplete)
+                if (CheckPath(cups[i].transform.position))
                 {
                     if (potDist < curDist)
                     {
@@ -280,7 +307,7 @@ public class CatScript : MonoBehaviour
 
             if (path1.status == NavMeshPathStatus.PathComplete)
             {
-                if(targetCup.tag == "CoffeeMachine")
+                if (targetCup.tag == "CoffeeMachine")
                 {
                     curCoffeeMachine = targetCup.GetComponent<espressoAndCoffeeMachine>();
                 }
@@ -306,5 +333,11 @@ public class CatScript : MonoBehaviour
         state = CatStates.Walking;
 
         StartNewAction();
-    } 
+    }
+
+    public void StartDistraction(GameObject distraction)
+    {
+        yarnBall = distraction;
+        state = CatStates.Distracted;
+    }
 }

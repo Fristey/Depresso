@@ -10,20 +10,18 @@ enum YarnSpawnStates
 }
 public class YarnSpawner : MonoBehaviour
 {
-    YarnSpawnStates state = YarnSpawnStates.In;
+    [SerializeField] private YarnSpawnStates state = YarnSpawnStates.In;
 
-    [SerializeField] private GameObject yarn;
+    [SerializeField] private GameObject yarnPrefab;
+    private GameObject curYarn;
+    private Rigidbody curYarnRb;
+
     [SerializeField] private GameObject spawn;
     private YarnBall yarnScript;
     [SerializeField] private float YarnRespawnTime;
 
     [Header("Behaviour")]
     [SerializeField] private bool trigger;
-
-    private void Awake()
-    {
-
-    }
 
     private void Start()
     {
@@ -51,21 +49,31 @@ public class YarnSpawner : MonoBehaviour
 
     private void ReturnYarn()
     {
+        curYarnRb.isKinematic = true;
+        curYarn.transform.position = spawn.transform.position;
+    }
 
+    private void ReleaseYarn()
+    {
+        curYarnRb.isKinematic = false;
     }
 
     private void SpawnYarn()
     {
         state = YarnSpawnStates.In;
-        GameObject go = Instantiate(yarn, spawn.transform.position, Quaternion.identity);
-        yarnScript = go.GetComponent<YarnBall>();
+        curYarn = Instantiate(yarnPrefab, spawn.transform.position, Quaternion.identity);
+        curYarnRb = curYarn.GetComponent<Rigidbody>();
+        yarnScript = curYarn.GetComponent<YarnBall>();
+
+        yarnScript.spawner = this;
     }
 
     public void GrabYarn()
     {
         if (state == YarnSpawnStates.In)
         {
-            state = YarnSpawnStates.Out;
+            ReleaseYarn();
+            state = YarnSpawnStates.Out; 
         }
         else if (state == YarnSpawnStates.Out)
         {
@@ -74,7 +82,12 @@ public class YarnSpawner : MonoBehaviour
         }
     }
 
-    public IEnumerator YarnRespawnTimer()
+    public void StartRespawn()
+    {
+        StartCoroutine(YarnRespawnTimer());
+    }
+
+    private IEnumerator YarnRespawnTimer()
     {
         yield return new WaitForSeconds(YarnRespawnTime);
         SpawnYarn();
