@@ -43,6 +43,7 @@ public class YarnBall : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.CapsLock))
@@ -61,5 +62,10 @@ public class YarnBall : MonoBehaviour
     {
         spawner.StartRespawn();
         Destroy(gameObject);
+    }
+
+    public void StartDistraction()
+    {
+
     }
 }

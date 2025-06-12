@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrabCup : MonoBehaviour
@@ -27,6 +28,9 @@ public class GrabCup : MonoBehaviour
     public LookAround lookAround;
 
     private espressoAndCoffeeMachine machine;
+
+    //Added by Elger
+    private YarnBall curBallScript;
 
     private void Start()
     {
@@ -153,6 +157,20 @@ public class GrabCup : MonoBehaviour
                     hit.collider.gameObject.GetComponent<UnlockRecipe>().unlockRecipeMenu.SetActive(true);
                 }
             }
+            else if (hit.collider.CompareTag("YarnSpawner"))
+            {
+                YarnSpawner curSpawn = hit.collider.gameObject.GetComponent<YarnSpawner>();
+
+                curSpawn.GrabYarn();
+                curBallScript = curSpawn.yarnScript;
+
+                rb = curSpawn.yarnRb;
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
+            }
 
         }
     }
@@ -168,6 +186,8 @@ public class GrabCup : MonoBehaviour
             rb.angularDamping = 1f;
             rb.constraints = RigidbodyConstraints.None;
             rb = null;
+
+            YarnDrop();
         }
         holdDistance = 1.5f;
         isHoldingCup = false;
@@ -202,7 +222,17 @@ public class GrabCup : MonoBehaviour
         rb.transform.parent = null;
         rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse);
         isHoldingCup = false;
+
+        YarnDrop();
     }
 
+    private void YarnDrop()
+    {
+        if(curBallScript == null)
+        {
+            curBallScript.StartDistraction();
 
+            curBallScript = null;
+        }
+    }
 }

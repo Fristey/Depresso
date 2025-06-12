@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: be0db16a04136ad40928d891a87707ec, type: 2}
     - target: {fileID: 919132149155446097, guid: afa4107f5882d094d89f43cfb2cbbaf4, type: 3}
       propertyPath: m_Name
-      value: CandyCaneCoffee
+      value: P_CandyCaneCoffee
       objectReference: {fileID: 0}
     - target: {fileID: 5824727597302091002, guid: afa4107f5882d094d89f43cfb2cbbaf4, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -67,5 +67,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afa4107f5882d094d89f43cfb2cbbaf4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 905904092225380062}
   m_SourcePrefab: {fileID: 100100000, guid: afa4107f5882d094d89f43cfb2cbbaf4, type: 3}
+--- !u!1 &8106746724381768563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: afa4107f5882d094d89f43cfb2cbbaf4, type: 3}
+  m_PrefabInstance: {fileID: 8953607821637387810}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &905904092225380062
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106746724381768563}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.44415283, y: 0.36341575, z: 0.46045113}
+  m_Center: {x: 0.000019490719, y: 0.17543103, z: 0.013218947}
