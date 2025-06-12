@@ -4,6 +4,7 @@ public class YarnBall : MonoBehaviour
 {
     [SerializeField] private bool trigger = false;
 
+
     private void Update()
     {
         if (trigger)
@@ -16,5 +17,10 @@ public class YarnBall : MonoBehaviour
     private void DestroyBall()
     {
         Destroy(gameObject);
+    }
+
+    public void StartDistraction()
+    {
+
     }
 }

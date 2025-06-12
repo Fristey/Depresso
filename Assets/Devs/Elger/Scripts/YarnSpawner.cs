@@ -4,9 +4,9 @@ using UnityEngine;
 
 enum YarnSpawnStates
 {
-    Waiting,
     In,
-    Out
+    Out,
+    Full
 }
 public class YarnSpawner : MonoBehaviour
 {
@@ -14,7 +14,11 @@ public class YarnSpawner : MonoBehaviour
 
     [SerializeField] private GameObject yarn;
     [SerializeField] private GameObject spawn;
-    private YarnBall yarnScript;
+
+    private GameObject curYarn;
+    public YarnBall yarnScript;
+    public Rigidbody yarnRb;
+
     [SerializeField] private float YarnRespawnTime;
 
     [Header("Behaviour")]
@@ -37,32 +41,28 @@ public class YarnSpawner : MonoBehaviour
             trigger = false;
             GrabYarn();
         }
-
-        switch (state)
-        {
-            case YarnSpawnStates.Waiting:
-                break;
-            case YarnSpawnStates.In:
-                break;
-            case YarnSpawnStates.Out:
-                break;
-        }
     }
 
     private void ReturnYarn()
     {
-
+        curYarn.transform.position = spawn.transform.position;
     }
 
     private void SpawnYarn()
     {
         state = YarnSpawnStates.In;
-        GameObject go = Instantiate(yarn, spawn.transform.position, Quaternion.identity);
-        yarnScript = go.GetComponent<YarnBall>();
+        curYarn = Instantiate(yarn, spawn.transform.position, Quaternion.identity);
+        yarnScript = curYarn.GetComponent<YarnBall>();
+        yarnRb = curYarn.GetComponent<Rigidbody>();
+        curYarn.GetComponent<Collider>().enabled = true;
+
+        yarnRb.isKinematic = true;
     }
 
     public void GrabYarn()
     {
+        yarnRb.isKinematic = false;
+
         if (state == YarnSpawnStates.In)
         {
             state = YarnSpawnStates.Out;
@@ -70,7 +70,6 @@ public class YarnSpawner : MonoBehaviour
         else if (state == YarnSpawnStates.Out)
         {
             ReturnYarn();
-            state = YarnSpawnStates.In;
         }
     }
 
