@@ -13,7 +13,6 @@ public class TabletcamObjectSelector : MonoBehaviour
     {
         tabletCam = FindFirstObjectByType<Camera>();
         camSwap = FindFirstObjectByType<CamSwapManager>();
-        upgradeFurnitureList = new List<UpgradeFurniture>();
     }
 
     private void Update()
@@ -25,12 +24,18 @@ public class TabletcamObjectSelector : MonoBehaviour
             Ray ray = tabletCam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
             {
-
                 if (hit.collider.gameObject.CompareTag("Furniture"))
                 {
-                    if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
+                    foreach (UpgradeFurniture furniture in upgradeFurnitureList)
                     {
-                        hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
+                        if (!furniture.isInMenu)
+                        {
+                            if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
+                            {
+                                hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
+                                furniture.isInMenu = true;
+                            }
+                        }
                     }
                 }
             }
@@ -39,9 +44,10 @@ public class TabletcamObjectSelector : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape))
         {
             camSwap.isLookingAtTabblet = false;
-            foreach (var furniture in upgradeFurnitureList) 
+            foreach (var furniture in upgradeFurnitureList)
             {
-                furniture.ExitUpgrade();
+                furniture.isInMenu = false;
+                //furniture.ExitUpgrade();
             }
         }
     }
