@@ -3,61 +3,178 @@ using UnityEngine;
 public class UpgradeFurniture : MonoBehaviour
 {
     private CurrencyManager currencyManager;
+    private TabletcamObjectSelector tabletcamObjectSelector;
+    private Inventory inventory;
+
     [SerializeField] private int price;
 
-    public GameObject upgradeMenu;
-    public GameObject confermMenu;
+    public GameObject selectMenu;
+    [Header("shop")]
+    public GameObject purchaseConfermMenu;
+    public GameObject purchaseMenu;
+    [Header("placement")]
+    public GameObject placeConfermMenu;
+    public GameObject placeMenu;
 
-    public Material redUpgrade;
-    public Material blueUpgrade;
-    public Material greenUpgrade;
+    [SerializeField] private GameObject normalObject, fancyObject, CyberObject, asianObject;
 
-    public Material upgradeMaterial;
+    [SerializeField] private GameObject currentObject;
+    [SerializeField] private GameObject previousObject;
+    [SerializeField] private GameObject PurchaseObject;
+    [SerializeField] private GameObject placedObject;
+
+    public bool isInMenu;
     void Start()
     {
+        isInMenu = false;
+        previousObject = normalObject;
         currencyManager = FindFirstObjectByType<CurrencyManager>();
+        tabletcamObjectSelector = FindAnyObjectByType<TabletcamObjectSelector>();
+        inventory = FindFirstObjectByType<Inventory>();
+        tabletcamObjectSelector.upgradeFurnitureList.Add(this);
     }
 
-    public void Upgrade()
+    public void Purchase()
     {
-        if (upgradeMaterial != null)
+        if (currencyManager.playerCurrency > price)
         {
-            if (currencyManager.playerCurrency > price)
-            {
-                currencyManager.playerCurrency -= price;
-                if (upgradeMaterial != null)
-                {
-                    this.gameObject.GetComponent<Renderer>().material = upgradeMaterial;
-                    confermMenu.SetActive(false);
-                }
-            }
+            currencyManager.playerCurrency -= price;
+            inventory.furniture.Add(PurchaseObject);
+            purchaseConfermMenu.SetActive(false);
+            isInMenu = false;
+        }
+        else
+        {
+            Debug.Log("cant buy");
         }
     }
 
-    public void Deny()
+    public void PlaceObject()
     {
-        upgradeMenu.SetActive(true);
-        confermMenu.SetActive(false);
+        if (placedObject != null)
+        {
+            if (inventory.furniture.Contains(placedObject))
+            {
+                currentObject = placedObject;
+                if (currentObject != previousObject)
+                {
+                    currentObject.SetActive(true);
+                }
+                if (previousObject != null)
+                {
+                    previousObject.SetActive(false);
+                    currentObject.SetActive(true);
+                    previousObject = currentObject;
+                    inventory.furniture.Remove(placedObject);
+                }
+                else
+                {
+                    previousObject = currentObject;
+                }
+            }
+            placeConfermMenu.SetActive(false);
+            isInMenu = false;
+        }
+    }
+    public void SelectPlace()
+    {
+        selectMenu.SetActive(false);
+        placeMenu.SetActive(true);
+    }
+    #region purchase Functions
+    public void FancyPurchase()
+    {
+        price = 20;
+        PurchaseObject = fancyObject;
+        purchaseMenu.SetActive(false);
+        purchaseConfermMenu.SetActive(true);
     }
 
-    public void SelectUpgrade()
+    public void CyberPurchase()
     {
-        upgradeMenu.SetActive(false);
-        confermMenu.SetActive(true);
+        price = 30;
+        PurchaseObject = CyberObject;
+        purchaseMenu.SetActive(false);
+        purchaseConfermMenu.SetActive(true);
     }
 
-    public void Red()
+    public void NormalObjectPurchase()
     {
-        upgradeMaterial = redUpgrade;
+        price = 10;
+        PurchaseObject = normalObject;
+        purchaseMenu.SetActive(false);
+        purchaseConfermMenu.SetActive(true);
     }
 
-    public void Green()
+    public void AsianObjectPurchase()
     {
-        upgradeMaterial = greenUpgrade;
+        price = 50;
+        PurchaseObject = asianObject;
+        purchaseMenu.SetActive(false);
+        purchaseConfermMenu.SetActive(true);
     }
 
-    public void Blue()
+    public void SelectShop()
     {
-        upgradeMaterial = blueUpgrade;
+        selectMenu.SetActive(false);
+        purchaseMenu.SetActive(true);
     }
+
+    public void DenyPurchase()
+    {
+        purchaseConfermMenu.SetActive(false);
+        purchaseMenu.SetActive(true);
+    }
+
+    public void PurchaseFurniture()
+    {
+        purchaseConfermMenu.SetActive(true);
+        purchaseMenu.SetActive(false);
+    }
+
+    public void ExitPurchase()
+    {
+        purchaseMenu.SetActive(false);
+        selectMenu.SetActive(true);
+    }
+    #endregion
+    #region place Functions
+    public void PlaceFancy()
+    {
+        placedObject = fancyObject;
+        placeMenu.SetActive(false);
+        placeConfermMenu.SetActive(true);
+    }
+    public void PlaceCyber()
+    {
+        placedObject = CyberObject;
+        placeMenu.SetActive(false);
+        placeConfermMenu.SetActive(true);
+    }
+
+    public void placeAsionObject()
+    {
+        placedObject = asianObject;
+        placeMenu.SetActive(false);
+        placeConfermMenu.SetActive(true);
+    }
+    public void PlaceNormal()
+    {
+        placedObject = normalObject;
+        placeMenu.SetActive(false);
+        placeConfermMenu.SetActive(true);
+    }
+
+    public void DenyPlace()
+    {
+        placeConfermMenu.SetActive(false);
+        placeMenu.SetActive(true);
+    }
+
+    public void ExitPlace()
+    {
+        placeMenu.SetActive(false);
+        selectMenu.SetActive(true);
+    }
+    #endregion
 }

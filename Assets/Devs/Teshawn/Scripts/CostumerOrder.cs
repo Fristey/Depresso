@@ -168,10 +168,11 @@ public class CustomerOrder : MonoBehaviour
                 {
                     if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
                     {
+                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
+                        Debug.Log(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject.GetComponent<GameObject>());
                         costumerOrders.RemoveAt(i);
                         orderText.RemoveAt(i);
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
-                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
                     }
                 }
             }

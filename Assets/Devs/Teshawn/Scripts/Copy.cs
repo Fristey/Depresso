@@ -27,7 +27,6 @@ namespace Copying
             Vector3 oldScale = to.transform.lossyScale;
 
             to.transform.SetParent(from.transform.parent);
-
             to.transform.position = oldPos;
             to.transform.rotation = oldRot;
 
@@ -37,28 +36,37 @@ namespace Copying
             to.transform.SetSiblingIndex(from.transform.GetSiblingIndex());
             to.name = from.name;
 
-            Collider colTo = to.GetComponent<Collider>();
-            if (colTo != null)
-                Object.Destroy(colTo);
-
             Collider colFrom = from.GetComponent<Collider>();
+            Collider colTo = to.GetComponent<Collider>();
+
             if (colFrom != null)
             {
-                var newCol = to.AddComponent(colFrom.GetType()) as Collider;
-                if (newCol != null)
+                if (colTo == null)
+                {
+                    colTo = to.AddComponent(colFrom.GetType()) as Collider;
+                }
+                else if (colTo.GetType() != colFrom.GetType())
+                {
+                    Object.Destroy(colTo);
+                    colTo = to.AddComponent(colFrom.GetType()) as Collider;
+                }
+
+                if (colTo != null)
                 {
                     ComponentUtility.CopyComponent(colFrom);
-                    ComponentUtility.PasteComponentValues(newCol);
+                    ComponentUtility.PasteComponentValues(colTo);
                 }
             }
 
             if (!AssetDatabase.Contains(from))
+            {
                 Object.DestroyImmediate(from, true);
+            }
         }
 
         /// <summary>
         /// handels the object if it had chid objects and copies those too
-        /// </summary>
+        /// </summary
         /// <param name="from">the prefab</param>
         /// <param name="to">the scene object</param>
         /// <param name="isRoot">scene object</param>
@@ -66,24 +74,19 @@ namespace Copying
         {
             CopySingleObjectComponents(from.gameObject, to.gameObject, isRoot);
 
+            for (int i = to.childCount - 1; i >= 0; i--)
+            {
+                Object.Destroy(to.GetChild(i).gameObject);
+            }
+
             for (int i = 0; i < from.childCount; i++)
             {
                 Transform fromChild = from.GetChild(i);
 
-                Transform toChild;
-                if (i < to.childCount)
-                {
-                    toChild = to.GetChild(i);
-                }
-                else
-                {
-                    GameObject newChild = new GameObject(fromChild.name);
-                    toChild = newChild.transform;
-                    toChild.SetParent(to);
-                }
+                GameObject newChild = new GameObject(fromChild.name);
+                Transform toChild = newChild.transform;
+                toChild.SetParent(to);
 
-                toChild.name = fromChild.name;
-                toChild.SetSiblingIndex(fromChild.GetSiblingIndex());
                 toChild.localPosition = fromChild.localPosition;
                 toChild.localRotation = fromChild.localRotation;
                 toChild.localScale = fromChild.localScale;
@@ -107,7 +110,6 @@ namespace Copying
                 if (sourceComp == null || sourceComp is Transform) continue;
 
                 var type = sourceComp.GetType();
-
                 Component destComp = to.GetComponent(type);
                 if (!destComp)
                     destComp = to.AddComponent(type);
@@ -122,7 +124,7 @@ namespace Copying
                 }
             }
 
-            var destComponents = to.GetComponents<Component>();
+            Component[] destComponents = to.GetComponents<Component>();
             foreach (var destComp in destComponents)
             {
                 if (destComp == null || destComp is Transform) continue;
@@ -140,9 +142,7 @@ namespace Copying
                 }
 
                 if (!typeFoundInSource && !(destComp is Rigidbody) && !(destComp is Collider) && !(destComp is MonoBehaviour))
-                {
                     Object.Destroy(destComp);
-                }
             }
         }
     }

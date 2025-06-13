@@ -146,16 +146,9 @@ public class GrabCup : MonoBehaviour
             {
                 machine.mode = State.Hot;
             }
-            else if (hit.collider.CompareTag("Furniture"))
+            else if (hit.collider.CompareTag("Tablet"))
             {
-                if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
-                {
-                    hit.collider.gameObject.GetComponent<UpgradeFurniture>().upgradeMenu.SetActive(true);
-                }
-                else if (hit.collider.gameObject.GetComponents<UnlockRecipe>() != null)
-                {
-                    hit.collider.gameObject.GetComponent<UnlockRecipe>().unlockRecipeMenu.SetActive(true);
-                }
+                GetComponent<CamSwapManager>().isLookingAtTabblet = true;
             }
             else if (hit.collider.CompareTag("YarnSpawner"))
             {
