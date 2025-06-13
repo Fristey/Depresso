@@ -16,7 +16,7 @@ public class UpgradeFurniture : MonoBehaviour
     public GameObject placeConfermMenu;
     public GameObject placeMenu;
 
-    [SerializeField] private GameObject normalObject, fancyObject, CyberObject;
+    [SerializeField] private GameObject normalObject, fancyObject, CyberObject, asianObject;
 
     [SerializeField] private GameObject currentObject;
     [SerializeField] private GameObject previousObject;
@@ -106,6 +106,14 @@ public class UpgradeFurniture : MonoBehaviour
         purchaseConfermMenu.SetActive(true);
     }
 
+    public void AsianObjectPurchase()
+    {
+        price = 50;
+        PurchaseObject = asianObject;
+        purchaseMenu.SetActive(false);
+        purchaseConfermMenu.SetActive(true);
+    }
+
     public void SelectShop()
     {
         selectMenu.SetActive(false);
@@ -130,7 +138,7 @@ public class UpgradeFurniture : MonoBehaviour
         selectMenu.SetActive(true);
     }
     #endregion
-
+    #region place Functions
     public void PlaceFancy()
     {
         placedObject = fancyObject;
@@ -144,6 +152,12 @@ public class UpgradeFurniture : MonoBehaviour
         placeConfermMenu.SetActive(true);
     }
 
+    public void placeAsionObject()
+    {
+        placedObject = asianObject;
+        placeMenu.SetActive(false);
+        placeConfermMenu.SetActive(true);
+    }
     public void PlaceNormal()
     {
         placedObject = normalObject;
@@ -162,4 +176,5 @@ public class UpgradeFurniture : MonoBehaviour
         placeMenu.SetActive(false);
         selectMenu.SetActive(true);
     }
+    #endregion
 }

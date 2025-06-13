@@ -26,15 +26,12 @@ public class TabletcamObjectSelector : MonoBehaviour
             {
                 if (hit.collider.gameObject.CompareTag("Furniture"))
                 {
-                    foreach (UpgradeFurniture furniture in upgradeFurnitureList)
+                    if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
                     {
-                        if (!furniture.isInMenu)
+                        if (!hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu)
                         {
-                            if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
-                            {
-                                hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
-                                furniture.isInMenu = true;
-                            }
+                            hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
+                            hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu = true;
                         }
                     }
                 }
