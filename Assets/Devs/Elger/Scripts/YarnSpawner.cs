@@ -13,46 +13,30 @@ public class YarnSpawner : MonoBehaviour
     [SerializeField] private YarnSpawnStates state = YarnSpawnStates.In;
 
     [SerializeField] private GameObject yarnPrefab;
-    private GameObject curYarn;
-    private Rigidbody curYarnRb;
 
     [SerializeField] private GameObject spawn;
 
     private GameObject curYarn;
     public YarnBall yarnScript;
     public Rigidbody yarnRb;
+    private Collider yarnCol;
 
     [SerializeField] private float YarnRespawnTime;
-
-    [Header("Behaviour")]
-    [SerializeField] private bool trigger;
 
     private void Start()
     {
         SpawnYarn();
     }
 
-    private void Update()
-    {
-        if (trigger)
-        {
-            trigger = false;
-            GrabYarn();
-        }
-    }
-
-    private void ReturnYarn()
-    {
-        curYarn.transform.position = spawn.transform.position;
-    }
-
     private void SpawnYarn()
     {
         state = YarnSpawnStates.In;
-        curYarn = Instantiate(yarn, spawn.transform.position, Quaternion.identity);
+        curYarn = Instantiate(yarnPrefab, spawn.transform.position, Quaternion.identity);
+
         yarnScript = curYarn.GetComponent<YarnBall>();
         yarnRb = curYarn.GetComponent<Rigidbody>();
         curYarn.GetComponent<Collider>().enabled = true;
+        yarnCol = curYarn.GetComponent<Collider>();
 
         yarnRb.isKinematic = true;
     }
@@ -63,12 +47,12 @@ public class YarnSpawner : MonoBehaviour
 
         if (state == YarnSpawnStates.In)
         {
-            ReleaseYarn();
             state = YarnSpawnStates.Out; 
+            yarnCol.enabled = true;
         }
         else if (state == YarnSpawnStates.Out)
         {
-            ReturnYarn();
+            curYarn.transform.position = spawn.transform.position;
         }
     }
 

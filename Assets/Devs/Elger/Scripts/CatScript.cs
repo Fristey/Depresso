@@ -66,6 +66,7 @@ public class CatScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
         Vector3 pos = other.transform.position;
@@ -78,9 +79,11 @@ public class CatScript : MonoBehaviour
         Vector3 angle = other.transform.rotation.eulerAngles + (dir * cupLaunchForce);
 
         rb.AddTorque(angle);
-
-        StartNewAction();
-        StartCoroutine(CupLaunchCooldown());
+        if (other.tag == "Cup")
+        {
+            StartNewAction();
+            StartCoroutine(CupLaunchCooldown());
+        }
     }
 
     IEnumerator CupLaunchCooldown()
@@ -133,9 +136,10 @@ public class CatScript : MonoBehaviour
                 {
                     destination = yarnBall.transform.position;
                     agent.destination = destination;
-                } else
+                }
+                else
                 {
-                    Destroy(yarnBall);
+                    Debug.Log("Lost yarn");
                     StartNewAction();
                 }
                 break;
@@ -274,10 +278,11 @@ public class CatScript : MonoBehaviour
         NavMeshPath path = new NavMeshPath();
         agent.CalculatePath(goal, path);
 
-        if(path.status == NavMeshPathStatus.PathComplete)
+        if (path.status == NavMeshPathStatus.PathComplete)
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -337,6 +342,8 @@ public class CatScript : MonoBehaviour
 
     public void StartDistraction(GameObject distraction)
     {
+        StopAllCoroutines();
+
         yarnBall = distraction;
         state = CatStates.Distracted;
     }

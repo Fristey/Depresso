@@ -17,15 +17,14 @@ public class YarnBall : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float integrity;
     [SerializeField] private float degredationSpeed;
+    private float baseScale;
+    private float scaleChunk;
 
     private void Awake()
     {
         cat = FindAnyObjectByType<CatScript>();
-    }
-    private void Release()
-    {
-        cat.StartDistraction(gameObject);
-        isReleased = true;
+        baseScale = transform.localScale.x;
+        scaleChunk = baseScale / integrity;
     }
 
     private void FixedUpdate()
@@ -34,7 +33,9 @@ public class YarnBall : MonoBehaviour
         {
             integrity -= rb.linearVelocity.magnitude * degredationSpeed;
 
-            transform.localScale = new Vector3(integrity, integrity, integrity);
+            float newScale = scaleChunk * integrity;
+
+            transform.localScale = new Vector3(newScale, newScale, newScale);
 
             if (transform.localScale.x <= 0)
             {
@@ -43,29 +44,14 @@ public class YarnBall : MonoBehaviour
         }
     }
 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.CapsLock))
-        {
-            Release();
-        }
-
-        if (trigger)
-        {
-            trigger = false;
-            Destroy(gameObject);
-        }
-    }
-
     private void DestroyBall()
     {
-        spawner.StartRespawn();
         Destroy(gameObject);
     }
 
     public void StartDistraction()
     {
-
+        isReleased = true;
+        cat.StartDistraction(gameObject);
     }
 }

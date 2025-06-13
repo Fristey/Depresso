@@ -228,7 +228,7 @@ public class GrabCup : MonoBehaviour
 
     private void YarnDrop()
     {
-        if(curBallScript == null)
+        if(curBallScript != null)
         {
             curBallScript.StartDistraction();
 
