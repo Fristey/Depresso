@@ -1221,9 +1221,9 @@ GameObject:
   - component: {fileID: 974935241}
   - component: {fileID: 974935244}
   - component: {fileID: 974935240}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: YarnSpawner
-  m_TagString: Untagged
+  m_TagString: YarnSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1337,7 +1337,6 @@ MonoBehaviour:
   yarnScript: {fileID: 0}
   yarnRb: {fileID: 0}
   YarnRespawnTime: 10
-  trigger: 0
 --- !u!1 &998548639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,6 +1932,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 498392493954532912, guid: 14d7af4476f388841b923baeb9539949, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3786228399131967202, guid: 14d7af4476f388841b923baeb9539949, type: 3}
       propertyPath: m_Name
       value: Cat
@@ -1989,6 +1992,10 @@ PrefabInstance:
       propertyPath: center
       value: 
       objectReference: {fileID: 896523762}
+    - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
+      propertyPath: spawner
+      value: 
+      objectReference: {fileID: 974935244}
     - target: {fileID: 7564264573154508766, guid: 14d7af4476f388841b923baeb9539949, type: 3}
       propertyPath: accesibleArea
       value: 

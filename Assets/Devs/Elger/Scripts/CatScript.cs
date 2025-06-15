@@ -42,6 +42,9 @@ public class CatScript : MonoBehaviour
     [SerializeField] private float cupLaunchForce;
     [SerializeField] private float cupLauchCD;
 
+    [Header("Yarn")]
+    [SerializeField] private YarnSpawner spawner;
+
     private GameObject yarnBall;
 
     //Componenets
@@ -131,16 +134,18 @@ public class CatScript : MonoBehaviour
 
                 break;
             case CatStates.Distracted:
-
-                if (CheckPath(yarnBall.transform.position))
+                if (yarnBall != null)
                 {
-                    destination = yarnBall.transform.position;
-                    agent.destination = destination;
-                }
-                else
-                {
-                    Debug.Log("Lost yarn");
-                    StartNewAction();
+                    if (CheckPath(yarnBall.transform.position))
+                    {
+                        destination = yarnBall.transform.position;
+                        agent.destination = destination;
+                    }
+                    else
+                    {
+                        EndDistraction();
+                        spawner.ReturnYarn();
+                    }
                 }
                 break;
             default:
@@ -346,5 +351,12 @@ public class CatScript : MonoBehaviour
 
         yarnBall = distraction;
         state = CatStates.Distracted;
+    }
+
+    public void EndDistraction()
+    {
+        StartNewAction();
+
+        yarnBall = null;
     }
 }

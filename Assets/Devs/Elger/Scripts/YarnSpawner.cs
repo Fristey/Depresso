@@ -6,64 +6,77 @@ enum YarnSpawnStates
 {
     In,
     Out,
-    Full
+    Ready
 }
 public class YarnSpawner : MonoBehaviour
 {
+    [Header("Logic")]
     [SerializeField] private YarnSpawnStates state = YarnSpawnStates.In;
 
+    [Header("Perm Refrences")]
     [SerializeField] private GameObject yarnPrefab;
 
     [SerializeField] private GameObject spawn;
 
-    private GameObject curYarn;
+    [SerializeField] private CatScript catScript;
+
+    [Header("Temp Refrences")]
     public YarnBall yarnScript;
     public Rigidbody yarnRb;
+    private GameObject curYarn;
     private Collider yarnCol;
-
-    [SerializeField] private float YarnRespawnTime;
 
     private void Start()
     {
         SpawnYarn();
     }
 
-    private void SpawnYarn()
+    public void SpawnYarn()
     {
         state = YarnSpawnStates.In;
-        curYarn = Instantiate(yarnPrefab, spawn.transform.position, Quaternion.identity);
+        if (curYarn == null)
+        {
+            curYarn = Instantiate(yarnPrefab);
 
-        yarnScript = curYarn.GetComponent<YarnBall>();
-        yarnRb = curYarn.GetComponent<Rigidbody>();
-        curYarn.GetComponent<Collider>().enabled = true;
-        yarnCol = curYarn.GetComponent<Collider>();
-
+            yarnScript = curYarn.GetComponent<YarnBall>();
+            yarnRb = curYarn.GetComponent<Rigidbody>();
+            curYarn.GetComponent<Collider>().enabled = true;
+            yarnCol = curYarn.GetComponent<Collider>();
+            yarnScript.spawner = this;
+        }
+        curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
+
+        yarnScript.StartRestoration();
     }
 
-    public void GrabYarn()
+    public bool GrabYarn()
     {
-        yarnRb.isKinematic = false;
-
-        if (state == YarnSpawnStates.In)
+        switch (state)
         {
-            state = YarnSpawnStates.Out; 
-            yarnCol.enabled = true;
+            case YarnSpawnStates.In:
+                state = YarnSpawnStates.Out;
+                yarnCol.enabled = true;
+                yarnScript.Grabbed();
+                yarnRb.isKinematic = false;
+                return true;
+            case YarnSpawnStates.Out:
+                ReturnYarn();
+                return false;
         }
-        else if (state == YarnSpawnStates.Out)
-        {
-            curYarn.transform.position = spawn.transform.position;
-        }
+        return false;
     }
 
-    public void StartRespawn()
+    public void ReturnYarn()
     {
-        StartCoroutine(YarnRespawnTimer());
-    }
+        curYarn.transform.position = spawn.transform.position;
+        yarnRb.isKinematic = true;
+        yarnCol.enabled = false;
 
-    private IEnumerator YarnRespawnTimer()
-    {
-        yield return new WaitForSeconds(YarnRespawnTime);
-        SpawnYarn();
+        state = YarnSpawnStates.In;
+
+        catScript.EndDistraction();
+
+        yarnScript.StartRestoration();
     }
 }

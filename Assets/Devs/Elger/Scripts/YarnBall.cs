@@ -2,34 +2,46 @@ using UnityEngine;
 using System;
 using System.Collections;
 
+enum yarnBallStates
+{
+    waiting,
+    grabbed,
+    released
+}
+
 public class YarnBall : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Rigidbody rb;
 
-    [SerializeField] private bool trigger = false;
     public YarnSpawner spawner;
 
     [SerializeField] private CatScript cat;
 
-    private bool isReleased = false;
+    [SerializeField] private yarnBallStates state = yarnBallStates.waiting;
 
     [Header("Stats")]
     [SerializeField] private float integrity;
+    [SerializeField] private float maxIntegrity;
+    [SerializeField] private float minIntegrity;
     [SerializeField] private float degredationSpeed;
-    private float baseScale;
+    [SerializeField] private float restorationSpeed;
+    [SerializeField] private float baseScale;
     private float scaleChunk;
 
     private void Awake()
     {
         cat = FindAnyObjectByType<CatScript>();
+
+        integrity = minIntegrity;
+
         baseScale = transform.localScale.x;
-        scaleChunk = baseScale / integrity;
+        scaleChunk = baseScale / maxIntegrity;
     }
 
     private void FixedUpdate()
     {
-        if (isReleased)
+        if (state == yarnBallStates.released)
         {
             integrity -= rb.linearVelocity.magnitude * degredationSpeed;
 
@@ -37,21 +49,39 @@ public class YarnBall : MonoBehaviour
 
             transform.localScale = new Vector3(newScale, newScale, newScale);
 
-            if (transform.localScale.x <= 0)
+            if (integrity < minIntegrity)
             {
-                DestroyBall();
+                spawner.SpawnYarn();
+                cat.EndDistraction();
             }
         }
     }
 
-    private void DestroyBall()
+    private void Update()
     {
-        Destroy(gameObject);
+        if(state == yarnBallStates.waiting && integrity < maxIntegrity)
+        {
+            integrity += restorationSpeed * Time.deltaTime;
+
+            float newScale = scaleChunk * integrity;
+
+            transform.localScale = new Vector3(newScale,newScale,newScale);
+        }
     }
 
     public void StartDistraction()
     {
-        isReleased = true;
+        state = yarnBallStates.released;
         cat.StartDistraction(gameObject);
+    }
+
+    public void Grabbed()
+    {
+        state = yarnBallStates.grabbed;
+    }
+
+    public void StartRestoration()
+    {
+        state = yarnBallStates.waiting;
     }
 }

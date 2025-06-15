@@ -102,11 +102,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8545798652044477345}
-  trigger: 0
   spawner: {fileID: 0}
   cat: {fileID: 0}
-  integrity: 100
+  state: 0
+  integrity: 1
+  maxIntegrity: 100
+  minIntegrity: 20
   degredationSpeed: 0.05
+  restorationSpeed: 3
+  baseScale: 0
 --- !u!135 &1299372731787556152
 SphereCollider:
   m_ObjectHideFlags: 0
