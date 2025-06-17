@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +11,8 @@ enum CatStates
     Sitting,
     Walking,
     Interacting,
-    Distracted
+    Distracted,
+    WalkingToCup
 }
 
 public enum CalledFunction
@@ -29,13 +31,29 @@ public class CatScript : MonoBehaviour
     private float annoyancePerSec;
 
     [Header("Movement")]
-    [SerializeField] private GameObject center;
     [SerializeField] private float range;
     [SerializeField] private LayerMask generationMask;
     [SerializeField] private Vector3 destination;
 
     [SerializeField] private Transform accesibleArea;
     [SerializeField] private MeshRenderer accesibleAreaRen;
+
+    [SerializeField] private float heightChangeCD;
+    private bool canChangeHeight = true;
+    private bool onCounter = false;
+
+    string areaMask = "CatWalkable";
+
+    private Vector3 floorTopRight; 
+    private Vector3 floorBottemLeft;
+
+    private Vector3 counterTopRight;
+    private Vector3 counterBottemLeft;
+
+    private Transform counterAccesibleArea;
+    private MeshRenderer counterAccesibleAreaRen;
+
+    [SerializeField] private GameObject counterLink;
 
     [Header("CupLaunch")]
     [SerializeField] private LayerMask cupCheckMask;
@@ -60,6 +78,15 @@ public class CatScript : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         annoyancePerSec = type.annoyancePerSec;
+
+        float x1 = accesibleAreaRen.bounds.size.x / 2;
+        float y1 = accesibleAreaRen.bounds.size.y / 2;
+        float z1 = accesibleAreaRen.bounds.size.z / 2;
+
+        Vector3 bounds1 = new Vector3(x1, y1, z1);
+
+        floorTopRight = accesibleArea.position + bounds1;
+        floorBottemLeft = accesibleArea.position - bounds1;
     }
 
     private void Start()
@@ -111,17 +138,9 @@ public class CatScript : MonoBehaviour
                     break;
                 }
 
-                if (Vector3.Distance(transform.position, destination) < 1)
+                if (Vector3.Distance(transform.position, destination) < 0.2f)
                 {
-                    if (walkingToMachine)
-                    {
-                        Debug.Log("Dmg");
-                    }
-                    else
-                    {
-                        StartNewAction();
-                    }
-
+                    StartNewAction();
                 }
 
                 if (canLaunch && !walkingToMachine)
@@ -146,6 +165,12 @@ public class CatScript : MonoBehaviour
                         EndDistraction();
                         spawner.ReturnYarn();
                     }
+                }
+                break;
+            case CatStates.WalkingToCup:
+                if (Vector3.Distance(transform.position, destination) < 0.2)
+                {
+                    StartNewAction();
                 }
                 break;
             default:
@@ -178,7 +203,9 @@ public class CatScript : MonoBehaviour
             destination = GenerateTarget(target.transform.position);
             agent.SetDestination(destination);
 
-            state = CatStates.Walking;
+            StartCoroutine(CupLaunchCooldown());
+
+            state = CatStates.WalkingToCup;
         }
     }
 
@@ -212,21 +239,18 @@ public class CatScript : MonoBehaviour
                             if (v3 != null)
                             {
                                 destination = v3;
+                                state = CatStates.WalkingToCup;
                             }
-                            else
-                            {
-                                destination = GenerateTarget();
-                            }
-
                         }
                         else
                         {
                             destination = GenerateTarget();
+                            state = CatStates.Walking;
                         }
 
                         agent.destination = destination;
 
-                        state = CatStates.Walking;
+
                         break;
                     case CalledFunction.walkToMachine:
                         if (canDmg)
@@ -254,28 +278,67 @@ public class CatScript : MonoBehaviour
 
         if (target != default(Vector3))
         {
-            float x = accesibleAreaRen.bounds.size.x / 2;
-            float y = accesibleAreaRen.bounds.size.y / 2;
-            float z = accesibleAreaRen.bounds.size.z / 2;
+            NavMeshHit hit;
+            var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
 
-            Vector3 bounds = new Vector3(x, y, z);
+            NavMesh.SamplePosition(target, out hit, range, catWalkableMask);
 
-            Vector3 topRight = accesibleArea.position + bounds;
-            Vector3 bottemLeft = accesibleArea.position - bounds;
-
-            potentiolTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
+            if (CheckPath(hit.position))
+            {
+                potentiolTarget = hit.position;
+            }
         }
-        else
+
+        if (potentiolTarget == Vector3.zero)
         {
-            potentiolTarget = target;
+            int loops = 0;
+
+            Vector3 topRight;
+            Vector3 bottemLeft;
+
+            if (onCounter && !canChangeHeight)
+            {
+                topRight = counterTopRight;
+                bottemLeft = counterBottemLeft;
+
+                areaMask = "CatCounter";
+
+                float x2 = counterAccesibleAreaRen.bounds.size.x / 2;
+                float y2 = counterAccesibleAreaRen.bounds.size.y / 2;
+                float z2 = counterAccesibleAreaRen.bounds.size.z / 2;
+
+                Vector3 bounds2 = new Vector3(x2, y2, z2);
+
+                counterTopRight = counterAccesibleArea.position + bounds2;
+                counterBottemLeft = counterAccesibleArea.position - bounds2;
+
+            } else
+            {
+                topRight = floorTopRight;
+                bottemLeft = floorBottemLeft;
+
+                areaMask = "CatWalkable";
+            }
+
+            while (potentiolTarget == Vector3.zero && loops < 100)
+            {
+                Vector3 tempTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
+
+                NavMeshHit hit;
+                var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
+
+                NavMesh.SamplePosition(tempTarget, out hit, range, catWalkableMask);
+
+                if (CheckPath(hit.position))
+                {
+                    potentiolTarget = hit.position;
+                }
+
+                loops++;
+            }
+            Debug.Log("generating dest took" + loops + "tries");
         }
-
-        NavMeshHit hit;
-        var catWalkableMask = 1 << NavMesh.GetAreaFromName("CatWalkable");
-
-        bool b = NavMesh.SamplePosition(potentiolTarget, out hit, range, catWalkableMask);
-
-        return hit.position;
+        return potentiolTarget;
     }
 
     private bool CheckPath(Vector3 goal)
@@ -358,5 +421,41 @@ public class CatScript : MonoBehaviour
         StartNewAction();
 
         yarnBall = null;
+    }
+
+    public void Jump(Transform areaTrans, MeshRenderer areaRen)
+    {
+        if (!onCounter)
+        {
+            counterAccesibleArea = areaTrans;
+            counterAccesibleAreaRen = areaRen;
+
+            onCounter = true;
+        }
+
+
+
+
+        if (onCounter)
+        {
+            StartCoroutine(HeightChangeCD());
+        }
+
+
+
+
+    }
+    private IEnumerator HeightChangeCD()
+    {
+        canChangeHeight = false;
+        counterLink.SetActive(false);
+        yield return new WaitForSeconds(heightChangeCD);
+        canChangeHeight = true;
+        counterLink.SetActive(true);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(destination, Vector3.one);
     }
 }
