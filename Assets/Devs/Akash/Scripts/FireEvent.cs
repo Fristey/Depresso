@@ -6,11 +6,12 @@ public class FireEvent : TempEvent
     [SerializeField] private Vector3 center;
     [SerializeField] private float spawnRadius = 2f;
 
-
     private void Start()
     {
         TriggerFireEvent();
     }
+
+
     public void TriggerFireEvent()
     {
         /*        Collider[] hitColliders = Physics.OverlapSphere(center, spawnRadius);
