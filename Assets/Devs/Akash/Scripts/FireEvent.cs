@@ -4,7 +4,7 @@ public class FireEvent : TempEvent
 {
     [SerializeField] GameObject firePrefab;
     [SerializeField] private Vector3 center;
-    [SerializeField] private float radius = 5f;
+    [SerializeField] private float spawnRadius = 2f;
 
 
     private void Start()
@@ -13,7 +13,7 @@ public class FireEvent : TempEvent
     }
     public void TriggerFireEvent()
     {
-        /*        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        /*        Collider[] hitColliders = Physics.OverlapSphere(center, spawnRadius);
                 List<FireSource> fireSources = new List<FireSource>();
                 foreach (var hitCollider in hitColliders)
                 {
@@ -34,7 +34,7 @@ public class FireEvent : TempEvent
                     }
                 }*/
 
-        Vector3 randomPos = center + new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
+        Vector3 randomPos = center + new Vector3(Random.Range(-spawnRadius, spawnRadius), 0, Random.Range(-spawnRadius, spawnRadius));
 
         GameObject fire = Instantiate(firePrefab, randomPos + Vector3.up * 0.5f, Quaternion.identity);
         FireSource fireSource = fire.GetComponent<FireSource>();

@@ -4,7 +4,7 @@ using UnityEngine;
 public class FireSource : MonoBehaviour
 {
     private float spreadDelay = 5f;
-    private float spreadRadius = 10f;
+    private float spreadRadius = 1f;
     [SerializeField] private GameObject firePrefab;
 
     public LayerMask burnableLayer;
