@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &400010983257037132
+--- !u!1 &5877427953464727427
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8635670161929801928}
-  - component: {fileID: 4781284663253219375}
-  - component: {fileID: 355857866160199019}
-  - component: {fileID: 2947459018109093353}
+  - component: {fileID: 6145988323356679494}
+  - component: {fileID: 6923438085343164047}
   m_Layer: 0
-  m_Name: BookCam
+  m_Name: TabletCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8635670161929801928
+--- !u!4 &6145988323356679494
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400010983257037132}
+  m_GameObject: {fileID: 5877427953464727427}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.809, y: 0.37, z: -4.314573}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 9.04, y: 4.95, z: 1.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4781284663253219375
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &6923438085343164047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400010983257037132}
+  m_GameObject: {fileID: 5877427953464727427}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
@@ -77,35 +75,3 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &355857866160199019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400010983257037132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TrackerSettings:
-    BindingMode: 3
-    PositionDamping: {x: 0, y: 0, z: 0}
-    AngularDampingMode: 0
-    RotationDamping: {x: 0, y: 0, z: 0}
-    QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 0, z: -2.27}
---- !u!114 &2947459018109093353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400010983257037132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LookAtOffset: {x: 0, y: 0, z: 0}

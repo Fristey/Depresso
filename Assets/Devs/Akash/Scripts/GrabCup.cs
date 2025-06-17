@@ -148,7 +148,7 @@ public class GrabCup : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Tablet"))
             {
-                GetComponent<CamSwapManager>().isLookingAtTabblet = true;
+                GetComponent<CamSwapManager>().isLookingAtTablet = true;
             }
             else if (hit.collider.CompareTag("YarnSpawner"))
             {
