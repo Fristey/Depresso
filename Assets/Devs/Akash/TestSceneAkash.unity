@@ -541,6 +541,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2079796262884608677, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7008013489900529099, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -558,6 +562,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+--- !u!1 &801281063 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8076093303271828975, guid: d55e91473c33c8041bb9b9b6c00c1a34, type: 3}
+  m_PrefabInstance: {fileID: 3725140299818797930}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &801281066
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801281063}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &801281067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801281063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e152c3dd3bcc5f447b6c38b087dc9985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &817820759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2294,10 +2342,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Extinguisher
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6759598056818998827, guid: d55e91473c33c8041bb9b9b6c00c1a34, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8076093303271828975, guid: d55e91473c33c8041bb9b9b6c00c1a34, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 801281066}
+    - targetCorrespondingSourceObject: {fileID: 8076093303271828975, guid: d55e91473c33c8041bb9b9b6c00c1a34, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 801281067}
   m_SourcePrefab: {fileID: 100100000, guid: d55e91473c33c8041bb9b9b6c00c1a34, type: 3}
 --- !u!1001 &7369607139174502595
 PrefabInstance:
