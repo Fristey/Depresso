@@ -162,6 +162,7 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
+            CompareOrder();
             if(cup.drinkToserve != null)
             {
                 for (int i = 0; i < costumerOrders.Count; i++)
@@ -175,7 +176,6 @@ public class CustomerOrder : MonoBehaviour
                     }
                 }
             }
-            CompareOrder();
         }
     }
 }

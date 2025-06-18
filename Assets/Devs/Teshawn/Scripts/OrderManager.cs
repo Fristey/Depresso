@@ -28,7 +28,10 @@ public class OrderManager : MonoBehaviour
     public void FailOrder(CustomerOrder order, CustomerMovement customerMovement)
     {
         int customerOrderToRemove = activeOrders.IndexOf(order);
-        activeOrders.RemoveAt(customerOrderToRemove);
-        customerMovement.Leave();
+        if (customerOrderToRemove >= 0)
+        {
+            activeOrders.RemoveAt(customerOrderToRemove);
+            customerMovement.Leave();
+        }
     }
 }
