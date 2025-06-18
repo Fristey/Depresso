@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Daycycle dayCycle;
     private float dayTimer = 0f;
 
-    private bool hasDayStarted = false;
+    public bool hasDayStarted = false;
 
     private void Awake()
     {
@@ -26,39 +26,81 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (!hasDayStarted)
+        {
+            return;
+        }
+
         dayTimer += Time.deltaTime;
         float currentDayDuration = dayCycle.GetCurrentDay().dayDuration;
 
-        if(dayTimer >= currentDayDuration)
+        if (dayTimer >= currentDayDuration)
         {
-            hasDayStarted = false;
-            dayTimer = 0f;
-            StartNextDay();
+            /*            hasDayStarted = false;
+                        dayTimer = 0f;
+                        StartNextDay();*/
+            EndDay();
         }
     }
 
     private void Start()
     {
-        dayCycle.StartDay(0);
+        StartDay(0);
     }
 
-    public void StartNextDay()
-    { 
-        if(EventManager.instance != null)
+/*    public void StartNextDay()
+    {
+        if (EventManager.instance != null)
         {
             EventManager.instance.ClearEvents();
         }
 
-        int nextDay = dayCycle.currentDayIndex+1;
+        int nextDay = dayCycle.currentDayIndex + 1;
         if (nextDay < dayCycle.days.Count)
         {
             dayCycle.StartDay(nextDay);
             RemoveAllCustomers();
         }
+    }*/
+
+    private void StartDay(int dayIndex)
+    {
+
+        dayCycle.StartDay(dayIndex);
+        dayTimer = 0f;
+        hasDayStarted = true;
     }
+
+    private void EndDay()
+    {
+        hasDayStarted = false;
+
+        if (EventManager.instance != null)
+        {
+            EventManager.instance.ClearEvents();
+        }
+
+        RemoveAllCustomers();
+    }
+
+    public void ClickedDoor()
+    {
+        if (hasDayStarted)
+        {
+            return;
+        }
+        int nextDay = dayCycle.currentDayIndex + 1;
+
+        if (nextDay < dayCycle.days.Count)
+        {
+            StartDay(nextDay);
+        }
+    }
+
 
     private void RemoveAllCustomers()
     {
+        
         GameObject[] customers = GameObject.FindGameObjectsWithTag("Customer");
         foreach (GameObject customer in customers)
         {
@@ -95,7 +137,7 @@ public class Daycycle
     {
         Debug.Log("Start the day");
 
-        currentDayIndex = dayNumber; 
+        currentDayIndex = dayNumber;
 
         Day currentDay = days[currentDayIndex];
 
@@ -104,7 +146,7 @@ public class Daycycle
             CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
         }
 
-        if(EventManager.instance != null)
+        if (EventManager.instance != null)
         {
             EventManager.instance.SetDayEvents(days[dayNumber].temporaryEvents, days[dayNumber].permanentEvents, days[dayNumber].eventAmount, days[dayNumber].dayDuration);
 

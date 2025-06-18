@@ -21,6 +21,8 @@ public class GrabCup : MonoBehaviour
 
     private Vector2 tilt;
 
+    private Quaternion relativeRotation = Quaternion.identity;
+
 
     private Rigidbody rb;
     private bool isHoldingCup = false;
@@ -64,16 +66,34 @@ public class GrabCup : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
             }
 
-        }
+            if (rb.CompareTag("Extinguisher") && particleSystem != null)
+            {
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    if (!particleSystem.isPlaying)
+                    {
+                        particleSystem.Play();
+                    }
+                }
+                else
+                {
+                    if (particleSystem.isPlaying)
+                    {
+                        particleSystem.Stop();
+                    }
+                }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            throwCup();
-            DropCup();
-        }
+            }
 
-        /*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
-                holdPoint.rotation = playerCamera.transform.rotation;*/
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                throwCup();
+                DropCup();
+            }
+
+            /*        holdPoint.position = playerCamera.transform.position + playerCamera.transform.forward * 1.5f;
+                    holdPoint.rotation = playerCamera.transform.rotation;*/
+        }
     }
 
     private void FixedUpdate()
@@ -122,9 +142,10 @@ public class GrabCup : MonoBehaviour
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        relativeRotation = Quaternion.identity;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            if (hit.collider.gameObject.CompareTag("Untagged"))
+            if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
             {
 
                 rb = hit.rigidbody;
@@ -193,6 +214,11 @@ public class GrabCup : MonoBehaviour
         Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance;
         Vector3 forceDirection = (targetPosition - rb.position);
         rb.AddForce(forceDirection * moveForce * Time.deltaTime);
+
+        if (!Input.GetMouseButton(1))
+        {
+            rb.MoveRotation(playerCamera.transform.rotation * relativeRotation); // Keep the cup aligned with the camera rotation when not rotating it
+        }
     }
 
     private void RotateCup()
@@ -206,7 +232,10 @@ public class GrabCup : MonoBehaviour
         tilt.y = Mathf.Clamp(tilt.y + mouseY * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation    
 
         Quaternion tiltRotation = Quaternion.Euler(tilt.y, 0f, -tilt.x);
-        rb.MoveRotation(playerCamera.transform.rotation * tiltRotation);
+
+        relativeRotation = tiltRotation;
+
+        rb.MoveRotation(playerCamera.transform.rotation * relativeRotation);
     }
 
     private void throwCup()

@@ -61,7 +61,6 @@ public class CustomerMovement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(navMeshAgent.velocity.magnitude);
         if (currentSpot != null && !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && currentState != CustomerState.Sitting && currentState != CustomerState.Leaving)
         {
             if (counterStools.Contains(currentSpot))
