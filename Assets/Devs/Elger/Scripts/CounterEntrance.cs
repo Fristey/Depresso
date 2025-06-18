@@ -6,10 +6,13 @@ public class CounterEntrance : MonoBehaviour
 
     [SerializeField] private Transform area;
     [SerializeField] private MeshRenderer areaRen;
+    [SerializeField] private GameObject otherLink;
 
-    private void OnTriggerExit(Collider other)
+    [SerializeField] private bool onCounterSwitch;
+
+    private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Cat is going up");
-        cat.Jump(area, areaRen);
+        cat.Jump(area, areaRen,onCounterSwitch,otherLink);
     }
 }

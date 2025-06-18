@@ -44,7 +44,7 @@ public class CatScript : MonoBehaviour
 
     string areaMask = "CatWalkable";
 
-    private Vector3 floorTopRight; 
+    private Vector3 floorTopRight;
     private Vector3 floorBottemLeft;
 
     private Vector3 counterTopRight;
@@ -255,7 +255,7 @@ public class CatScript : MonoBehaviour
                     case CalledFunction.walkToMachine:
                         if (canDmg)
                         {
-                            destination = FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine")).transform.position;
+                            destination = GenerateTarget(FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine")).transform.position);
                             walkingToMachine = true;
                         }
                         else
@@ -288,8 +288,7 @@ public class CatScript : MonoBehaviour
                 potentiolTarget = hit.position;
             }
         }
-
-        if (potentiolTarget == Vector3.zero)
+        else
         {
             int loops = 0;
 
@@ -312,7 +311,8 @@ public class CatScript : MonoBehaviour
                 counterTopRight = counterAccesibleArea.position + bounds2;
                 counterBottemLeft = counterAccesibleArea.position - bounds2;
 
-            } else
+            }
+            else
             {
                 topRight = floorTopRight;
                 bottemLeft = floorBottemLeft;
@@ -394,8 +394,6 @@ public class CatScript : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
 
-        int num = UnityEngine.Random.Range(0, 100);
-
         StartNewAction();
     }
 
@@ -423,27 +421,18 @@ public class CatScript : MonoBehaviour
         yarnBall = null;
     }
 
-    public void Jump(Transform areaTrans, MeshRenderer areaRen)
+    public void Jump(Transform areaTrans, MeshRenderer areaRen, bool input, GameObject link)
     {
         if (!onCounter)
         {
             counterAccesibleArea = areaTrans;
             counterAccesibleAreaRen = areaRen;
-
-            onCounter = true;
         }
 
+        counterLink = link;
+        onCounter = input;
 
-
-
-        if (onCounter)
-        {
-            StartCoroutine(HeightChangeCD());
-        }
-
-
-
-
+        StartCoroutine(HeightChangeCD());
     }
     private IEnumerator HeightChangeCD()
     {
