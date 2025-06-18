@@ -8,7 +8,6 @@ public class TabletcamObjectSelector : MonoBehaviour
 
     private Camera tabletCam;
     public LayerMask mask;
-
     private void Start()
     {
         tabletCam = FindFirstObjectByType<Camera>();
@@ -17,21 +16,23 @@ public class TabletcamObjectSelector : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetMouseButton(0))
+        if (camSwap.isLookingAtTablet)
         {
-            RaycastHit hit;
-            Ray ray = tabletCam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+            if (Input.GetMouseButton(0))
             {
-                if (hit.collider.gameObject.CompareTag("Furniture"))
+                RaycastHit hit;
+                Ray ray = tabletCam.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
                 {
-                    if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
+                    if (hit.collider.gameObject.CompareTag("Furniture"))
                     {
-                        if (!hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu)
+                        if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
                         {
-                            hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
-                            hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu = true;
+                            if (!hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu)
+                            {
+                                hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
+                                hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu = true;
+                            }
                         }
                     }
                 }
@@ -40,11 +41,11 @@ public class TabletcamObjectSelector : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Escape))
         {
-            camSwap.isLookingAtTabblet = false;
+            camSwap.isLookingAtTablet = false;
             foreach (var furniture in upgradeFurnitureList)
             {
                 furniture.isInMenu = false;
-                //furniture.ExitUpgrade();
+                furniture.ExitUpgradeMenus();
             }
         }
     }
