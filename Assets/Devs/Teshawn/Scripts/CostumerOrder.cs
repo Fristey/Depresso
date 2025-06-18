@@ -25,6 +25,8 @@ public class CustomerOrder : MonoBehaviour
     public bool pointDecreaceStop;
     public bool isWaiting;
 
+    public bool wilSpill = true;
+
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
     public float extraPatience;
@@ -173,6 +175,13 @@ public class CustomerOrder : MonoBehaviour
                         costumerOrders.RemoveAt(i);
                         orderText.RemoveAt(i);
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
+
+                        if (wilSpill)
+                        {
+                            manager.GeneratingOrder();
+                            costumerOrders.Add(manager.orderGiven);
+                            orderText.Add(manager.orderGiven.nameOfDrink);
+                        }
                     }
                 }
             }
