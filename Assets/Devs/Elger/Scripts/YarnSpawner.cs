@@ -6,76 +6,77 @@ enum YarnSpawnStates
 {
     In,
     Out,
-    Full
+    Ready
 }
 public class YarnSpawner : MonoBehaviour
 {
-    YarnSpawnStates state = YarnSpawnStates.In;
+    [Header("Logic")]
+    [SerializeField] private YarnSpawnStates state = YarnSpawnStates.In;
 
-    [SerializeField] private GameObject yarn;
+    [Header("Perm Refrences")]
+    [SerializeField] private GameObject yarnPrefab;
+
     [SerializeField] private GameObject spawn;
 
-    private GameObject curYarn;
+    [SerializeField] private CatScript catScript;
+
+    [Header("Temp Refrences")]
     public YarnBall yarnScript;
     public Rigidbody yarnRb;
-
-    [SerializeField] private float YarnRespawnTime;
-
-    [Header("Behaviour")]
-    [SerializeField] private bool trigger;
-
-    private void Awake()
-    {
-
-    }
+    private GameObject curYarn;
+    private Collider yarnCol;
 
     private void Start()
     {
         SpawnYarn();
     }
 
-    private void Update()
-    {
-        if (trigger)
-        {
-            trigger = false;
-            GrabYarn();
-        }
-    }
-
-    private void ReturnYarn()
-    {
-        curYarn.transform.position = spawn.transform.position;
-    }
-
-    private void SpawnYarn()
+    public void SpawnYarn()
     {
         state = YarnSpawnStates.In;
-        curYarn = Instantiate(yarn, spawn.transform.position, Quaternion.identity);
-        yarnScript = curYarn.GetComponent<YarnBall>();
-        yarnRb = curYarn.GetComponent<Rigidbody>();
-        curYarn.GetComponent<Collider>().enabled = true;
+        if (curYarn == null)
+        {
+            curYarn = Instantiate(yarnPrefab);
 
+            yarnScript = curYarn.GetComponent<YarnBall>();
+            yarnRb = curYarn.GetComponent<Rigidbody>();
+            curYarn.GetComponent<Collider>().enabled = true;
+            yarnCol = curYarn.GetComponent<Collider>();
+            yarnScript.spawner = this;
+        }
+        curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
+
+        yarnScript.StartRestoration();
     }
 
-    public void GrabYarn()
+    public bool GrabYarn()
     {
-        yarnRb.isKinematic = false;
-
-        if (state == YarnSpawnStates.In)
+        switch (state)
         {
-            state = YarnSpawnStates.Out;
+            case YarnSpawnStates.In:
+                state = YarnSpawnStates.Out;
+                yarnCol.enabled = true;
+                yarnScript.Grabbed();
+                yarnRb.isKinematic = false;
+                return true;
+            case YarnSpawnStates.Out:
+                ReturnYarn();
+                return false;
         }
-        else if (state == YarnSpawnStates.Out)
-        {
-            ReturnYarn();
-        }
+        return false;
     }
 
-    public IEnumerator YarnRespawnTimer()
+    public void ReturnYarn()
     {
-        yield return new WaitForSeconds(YarnRespawnTime);
-        SpawnYarn();
+        curYarn.transform.position = spawn.transform.position;
+        yarnRb.isKinematic = true;
+        yarnCol.enabled = false;
+
+        state = YarnSpawnStates.In;
+
+        catScript.EndDistraction();
+
+        yarnScript.StartRestoration();
     }
 }

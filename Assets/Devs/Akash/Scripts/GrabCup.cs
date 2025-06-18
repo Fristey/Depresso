@@ -175,15 +175,17 @@ public class GrabCup : MonoBehaviour
             {
                 YarnSpawner curSpawn = hit.collider.gameObject.GetComponent<YarnSpawner>();
 
-                curSpawn.GrabYarn();
-                curBallScript = curSpawn.yarnScript;
+                if (curSpawn.GrabYarn())
+                {
+                    curBallScript = curSpawn.yarnScript;
 
-                rb = curSpawn.yarnRb;
-                rb.useGravity = false;
-                rb.linearDamping = 10f;
-                isHoldingCup = true;
-                rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None;
+                    rb = curSpawn.yarnRb;
+                    rb.useGravity = false;
+                    rb.linearDamping = 10f;
+                    isHoldingCup = true;
+                    rb.angularVelocity = Vector3.zero;
+                    rb.constraints = RigidbodyConstraints.None;
+                }
             }
 
         }
@@ -250,7 +252,7 @@ public class GrabCup : MonoBehaviour
 
     private void YarnDrop()
     {
-        if(curBallScript == null)
+        if(curBallScript != null)
         {
             curBallScript.StartDistraction();
 
