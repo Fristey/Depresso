@@ -332,6 +332,5 @@ public class UnlockRecipe : MonoBehaviour
     {
         mainRecipeBookMenu.SetActive(true);
         unlockRecipeMenu.SetActive(false);
-
     }
 }
