@@ -6,16 +6,27 @@ public class FireSource : MonoBehaviour
     private float spreadDelay = 5f;
     private float spreadRadius = 1f;
     [SerializeField] private GameObject firePrefab;
+    [SerializeField] private GameObject visualEffect;
 
     public LayerMask burnableLayer;
 
     private bool isSpreading = false;
+    private bool isExtinguished = false;
 
     public void StartFire()
     {
+        if(isExtinguished)
+        {
+            return;
+        }
+
         if (!isSpreading)
         {
             isSpreading = true;
+            if(visualEffect != null)
+            {
+                visualEffect.SetActive(true);
+            }
             StartCoroutine(Spread());
         }
     }
@@ -44,5 +55,23 @@ public class FireSource : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ExtinguishFire()
+    {
+        if(isExtinguished)
+        {
+            return;
+        }
+
+        isExtinguished = true;
+        isSpreading = false;
+        StopAllCoroutines();
+
+        if(visualEffect != null)
+        {
+            visualEffect.SetActive(false);
+        }
+        Destroy(gameObject, 1f); // Delay before destruction for visual effect
     }
 }

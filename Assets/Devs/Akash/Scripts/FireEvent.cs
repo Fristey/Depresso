@@ -14,26 +14,6 @@ public class FireEvent : TempEvent
 
     public void TriggerFireEvent()
     {
-        /*        Collider[] hitColliders = Physics.OverlapSphere(center, spawnRadius);
-                List<FireSource> fireSources = new List<FireSource>();
-                foreach (var hitCollider in hitColliders)
-                {
-                    FireSource fireSource = hitCollider.GetComponent<FireSource>();
-                    if (fireSource != null && !fireSources.Contains(fireSource))
-                    {
-                        fireSources.Add(fireSource);
-                    }
-                }
-                foreach (var fireSource in fireSources)
-                {
-                    Vector3 spawnPosition = fireSource.transform.position + Vector3.up * 0.5f; // Adjust spawn position slightly above the surface
-                    GameObject newFire = Instantiate(firePrefab, spawnPosition, Quaternion.identity);
-                    FireSource newFireSource = newFire.GetComponent<FireSource>();
-                    if (newFireSource != null)
-                    {
-                        newFireSource.StartFire();
-                    }
-                }*/
 
         Vector3 randomPos = center + new Vector3(Random.Range(-spawnRadius, spawnRadius), 0, Random.Range(-spawnRadius, spawnRadius));
 
