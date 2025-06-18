@@ -179,7 +179,18 @@ public class CatScript : MonoBehaviour
 
         agent.speed = type.speed.Evaluate(annoyance);
 
-        annoyance += annoyancePerSec * Time.deltaTime;
+        if(state != CatStates.Distracted)
+        {
+            if (annoyance < 100)
+            {
+                annoyance += annoyancePerSec * Time.deltaTime;
+            }
+        }
+        else if (annoyance > 0)
+        {
+            annoyance -= annoyancePerSec * Time.deltaTime;
+        }
+
         Mathf.Clamp(annoyance, 0, 100);
     }
 
@@ -288,7 +299,8 @@ public class CatScript : MonoBehaviour
                 potentiolTarget = hit.position;
             }
         }
-        else
+        
+        if(potentiolTarget == Vector3.zero)
         {
             int loops = 0;
 
