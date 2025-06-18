@@ -1653,6 +1653,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 1
+  wilSpill: 1
   extraCurrency: 200
   maxExtraCurrency: 200
   extraPatience: 5
@@ -2406,6 +2407,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 0
+  wilSpill: 1
   extraCurrency: 0
   maxExtraCurrency: 0
   extraPatience: 5
@@ -3703,6 +3705,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 1
+  wilSpill: 1
   extraCurrency: 200
   maxExtraCurrency: 200
   extraPatience: 5
@@ -4140,6 +4143,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 1
+  wilSpill: 1
   extraCurrency: 200
   maxExtraCurrency: 200
   extraPatience: 5
@@ -6015,7 +6019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5460109022666997963, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6434964973361056101, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: lookAround

@@ -95,18 +95,26 @@ public class CustomerOrder : MonoBehaviour
         FailedTime();
     }
 
-    public void CompareOrder()
+    public bool CompareOrder()
     {
-        if (costumerOrders.Contains(cup.drinkToserve))
+        for(int i = 0;i < costumerOrders.Count; i++)
         {
-            costumerOrders.Remove(cup.drinkToserve);
-            orderText.Remove(cup.drinkToserve.nameOfDrink);
+            if (costumerOrders[i].Equals(cup.drinkToserve))
+            {
+                costumerOrders.Remove(cup.drinkToserve);
+                orderText.Remove(cup.drinkToserve.nameOfDrink);
+                Debug.LogWarning("compairs");
+                return true;
+            }
         }
 
         if (costumerOrders.Count <= 0)
         {
             NoMoreOrders();
+            return true;
         }
+        Debug.LogWarning("doesnt compair");
+        return false;
     }
 
     public void NoMoreOrders()
@@ -164,24 +172,30 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
-            CompareOrder();
+            Debug.Log("collides");
+            if (!CompareOrder())
+            {
+                // somethin is wrong
+                Debug.LogWarning("yikes");
+            }
             if(cup.drinkToserve != null)
             {
                 for (int i = 0; i < costumerOrders.Count; i++)
                 {
-                    if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
+                    if (costumerOrders[i].Equals(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
                     {
-                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
-                        costumerOrders.RemoveAt(i);
-                        orderText.RemoveAt(i);
-                        collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
-
                         if (wilSpill)
                         {
                             manager.GeneratingOrder();
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
+
+                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
+                        costumerOrders.RemoveAt(i);
+                        orderText.RemoveAt(i);
+                        collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
+
                     }
                 }
             }
