@@ -245,11 +245,11 @@ public class CatScript : MonoBehaviour
                     case CalledFunction.walkToCup:
                         if (canLaunch)
                         {
-                            Vector3 v3 = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup")).transform.position;
+                            GameObject v3 = FindNearestCup(GameObject.FindGameObjectsWithTag("Cup"));
 
                             if (v3 != null)
                             {
-                                destination = v3;
+                                destination = v3.transform.position;
                                 state = CatStates.WalkingToCup;
                             }
                         }
