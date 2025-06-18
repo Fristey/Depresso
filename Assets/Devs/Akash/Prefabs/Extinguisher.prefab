@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5062876758354144224}
   - component: {fileID: 6733763915188291684}
   - component: {fileID: 5164440705617980619}
-  - component: {fileID: 6759598056818998827}
   m_Layer: 3
   m_Name: Extinguisher
   m_TagString: Extinguisher
@@ -138,18 +137,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6759598056818998827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3477233259895123512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e152c3dd3bcc5f447b6c38b087dc9985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8076093303271828975
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +148,7 @@ GameObject:
   - component: {fileID: 2908530576358601376}
   - component: {fileID: 9084780692411139856}
   - component: {fileID: 5767822515522811607}
+  - component: {fileID: 7472942005860159623}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -4983,3 +4971,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7472942005860159623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8076093303271828975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e152c3dd3bcc5f447b6c38b087dc9985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
