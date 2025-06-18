@@ -96,7 +96,6 @@ public class CatScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
         Rigidbody rb = other.GetComponent<Rigidbody>();
 
         Vector3 pos = other.transform.position;
