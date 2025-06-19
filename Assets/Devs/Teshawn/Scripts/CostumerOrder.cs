@@ -1,8 +1,8 @@
+using Copying;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Copying;
 public enum SatisfactionType { scene, speed, none }
 
 public class CustomerOrder : MonoBehaviour
@@ -25,7 +25,7 @@ public class CustomerOrder : MonoBehaviour
     public bool pointDecreaceStop;
     public bool isWaiting;
 
-    public bool wilSpill = true;
+    public bool wilSpill = false;
 
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
@@ -95,20 +95,6 @@ public class CustomerOrder : MonoBehaviour
         FailedTime();
     }
 
-    public void CompareOrder()
-    {
-        if (costumerOrders.Contains(cup.drinkToserve))
-        {
-            costumerOrders.Remove(cup.drinkToserve);
-            orderText.Remove(cup.drinkToserve.nameOfDrink);
-        }
-
-        if (costumerOrders.Count <= 0)
-        {
-            NoMoreOrders();
-        }
-    }
-
     public void NoMoreOrders()
     {
 
@@ -164,27 +150,28 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
-            CompareOrder();
-            if(cup.drinkToserve != null)
+            if (cup.drinkToserve != null)
             {
                 for (int i = 0; i < costumerOrders.Count; i++)
                 {
                     if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
                     {
-                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
-                        costumerOrders.RemoveAt(i);
-                        orderText.RemoveAt(i);
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
-
+                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
                         if (wilSpill)
                         {
                             manager.GeneratingOrder();
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
+
+                        costumerOrders.RemoveAt(i);
+                        orderText.RemoveAt(i);
                     }
                 }
             }
+            if (costumerOrders.Count < 1)
+                NoMoreOrders();
         }
     }
 }
