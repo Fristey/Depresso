@@ -1628,6 +1628,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 675745028}
   orderManager: {fileID: 0}
   order: {fileID: 0}
+  sitCollider: {fileID: 0}
+  standingCollider: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
   animator: {fileID: 0}
@@ -3680,6 +3682,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1459354117}
   orderManager: {fileID: 0}
   order: {fileID: 0}
+  sitCollider: {fileID: 0}
+  standingCollider: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
   animator: {fileID: 0}
@@ -4118,6 +4122,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1716629832}
   orderManager: {fileID: 0}
   order: {fileID: 0}
+  sitCollider: {fileID: 0}
+  standingCollider: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
   animator: {fileID: 0}
@@ -5404,6 +5410,26 @@ PrefabInstance:
     - target: {fileID: 1047735735755895672, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Height
+      value: 2.23006
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Center.x
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Center.y
+      value: 1.017153
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Center.z
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 3034940348897407952, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.x
