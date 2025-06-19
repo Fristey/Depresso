@@ -1,4 +1,3 @@
-using Copying;
 using UnityEngine;
 
 public class Trashcan : MonoBehaviour
@@ -14,8 +13,8 @@ public class Trashcan : MonoBehaviour
             }
             else
             {
+                //Elger: channge the drink back to the normal cup
                 collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
-                Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
             }
         }
     }
