@@ -17,7 +17,7 @@ public class CustomerOrder : MonoBehaviour
     public List<string> orderText;
     public float patiance;
     public int amountOfOrders;
-    public int currencyGiven = 20;
+    public int currencyGiven;
     public int maxCurrencyGiven;
     private int randomSatisfactionMode = Enum.GetValues(typeof(SatisfactionType)).Length;
 
@@ -99,7 +99,7 @@ public class CustomerOrder : MonoBehaviour
 
         if (type == SatisfactionType.speed)
         {
-            currencyManager.AddCurrency(maxCurrencyGiven);
+            currencyManager.AddCurrency(maxCurrencyGiven * amountOfOrders);
         }
         else
         {
@@ -141,7 +141,7 @@ public class CustomerOrder : MonoBehaviour
             currencyGiven += cupFillCurrency + i;
             cup.currentAmount = 0;
         }
-        currencyManager.AddCurrency(currencyGiven);
+        currencyManager.AddCurrency(currencyGiven * amountOfOrders);
     }
 
     private void OnCollisionEnter(Collision collision)

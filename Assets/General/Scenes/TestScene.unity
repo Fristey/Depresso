@@ -281,6 +281,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 478389311}
+    - target: {fileID: 8041371082359419619, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: normalCup
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2397,24 +2401,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.9030691
-      outSlope: 1.9030691
+      inSlope: 0.05316539
+      outSlope: 0.05316539
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.00885991
-      value: 0.016861022
-      inSlope: 1.9415095
-      outSlope: 1.9415095
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.066313006
-    - serializedVersion: 3
-      time: 0.10797036
-      value: 0.13651961
+      time: 0.0048564
+      value: 0.00025819242
       inSlope: 0.569678
       outSlope: 0.569678
       tangentMode: 0
@@ -2424,8 +2419,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1.0071428
       value: 0
-      inSlope: -0.15182807
-      outSlope: -0.15182807
+      inSlope: -0.00025760342
+      outSlope: -0.00025760342
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

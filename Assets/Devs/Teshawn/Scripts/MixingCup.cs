@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+//ask for a threshHold for turning thr cup empty
+// make sure to add an int for the epmty threshold if needed
 public class MixingCup : MonoBehaviour
 {
     public List<Ingredientes> cupIngredientes;
