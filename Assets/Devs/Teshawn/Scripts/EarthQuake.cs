@@ -1,16 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class Screenshake : MonoBehaviour
+public class EarthQuake : MonoBehaviour
 {
-    [SerializeField] private bool isShaking;
+    public bool isShaking;
     [SerializeField] private float duration = 4f;
     [SerializeField] private AnimationCurve curve;
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {

@@ -2,14 +2,23 @@ using UnityEngine;
 
 public class AddIngredient : MonoBehaviour
 {
+    private Vector3 originalPos;
+
     public Ingredientes ingredientes;
     public string nameOfIngredient;
-
 
     private void Start()
     {
         nameOfIngredient = ingredientes.nameOfIngredient;
+        originalPos = this.transform.position;
     }
+
+    private void Update()
+    {
+        if(this.transform.position.y < -5)
+            this.transform.position = originalPos;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<MixingCup>() != null)

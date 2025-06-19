@@ -1,4 +1,3 @@
-using Copying;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -156,8 +155,8 @@ public class CustomerOrder : MonoBehaviour
                 {
                     if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
                     {
+                        //Elger: switch the cup back to the blank cup before setting it to null (Emptying the cup)
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
-                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
                         if (wilSpill)
                         {
                             manager.GeneratingOrder();

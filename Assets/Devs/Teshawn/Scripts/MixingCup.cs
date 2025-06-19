@@ -1,4 +1,3 @@
-using Copying;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,13 +22,13 @@ public class MixingCup : MonoBehaviour
     private void Update()
     {
         CreateDrink();
-
-        if (drinkToserve != null)
-        {
-            if (Input.GetKeyUp(KeyCode.Q))
-                Copy.CopyingComponents(drinkToserve.drink, this.gameObject);
-        }
     }
+
+    /// <summary>
+    /// Checks if the Ingredients list matches the recipe Ingredients list 
+    /// then empties the cup list and turns it into a drink(Coffee cup like cosmos coffee ect)
+    /// </summary>
+    /// <returns>de drink you made</returns>
     public bool CreateDrink()
     {
         ingredientesNames.Sort();
@@ -40,6 +39,7 @@ public class MixingCup : MonoBehaviour
             if (cupIngredientes.SequenceEqual(orderManager.possibleDrinks[i].requiredIngredientes))
             {
                 drinkToserve = orderManager.possibleDrinks[i];
+                //Elger: change the viuals for the cup to recipe drink(the new drink like Cosmos coffee
                 ingredientesNames.Clear();
                 cupIngredientes.Clear();
                 return orderManager.possibleDrinks[i];
