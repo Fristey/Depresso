@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: CandyCaneCoffee
   m_EditorClassIdentifier: 
   requiredIngredientes:
-  - {fileID: 11400000, guid: b185525dfefa77e4ea7ddb93bce285a7, type: 2}
   - {fileID: 11400000, guid: 4e2965af4c22218459c56278de5365c7, type: 2}
+  - {fileID: 11400000, guid: b185525dfefa77e4ea7ddb93bce285a7, type: 2}
   - {fileID: 11400000, guid: 0fa253ef1a2550745a1363069e74ebf7, type: 2}
   - {fileID: 11400000, guid: 5cb9da3aff478374fb35d4d7aece76c7, type: 2}
   nameOfDrink: CandyCaneCoffee
   drink: {fileID: 8106746724381768563, guid: ec87dd917ff84eb4887c666b18a167b0, type: 3}
+  price: 50
