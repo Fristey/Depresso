@@ -1,47 +1,33 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class visualSwapper : MonoBehaviour
+public class VisualSwapper : MonoBehaviour
 {
     [SerializeField] private Appearances[] visuals;
     [SerializeField] private GameObject visualHolder;
 
-    [Header("Test")]
-    [SerializeField] private bool trigger;
-    [SerializeField] private int testIndex;
+    [SerializeField] private GameObject emptyCup;
+    [SerializeField] private Vector3 basePos;
 
-    public void Swap(int indentifier)
+    public void Swap(GameObject visual, Vector3 position)
     {
-        int index = 0;
-
-        switch (indentifier)
-        {
-            case 0:
-                index = 0;
-                break;
-            case 1:
-                index = 1;
-                break;
-            case 2:
-                index = 2;
-                break;
-        }
-
         for (int i = 0; i < visualHolder.transform.childCount; i++)
         {
             Destroy(visualHolder.transform.GetChild(i).gameObject);
         }
 
-        GameObject _go = Instantiate(visuals[index].appearance, visuals[index].position, Quaternion.identity,visualHolder.transform);
-        _go.transform.localPosition = visuals[index].position;
+        GameObject _go = Instantiate(visual, position, Quaternion.identity,visualHolder.transform);
+        _go.transform.localPosition = position;
     }
 
-    //Testing
-    private void Update()
+    public void ResetVisual()
     {
-        if(trigger)
+        for (int i = 0; i < visualHolder.transform.childCount; i++)
         {
-            Swap(testIndex);
-            trigger = false;
+            Destroy(visualHolder.transform.GetChild(i).gameObject);
         }
+
+        GameObject _go = Instantiate(emptyCup, basePos, Quaternion.identity, visualHolder.transform);
+        _go.transform.localPosition = basePos;
     }
 }
