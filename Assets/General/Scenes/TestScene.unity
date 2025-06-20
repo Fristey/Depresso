@@ -1098,10 +1098,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 881913377214883151, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 881913377214883151, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.049
+      objectReference: {fileID: 0}
+    - target: {fileID: 881913377214883151, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.525
+      objectReference: {fileID: 0}
     - target: {fileID: 2539440228080042892, guid: 85103591aba71394cb655c9177c00510, type: 3}
       propertyPath: cat
       value: 
       objectReference: {fileID: 1122652100}
+    - target: {fileID: 3938519992977870870, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_Width
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5970694552978707426, guid: 85103591aba71394cb655c9177c00510, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.1668794
@@ -1146,9 +1162,25 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1122652100}
+    - target: {fileID: 7836594612418259639, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_Width
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8372097770617030450, guid: 85103591aba71394cb655c9177c00510, type: 3}
       propertyPath: m_Name
       value: CatSceneObjects
+      objectReference: {fileID: 0}
+    - target: {fileID: 8806881971749433368, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8806881971749433368, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.049
+      objectReference: {fileID: 0}
+    - target: {fileID: 8806881971749433368, guid: 85103591aba71394cb655c9177c00510, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.525
       objectReference: {fileID: 0}
     - target: {fileID: 9145898560397166991, guid: 85103591aba71394cb655c9177c00510, type: 3}
       propertyPath: catScript
@@ -2005,7 +2037,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1277453724874197445, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
       propertyPath: range
-      value: 2.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1277453724874197445, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
       propertyPath: counterLink
@@ -2123,6 +2155,10 @@ PrefabInstance:
     - target: {fileID: 5460109022666997963, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: m_Name
       value: P_BaristaMachine Variant Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5460109022666997963, guid: b6564030646628043834d3053cd5250e, type: 3}
+      propertyPath: m_TagString
+      value: CoffeeMachine
       objectReference: {fileID: 0}
     - target: {fileID: 6434964973361056101, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: lookAround
