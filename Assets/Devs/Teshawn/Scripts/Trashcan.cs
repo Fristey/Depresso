@@ -6,6 +6,8 @@ public class Trashcan : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
+            VisualSwapper swapper = collision.gameObject.GetComponent<VisualSwapper>();
+
             if (collision.gameObject.GetComponent<MixingCup>().drinkToserve == null)
             {
                 collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Clear();
@@ -13,7 +15,7 @@ public class Trashcan : MonoBehaviour
             }
             else
             {
-                //Elger: channge the drink back to the normal cup
+                swapper.ResetVisual();
                 collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
             }
         }
