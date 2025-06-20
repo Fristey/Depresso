@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class UpgradeFurniture : MonoBehaviour
@@ -177,4 +178,13 @@ public class UpgradeFurniture : MonoBehaviour
         selectMenu.SetActive(true);
     }
     #endregion
+
+    public void ExitUpgradeMenus()
+    {
+        selectMenu.SetActive(false);
+        placeMenu.SetActive(false);
+        placeConfermMenu.SetActive(false);
+        purchaseConfermMenu.SetActive(false);
+        purchaseMenu.SetActive(false);
+    }
 }

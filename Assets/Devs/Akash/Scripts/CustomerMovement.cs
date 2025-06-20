@@ -1,8 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
-using System.Collections;
-using System.Runtime.CompilerServices;
 
 public class CustomerMovement : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class CustomerMovement : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public OrderManager orderManager;
     public CustomerOrder order;
+    public CapsuleCollider sitCollider, standingCollider;
 
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private GameObject Counter;
@@ -46,7 +46,7 @@ public class CustomerMovement : MonoBehaviour
         exitPoint = CustomerManager.Instance.exitPoint;
         spawnPoint = CustomerManager.Instance.spawnPoint;
 
-        if(animator == null)
+        if (animator == null)
         {
             animator = GetComponent<Animator>();
         }
@@ -71,7 +71,7 @@ public class CustomerMovement : MonoBehaviour
                 {
                     startLeaving = true;
                     currentState = CustomerState.Sitting;
-/*                    animator.SetTrigger("SittingDown");*/
+                    /*                    animator.SetTrigger("SittingDown");*/
                     //StartCoroutine(LeaveAfterTime(Random.Range(5f, 10f)));
                 }
             }
@@ -84,7 +84,7 @@ public class CustomerMovement : MonoBehaviour
 
         }
 
-        if(currentState == CustomerState.Waiting && navMeshAgent.velocity.magnitude == 0)
+        if (currentState == CustomerState.Waiting && navMeshAgent.velocity.magnitude == 0)
         {
             animator.SetBool("Waiting", true);
         }
@@ -105,6 +105,9 @@ public class CustomerMovement : MonoBehaviour
 
         float animSpeed = navMeshAgent.velocity.magnitude;
         animator.SetFloat("walkSpeed", animSpeed);
+
+        if (animator != null)
+            ColliderSwap();
     }
 
     private void TryFindingFreeSpot()
@@ -155,7 +158,7 @@ public class CustomerMovement : MonoBehaviour
         }
         waitingCustomers.Remove(this);
         ReOrderQueue();
-        orderManager.FailOrder(order,this);
+        orderManager.FailOrder(order, this);
         //Leave();
     }
 
@@ -199,7 +202,7 @@ public class CustomerMovement : MonoBehaviour
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(exitPoint.transform.position);
         Destroy(gameObject, 5f);
-        if(currentSpot != null && counterStools.Contains(currentSpot))
+        if (currentSpot != null && counterStools.Contains(currentSpot))
         {
             usedStools.Remove(currentSpot);
             FreeStoolCheck();
@@ -210,14 +213,14 @@ public class CustomerMovement : MonoBehaviour
 
     private void ReOrderQueue()
     {
-        for(int i = 0; i < waitingCustomers.Count; i++)
+        for (int i = 0; i < waitingCustomers.Count; i++)
         {
             CustomerMovement customer = waitingCustomers[i];
-            GameObject targetWaitSpot = CustomerManager.Instance.waitPoints[i]; 
+            GameObject targetWaitSpot = CustomerManager.Instance.waitPoints[i];
 
-            if(customer.currentSpot != targetWaitSpot)
+            if (customer.currentSpot != targetWaitSpot)
             {
-                if(customer.currentSpot != null)
+                if (customer.currentSpot != null)
                 {
                     usedWaitSpots.Remove(customer.currentSpot);
                 }
@@ -231,6 +234,17 @@ public class CustomerMovement : MonoBehaviour
         }
     }
 
+    private void ColliderSwap()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SittingIdle Astronaut"))
+        {
+            sitCollider.enabled = true;
+            standingCollider.enabled = false;
+        }
+        else
+        {
+            sitCollider.enabled = false;
+            standingCollider.enabled = true;
+        }
+    }
 }
-
-

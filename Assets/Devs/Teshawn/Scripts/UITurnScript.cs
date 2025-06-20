@@ -18,7 +18,7 @@ public class UITurnScript : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.LookRotation(new Vector3(0, -90, 0));
+        transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
         transform.position = unit.position + offset;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,4 +9,5 @@ public class Recipes : ScriptableObject
 
     public string nameOfDrink;
     public GameObject drink;
+    public int price;
 }
