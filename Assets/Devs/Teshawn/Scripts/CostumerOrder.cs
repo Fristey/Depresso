@@ -33,6 +33,7 @@ public class CustomerOrder : MonoBehaviour
 
     public Slider patienceSlider;
 
+    [SerializeField] private GameObject emptyCup;
     private void Awake()
     {
         manager = FindFirstObjectByType<OrderManager>();
@@ -148,6 +149,7 @@ public class CustomerOrder : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
+            VisualSwapper swapper = collision.gameObject.GetComponent<VisualSwapper>();
             cup = collision.gameObject.GetComponent<MixingCup>();
             if (cup.drinkToserve != null)
             {
@@ -155,7 +157,12 @@ public class CustomerOrder : MonoBehaviour
                 {
                     if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
                     {
-                        //Elger: switch the cup back to the blank cup before setting it to null (Emptying the cup)
+                        //Elger: switch the cup back to the blank cup
+                        swapper.ResetVisual();
+
+                        //before setting it to null (Emptying the cup)
+
+
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
                         if (wilSpill)
                         {
