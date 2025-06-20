@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Copying;
 public enum SatisfactionType { scene, speed, none }
 
 public class CustomerOrder : MonoBehaviour
@@ -18,14 +17,14 @@ public class CustomerOrder : MonoBehaviour
     public List<string> orderText;
     public float patiance;
     public int amountOfOrders;
-    public int currencyGiven = 20;
+    public int currencyGiven;
     public int maxCurrencyGiven;
     private int randomSatisfactionMode = Enum.GetValues(typeof(SatisfactionType)).Length;
 
     public bool pointDecreaceStop;
     public bool isWaiting;
 
-    public bool wilSpill = true;
+    public bool wilSpill = false;
 
     [SerializeField] private float extraCurrency;
     [SerializeField] private int maxExtraCurrency;
@@ -95,26 +94,12 @@ public class CustomerOrder : MonoBehaviour
         FailedTime();
     }
 
-    public void CompareOrder()
-    {
-        if (costumerOrders.Contains(cup.drinkToserve))
-        {
-            costumerOrders.Remove(cup.drinkToserve);
-            orderText.Remove(cup.drinkToserve.nameOfDrink);
-        }
-
-        if (costumerOrders.Count <= 0)
-        {
-            NoMoreOrders();
-        }
-    }
-
     public void NoMoreOrders()
     {
 
         if (type == SatisfactionType.speed)
         {
-            currencyManager.AddCurrency(maxCurrencyGiven);
+            currencyManager.AddCurrency(maxCurrencyGiven * amountOfOrders);
         }
         else
         {
@@ -156,7 +141,7 @@ public class CustomerOrder : MonoBehaviour
             currencyGiven += cupFillCurrency + i;
             cup.currentAmount = 0;
         }
-        currencyManager.AddCurrency(currencyGiven);
+        currencyManager.AddCurrency(currencyGiven * amountOfOrders);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -164,27 +149,28 @@ public class CustomerOrder : MonoBehaviour
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             cup = collision.gameObject.GetComponent<MixingCup>();
-            CompareOrder();
-            if(cup.drinkToserve != null)
+            if (cup.drinkToserve != null)
             {
                 for (int i = 0; i < costumerOrders.Count; i++)
                 {
                     if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
                     {
-                        Copy.CopyingComponents(collision.gameObject.GetComponent<MixingCup>().normalCup, collision.gameObject);
-                        costumerOrders.RemoveAt(i);
-                        orderText.RemoveAt(i);
+                        //Elger: switch the cup back to the blank cup before setting it to null (Emptying the cup)
                         collision.gameObject.GetComponent<MixingCup>().drinkToserve = null;
-
                         if (wilSpill)
                         {
                             manager.GeneratingOrder();
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
+
+                        costumerOrders.RemoveAt(i);
+                        orderText.RemoveAt(i);
                     }
                 }
             }
+            if (costumerOrders.Count < 1)
+                NoMoreOrders();
         }
     }
 }

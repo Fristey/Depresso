@@ -1628,6 +1628,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 675745028}
   orderManager: {fileID: 0}
   order: {fileID: 0}
+  sitCollider: {fileID: 0}
+  standingCollider: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
   animator: {fileID: 0}
@@ -1653,6 +1655,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 1
+  wilSpill: 1
   extraCurrency: 200
   maxExtraCurrency: 200
   extraPatience: 5
@@ -1977,6 +1980,62 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1307697340}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UnlockMoreRecipes
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnlockRecipe, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029084289921696583, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1307697340}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Deny
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnlockRecipe, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164114081167063445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5219533394772581774, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2037,6 +2096,10 @@ PrefabInstance:
       propertyPath: previousRecepe
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6089758485778375445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 34473986}
     - target: {fileID: 6455550183881533645, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2346,6 +2409,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 0
+  wilSpill: 1
   extraCurrency: 0
   maxExtraCurrency: 0
   extraPatience: 5
@@ -2614,6 +2678,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8041371082359419619, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: normalCup
+      value: 
+      objectReference: {fileID: 1006191243823241808, guid: d55ad7e83dfdffb40a4ec667a1330bb2, type: 3}
     - target: {fileID: 8910082848291906916, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -3618,6 +3686,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1459354117}
   orderManager: {fileID: 0}
   order: {fileID: 0}
+  sitCollider: {fileID: 0}
+  standingCollider: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
   animator: {fileID: 0}
@@ -3643,6 +3713,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 1
+  wilSpill: 1
   extraCurrency: 200
   maxExtraCurrency: 200
   extraPatience: 5
@@ -4055,6 +4126,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1716629832}
   orderManager: {fileID: 0}
   order: {fileID: 0}
+  sitCollider: {fileID: 0}
+  standingCollider: {fileID: 0}
   walkSpeed: 5
   Counter: {fileID: 0}
   animator: {fileID: 0}
@@ -4080,6 +4153,7 @@ MonoBehaviour:
   maxCurrencyGiven: 0
   pointDecreaceStop: 0
   isWaiting: 1
+  wilSpill: 1
   extraCurrency: 200
   maxExtraCurrency: 200
   extraPatience: 5
@@ -5341,6 +5415,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Height
+      value: 2.23006
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Center.x
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Center.y
+      value: 1.017153
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541056835406402164, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
+      propertyPath: m_Center.z
+      value: 0.65
+      objectReference: {fileID: 0}
     - target: {fileID: 3034940348897407952, guid: 453f77378c7bbb842b45354f4ca1b54e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5955,7 +6049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5460109022666997963, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6434964973361056101, guid: b6564030646628043834d3053cd5250e, type: 3}
       propertyPath: lookAround
