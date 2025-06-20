@@ -37,6 +37,10 @@ public class FloatingText : MonoBehaviour
             else if(mixingCup.drinkToserve != null)
             {
                 textMeshPro.text = mixingCup.drinkToserve.nameOfDrink;
+            }
+            else
+            {
+                textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
             }   
         }
     }

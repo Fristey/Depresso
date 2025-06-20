@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class EarthQuake : MonoBehaviour
@@ -6,6 +7,8 @@ public class EarthQuake : MonoBehaviour
     public bool isShaking;
     [SerializeField] private float duration = 4f;
     [SerializeField] private AnimationCurve curve;
+
+    public NavMeshSurface surface;
 
     void Update()
     {
@@ -27,7 +30,6 @@ public class EarthQuake : MonoBehaviour
             transform.position = OGpos + Random.insideUnitSphere * intensity;
             yield return null;
         }
-
         transform.position = OGpos;
     }
 }
