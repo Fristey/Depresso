@@ -27,6 +27,12 @@ public class MixingCup : MonoBehaviour
     private void Update()
     {
         CreateDrink();
+
+        if (currentAmount <= 0)
+        {
+            visualSwapper.ResetVisual();
+            drinkToserve = null;
+        }
     }
 
     /// <summary>
@@ -45,6 +51,7 @@ public class MixingCup : MonoBehaviour
             {
                 drinkToserve = orderManager.possibleDrinks[i];
                 visualSwapper.Swap(drinkToserve.drink, drinkToserve.position);
+                currentAmount += 20;
                 ingredientesNames.Clear();
                 cupIngredientes.Clear();
                 return orderManager.possibleDrinks[i];

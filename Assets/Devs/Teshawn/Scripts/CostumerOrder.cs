@@ -107,6 +107,7 @@ public class CustomerOrder : MonoBehaviour
         {
             GenerateExtraCupFillCurrency(currencyGiven);
         }
+        cup.currentAmount = 0;
         customer.Leave();
     }
 
@@ -137,13 +138,14 @@ public class CustomerOrder : MonoBehaviour
 
     private void GenerateExtraCupFillCurrency(int cupFillCurrency)
     {
-        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount * 2);
+        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount);
         for (int i = 0; i < cup.currentAmount; i++)
         {
             currencyGiven += cupFillCurrency + i;
             cup.currentAmount = 0;
         }
         currencyManager.AddCurrency(currencyGiven);
+        currencyGiven = 0;
     }
 
     private void OnCollisionEnter(Collision collision)
