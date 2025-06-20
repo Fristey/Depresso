@@ -17,6 +17,8 @@ public class MixingCup : MonoBehaviour
     public float maxAmount = 100f;
     public float currentAmount = 0f;
 
+    [SerializeField] private VisualSwapper visualSwapper;
+
     private void Start()
     {
         orderManager = FindAnyObjectByType<OrderManager>();
@@ -42,7 +44,7 @@ public class MixingCup : MonoBehaviour
             if (cupIngredientes.SequenceEqual(orderManager.possibleDrinks[i].requiredIngredientes))
             {
                 drinkToserve = orderManager.possibleDrinks[i];
-                //Elger: change the viuals for the cup to recipe drink(the new drink like Cosmos coffee
+                visualSwapper.Swap(drinkToserve.drink, drinkToserve.position);
                 ingredientesNames.Clear();
                 cupIngredientes.Clear();
                 return orderManager.possibleDrinks[i];

@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,6 +22,12 @@ public enum CalledFunction
     sit,
     walkToCup,
     walkToMachine
+}
+
+public enum CalledInteraction
+{
+    damage,
+    push
 }
 public class CatScript : MonoBehaviour
 {
@@ -55,18 +62,25 @@ public class CatScript : MonoBehaviour
 
     [SerializeField] private GameObject counterLink;
 
-    [Header("CupLaunch")]
+    private bool sitbuffer = false;
+
+    [Header("Interaction")]
     [SerializeField] private LayerMask cupCheckMask;
     [SerializeField] private float cupLaunchForce;
     [SerializeField] private float cupLauchCD;
+
+    private GameObject curInteractObject;
+    private CalledInteraction curInteract;
 
     [Header("Yarn")]
     [SerializeField] private YarnSpawner spawner;
 
     private GameObject yarnBall;
 
-    //Componenets
+    [Header("Components")]
+    [SerializeField] private Animator animator;
     private NavMeshAgent agent;
+
 
     //Misc
     private bool canLaunch = true;
@@ -96,22 +110,9 @@ public class CatScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Rigidbody rb = other.GetComponent<Rigidbody>();
-
-        Vector3 pos = other.transform.position;
-        pos.y = 0;
-
-        Vector3 dir = (pos + other.transform.position).normalized;
-
-        rb.AddForce(dir * cupLaunchForce);
-
-        Vector3 angle = other.transform.rotation.eulerAngles + (dir * cupLaunchForce);
-
-        rb.AddTorque(angle);
-        if (other.tag == "Cup")
+        if (!walkingToMachine)
         {
-            StartNewAction();
-            StartCoroutine(CupLaunchCooldown());
+            SetInteract(CalledInteraction.push, other.gameObject);
         }
     }
 
@@ -129,15 +130,12 @@ public class CatScript : MonoBehaviour
             case CatStates.Sitting:
                 break;
             case CatStates.Walking:
-                if (Vector3.Distance(transform.position, destination) < 1.5f && walkingToMachine)
+                if (Vector3.Distance(transform.position, destination) < 1.2f && walkingToMachine)
                 {
-                    state = CatStates.Interacting;
-                    walkingToMachine = false;
-                    agent.isStopped = true;
+                    SetInteract(CalledInteraction.damage, curCoffeeMachine.gameObject);
                     break;
                 }
-
-                if (Vector3.Distance(transform.position, destination) < 0.2f)
+                else if (Vector3.Distance(transform.position, destination) < 0.3f && !walkingToMachine)
                 {
                     StartNewAction();
                 }
@@ -148,7 +146,6 @@ public class CatScript : MonoBehaviour
                 }
                 break;
             case CatStates.Interacting:
-                BreakMachine();
 
                 break;
             case CatStates.Distracted:
@@ -178,7 +175,7 @@ public class CatScript : MonoBehaviour
 
         agent.speed = type.speed.Evaluate(annoyance);
 
-        if(state != CatStates.Distracted)
+        if (state != CatStates.Distracted)
         {
             if (annoyance < 100)
             {
@@ -191,6 +188,61 @@ public class CatScript : MonoBehaviour
         }
 
         Mathf.Clamp(annoyance, 0, 100);
+    }
+
+    public void SetInteract(CalledInteraction interaction, GameObject go)
+    {
+        Debug.Log("Interacting");
+
+        curInteract = interaction;
+        curInteractObject = go;
+
+        agent.isStopped = true;
+
+        switch (interaction)
+        {
+            case CalledInteraction.damage:
+                walkingToMachine = false;
+                break;
+            case CalledInteraction.push:
+                break;
+        }
+
+        animator.SetTrigger("Interact");
+    }
+
+    public void CallInteraction()
+    {
+        switch (curInteract)
+        {
+            case CalledInteraction.damage:
+                curCoffeeMachine.fixedOrBroken = espressoAndCoffeeMachine.FixedOrBroken.Broken;
+                break;
+            case CalledInteraction.push:
+                Rigidbody rb = curInteractObject.GetComponent<Rigidbody>();
+
+                Vector3 pos = curInteractObject.transform.position;
+                pos.y = 0;
+
+                Vector3 dir = (pos + curInteractObject.transform.position).normalized;
+
+                rb.AddForce(dir * cupLaunchForce);
+
+                Vector3 angle = curInteractObject.transform.rotation.eulerAngles + (dir * cupLaunchForce);
+
+                rb.AddTorque(angle);
+                if (curInteractObject.tag == "Cup")
+                {
+                    StartNewAction();
+                    StartCoroutine(CupLaunchCooldown());
+                }
+                break;
+        }
+
+        agent.isStopped = false;
+        state = CatStates.Walking;
+
+        StartNewAction();
     }
 
     private void CheckForCups()
@@ -238,8 +290,18 @@ public class CatScript : MonoBehaviour
                         state = CatStates.Walking;
                         break;
                     case CalledFunction.sit:
-                        StartCoroutine(SitTimer());
-                        state = CatStates.Sitting;
+                        if (!sitbuffer)
+                        {
+                            StartCoroutine(SitTimer());
+                            state = CatStates.Sitting;
+                            sitbuffer = true;
+                        }
+                        else
+                        {
+                            sitbuffer = false;
+                            StartNewAction();
+                        }
+
                         break;
                     case CalledFunction.walkToCup:
                         if (canLaunch)
@@ -264,9 +326,20 @@ public class CatScript : MonoBehaviour
                         break;
                     case CalledFunction.walkToMachine:
                         if (canDmg)
-                        {
-                            destination = GenerateTarget(FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine")).transform.position);
-                            walkingToMachine = true;
+                        { 
+                            GameObject go = FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine"));
+
+                            if (go != null)
+                            {
+                                Debug.Log("Walking to machine");
+                                destination = GenerateTarget(go.transform.position);
+                                curCoffeeMachine = go.GetComponent<espressoAndCoffeeMachine>();
+                                walkingToMachine = true;
+                            }
+                            else
+                            {
+                                destination = GenerateTarget();
+                            }
                         }
                         else
                         {
@@ -277,6 +350,11 @@ public class CatScript : MonoBehaviour
 
                         state = CatStates.Walking;
                         break;
+                }
+
+                if (type.catActions[i].function != CalledFunction.sit)
+                {
+                    sitbuffer = false;
                 }
             }
         }
@@ -295,11 +373,12 @@ public class CatScript : MonoBehaviour
 
             if (CheckPath(hit.position))
             {
+                Debug.Log("Route possible");
                 potentiolTarget = hit.position;
             }
         }
-        
-        if(potentiolTarget == Vector3.zero)
+
+        if (potentiolTarget == Vector3.zero)
         {
             int loops = 0;
 
@@ -347,7 +426,6 @@ public class CatScript : MonoBehaviour
 
                 loops++;
             }
-            Debug.Log("generating dest took" + loops + "tries");
         }
         return potentiolTarget;
     }
@@ -390,28 +468,18 @@ public class CatScript : MonoBehaviour
             agent.CalculatePath(targetCup.transform.position, path1);
 
             if (path1.status == NavMeshPathStatus.PathComplete)
-            {
-                if (targetCup.tag == "CoffeeMachine")
-                {
-                    curCoffeeMachine = targetCup.GetComponent<espressoAndCoffeeMachine>();
-                }
+
                 return targetCup;
-            }
         }
         return null;
     }
 
     private IEnumerator SitTimer()
     {
+        animator.SetBool("Sitting", true);
         yield return new WaitForSeconds(5);
+        animator.SetBool("Sitting", false);
 
-        StartNewAction();
-    }
-
-    public void BreakMachine()
-    {
-        curCoffeeMachine.fixedOrBroken = espressoAndCoffeeMachine.FixedOrBroken.Broken;
-        agent.isStopped = false;
         state = CatStates.Walking;
 
         StartNewAction();
