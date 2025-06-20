@@ -65,6 +65,7 @@ public class CustomerOrder : MonoBehaviour
             manager.GeneratingOrder();
             costumerOrders.Add(manager.orderGiven);
             orderText.Add(manager.orderGiven.nameOfDrink);
+            currencyGiven += costumerOrders[i].price;
         }
         manager.activeOrders.Add(this);
 
@@ -100,12 +101,13 @@ public class CustomerOrder : MonoBehaviour
 
         if (type == SatisfactionType.speed)
         {
-            currencyManager.AddCurrency(maxCurrencyGiven * amountOfOrders);
+            currencyManager.AddCurrency(maxCurrencyGiven);
         }
         else
         {
             GenerateExtraCupFillCurrency(currencyGiven);
         }
+        cup.currentAmount = 0;
         customer.Leave();
     }
 
@@ -136,13 +138,14 @@ public class CustomerOrder : MonoBehaviour
 
     private void GenerateExtraCupFillCurrency(int cupFillCurrency)
     {
-        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount * 2);
+        cupFillCurrency = Mathf.FloorToInt(cup.currentAmount);
         for (int i = 0; i < cup.currentAmount; i++)
         {
             currencyGiven += cupFillCurrency + i;
             cup.currentAmount = 0;
         }
-        currencyManager.AddCurrency(currencyGiven * amountOfOrders);
+        currencyManager.AddCurrency(currencyGiven);
+        currencyGiven = 0;
     }
 
     private void OnCollisionEnter(Collision collision)
