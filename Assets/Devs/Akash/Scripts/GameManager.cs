@@ -2,8 +2,14 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum GameStates
+{ 
+    tutorial,
+    playingDay,
+    inbetweenDays
+}
 
-public class GameManager : MonoBehaviour
+public class GameManager : TutorialInfo
 {
     public static GameManager Instance;
 
@@ -11,6 +17,12 @@ public class GameManager : MonoBehaviour
     private float dayTimer = 0f;
 
     public bool hasDayStarted = false;
+
+    public GameStates gameState = GameStates.playingDay;
+    private GameStates returnState = GameStates.playingDay;
+
+    //Testing
+    public bool trigger = false;
 
     private void Awake()
     {
@@ -26,6 +38,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if(trigger)
+        {
+            StepFinished();
+            trigger = false;
+        }
+
         if (!hasDayStarted)
         {
             return;
@@ -46,6 +64,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartDay(0);
+
+        StartTutorial();
     }
 
 /*    public void StartNextDay()
@@ -113,6 +133,18 @@ public class GameManager : MonoBehaviour
         CustomerMovement.usedWaitSpots.Clear();
     }
 
+    //- Tutorial code -//
+
+    public void SetGameState(GameStates newState)
+    {
+        returnState = gameState;
+        gameState = newState;
+    }
+
+    public void ReturnGameState()
+    {
+        gameState = returnState;
+    }
 }
 
 
@@ -160,8 +192,4 @@ public class Daycycle
     {
         return days[currentDayIndex];
     }
-
-
-
-
 }
