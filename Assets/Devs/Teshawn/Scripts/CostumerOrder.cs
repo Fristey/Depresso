@@ -12,6 +12,7 @@ public class CustomerOrder : MonoBehaviour
     private CustomerMovement customer;
     private OrderManager manager;
     private CurrencyManager currencyManager;
+    private PointsManager pointsManager;
 
     public List<Recipes> costumerOrders;
     public List<string> orderText;
@@ -34,11 +35,15 @@ public class CustomerOrder : MonoBehaviour
     public Slider patienceSlider;
 
     [SerializeField] private GameObject emptyCup;
+
+    private int customerPoints;
+
     private void Awake()
     {
         manager = FindFirstObjectByType<OrderManager>();
         customer = GetComponent<CustomerMovement>();
         currencyManager = FindFirstObjectByType<CurrencyManager>();
+        pointsManager = FindFirstObjectByType<PointsManager>();
         costumerOrders = new List<Recipes>();
     }
     private void Start()
@@ -72,6 +77,8 @@ public class CustomerOrder : MonoBehaviour
         patienceSlider.maxValue = patiance;
 
         isWaiting = true;
+
+        customerPoints = 20 * amountOfOrders;
     }
 
     private void Update()
@@ -108,6 +115,7 @@ public class CustomerOrder : MonoBehaviour
             GenerateExtraCupFillCurrency(currencyGiven);
         }
         cup.currentAmount = 0;
+        pointsManager.AddPoints(customerPoints);
         customer.Leave();
     }
 

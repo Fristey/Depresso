@@ -1661,6 +1661,7 @@ MonoBehaviour:
   extraPatience: 5
   speedBonusTimer: 0
   patienceSlider: {fileID: 2051569852}
+  emptyCup: {fileID: 0}
 --- !u!65 &675745031
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2415,6 +2416,7 @@ MonoBehaviour:
   extraPatience: 5
   speedBonusTimer: 0
   patienceSlider: {fileID: 0}
+  emptyCup: {fileID: 0}
 --- !u!65 &1037912337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2717,6 +2719,7 @@ MonoBehaviour:
   drinkToserve: {fileID: 0}
   maxAmount: 100
   currentAmount: 0
+  visualSwapper: {fileID: 0}
 --- !u!1001 &1120456111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3719,6 +3722,7 @@ MonoBehaviour:
   extraPatience: 5
   speedBonusTimer: 0
   patienceSlider: {fileID: 1173832237}
+  emptyCup: {fileID: 0}
 --- !u!65 &1459354120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4159,6 +4163,7 @@ MonoBehaviour:
   extraPatience: 5
   speedBonusTimer: 0
   patienceSlider: {fileID: 510270689}
+  emptyCup: {fileID: 0}
 --- !u!65 &1716629835
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5785,6 +5790,7 @@ MonoBehaviour:
   drinkToserve: {fileID: 0}
   maxAmount: 100
   currentAmount: 50
+  visualSwapper: {fileID: 0}
 --- !u!135 &2070882876
 SphereCollider:
   m_ObjectHideFlags: 0
