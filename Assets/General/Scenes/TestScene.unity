@@ -285,6 +285,18 @@ PrefabInstance:
       propertyPath: normalCup
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8041371082359419619, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: drinkToserve
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041371082359419619, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: currentAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041371082359419619, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+      propertyPath: visualSwapper
+      value: 
+      objectReference: {fileID: 576791504}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -606,6 +618,17 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 8080281274027806328, guid: 1bd88d3baa4f79b47a2362d373659b6a, type: 3}
   m_PrefabInstance: {fileID: 1390248273}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &576791504 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6304311204285239921, guid: fdacba4078f928746a3e7ae35339c5f3, type: 3}
+  m_PrefabInstance: {fileID: 231919286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8fbc8f5a3739fa4fa73074970cac827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &589704535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1252572113572952237, guid: 19062ba139d69c04eaaea17afe8381f8, type: 3}
@@ -1114,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8372097770617030450, guid: 85103591aba71394cb655c9177c00510, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9145898560397166991, guid: 85103591aba71394cb655c9177c00510, type: 3}
       propertyPath: catScript
@@ -2017,7 +2040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2758110734723739050, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3333083525125770313, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2428,6 +2451,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  surface: {fileID: 1599539255}
 --- !u!1001 &7369607139174502595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2442,7 +2466,7 @@ PrefabInstance:
       objectReference: {fileID: 231919288}
     - target: {fileID: 1360446330725198976, guid: 972718e4ccde6e94399cfa31e8acb722, type: 3}
       propertyPath: possibleDrinks.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1360446330725198976, guid: 972718e4ccde6e94399cfa31e8acb722, type: 3}
       propertyPath: 'possibleDrinks.Array.data[0]'
@@ -2787,7 +2811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4962424873494216172, guid: 3f45dd719a12b274fbf30e76f139ba93, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5023616330311492654, guid: 3f45dd719a12b274fbf30e76f139ba93, type: 3}
       propertyPath: m_Layer
