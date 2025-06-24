@@ -1,33 +1,26 @@
 using System.Collections;
-using Unity.AI.Navigation;
 using UnityEngine;
 
-public class EarthQuake : MonoBehaviour
+public class EarthQuake : TempEvent
 {
     public bool isShaking;
-    [SerializeField] private float duration = 4f;
     [SerializeField] private AnimationCurve curve;
+    public GameObject map;
 
-    public NavMeshSurface surface;
-
-    void Update()
+    private void Start()
     {
-        if (isShaking)
-        {
-            isShaking = false;
-            StartCoroutine(Shake());
-        }
+        StartCoroutine(Shake());
     }
 
     IEnumerator Shake()
     {
-        Vector3 OGpos = transform.position;
+        Vector3 OGpos = map.transform.localPosition;
         float elapsedTime = 0f;
         while(elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float intensity = curve.Evaluate(elapsedTime/ duration);
-            transform.position = OGpos + Random.insideUnitSphere * intensity;
+            map.transform.localPosition = OGpos + Random.insideUnitSphere * intensity;
             yield return null;
         }
         transform.position = OGpos;
