@@ -27,12 +27,7 @@ public class CustomerSpawner : MonoBehaviour
     }
     private void Update()
     {
-        if (!GameManager.Instance.hasDayStarted)
-        {
-            return;
-        }
-
-        if(currentCustomerCount < maxCustomers)
+        if(currentCustomerCount < maxCustomers && GameManager.Instance.gameState == GameStates.playingDay)
         {
             spawnTimer += Time.deltaTime;
 

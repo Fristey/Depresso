@@ -1391,6 +1391,58 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.955944, y: 3.1999998, z: 0.3815446}
   m_Center: {x: -0.6693307, y: 0, z: 0.049999997}
+--- !u!1 &727248177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 727248179}
+  - component: {fileID: 727248178}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &727248178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727248177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905dcd8e288164d4cb63b3c8677bb1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorials:
+  - identifier: Test
+    hasPlayed: 0
+    texts:
+    - test 1
+    - test 2
+    - test 3
+    textIndex: 0
+--- !u!4 &727248179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727248177}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 539.99994, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &733180354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3284,9 +3336,33 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: steps
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: testTutorial
       value: 
       objectReference: {fileID: 11400000, guid: a0827bbd841a67b47ade569355b8826d, type: 2}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: tutorialPrefab
+      value: 
+      objectReference: {fileID: 11400000, guid: a0827bbd841a67b47ade569355b8826d, type: 2}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: texts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: 'texts.Array.data[0]'
+      value: test 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: 'texts.Array.data[1]'
+      value: test 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
+      propertyPath: 'texts.Array.data[2]'
+      value: test 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: dayCycle.days.Array.data[0].dayDuration
       value: 60
@@ -3341,3 +3417,4 @@ SceneRoots:
   - {fileID: 152105496}
   - {fileID: 2111029854}
   - {fileID: 2027633112}
+  - {fileID: 727248179}

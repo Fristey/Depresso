@@ -9,20 +9,22 @@ public enum GameStates
     inbetweenDays
 }
 
-public class GameManager : TutorialInfo
+public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [SerializeField] private Daycycle dayCycle;
     private float dayTimer = 0f;
 
-    public bool hasDayStarted = false;
+    //public bool hasDayStarted = false;
 
     public GameStates gameState = GameStates.playingDay;
     private GameStates returnState = GameStates.playingDay;
 
     //Testing
     public bool trigger = false;
+
+    private TutorialManager tutorialManager;
 
     private void Awake()
     {
@@ -38,26 +40,18 @@ public class GameManager : TutorialInfo
 
     private void Update()
     {
-        if(trigger)
+        if (gameState == GameStates.playingDay)
         {
-            StepFinished();
-            trigger = false;
-        }
+            dayTimer += Time.deltaTime;
+            float currentDayDuration = dayCycle.GetCurrentDay().dayDuration;
 
-        if (!hasDayStarted)
-        {
-            return;
-        }
-
-        dayTimer += Time.deltaTime;
-        float currentDayDuration = dayCycle.GetCurrentDay().dayDuration;
-
-        if (dayTimer >= currentDayDuration)
-        {
-            /*            hasDayStarted = false;
-                        dayTimer = 0f;
-                        StartNextDay();*/
-            EndDay();
+            if (dayTimer >= currentDayDuration)
+            {
+                /*            hasDayStarted = false;
+                            dayTimer = 0f;
+                            StartNextDay();*/
+                EndDay();
+            }
         }
     }
 
@@ -65,7 +59,7 @@ public class GameManager : TutorialInfo
     {
         StartDay(0);
 
-        StartTutorial();
+        tutorialManager = TutorialManager.instance;
     }
 
 /*    public void StartNextDay()
@@ -88,12 +82,14 @@ public class GameManager : TutorialInfo
 
         dayCycle.StartDay(dayIndex);
         dayTimer = 0f;
-        hasDayStarted = true;
+        //hasDayStarted = true;
+        gameState = GameStates.playingDay;
     }
 
     private void EndDay()
     {
-        hasDayStarted = false;
+        //hasDayStarted = false;
+        gameState = GameStates.inbetweenDays;
 
         if (EventManager.instance != null)
         {
@@ -105,7 +101,7 @@ public class GameManager : TutorialInfo
 
     public void ClickedDoor()
     {
-        if (hasDayStarted)
+        if (gameState == GameStates.playingDay)
         {
             return;
         }
@@ -120,7 +116,6 @@ public class GameManager : TutorialInfo
 
     private void RemoveAllCustomers()
     {
-        
         GameObject[] customers = GameObject.FindGameObjectsWithTag("Customer");
         foreach (GameObject customer in customers)
         {
