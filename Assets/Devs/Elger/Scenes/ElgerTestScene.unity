@@ -1428,6 +1428,14 @@ MonoBehaviour:
     - test 2
     - test 3
     textIndex: 0
+  - identifier: Test2
+    hasPlayed: 0
+    texts:
+    - rah
+    - grah
+    textIndex: 0
+  backlogTutorials: []
+  textDisplay: {fileID: 1757741750}
 --- !u!4 &727248179
 Transform:
   m_ObjectHideFlags: 0

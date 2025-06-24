@@ -11,7 +11,10 @@ public class TutorialManager : MonoBehaviour
         [Header("General")]
         public string identifier;
         public bool hasPlayed;
+
         public string[] texts;
+        public MeshRenderer[] meshRenderers;
+
         public int textIndex = 0;
     }
 
@@ -22,6 +25,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TMP_Text textDisplay;
 
     public static TutorialManager instance;
+
+    [SerializeField] private Material outlineMat;
     
 
     private void Awake()
@@ -53,6 +58,12 @@ public class TutorialManager : MonoBehaviour
                 curTurtorial = tempTutorial;
                 Debug.Log(curTurtorial.texts[curTurtorial.textIndex]);
                 textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
+
+                List<Material> materials = new List<Material>();
+                materials.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
+                materials.Add(outlineMat);
+
+                curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials);
             }
             else 
             {
@@ -73,24 +84,42 @@ public class TutorialManager : MonoBehaviour
         {
             if (curTurtorial.textIndex < curTurtorial.texts.Length - 1)
             {
+                List<Material> materials1 = new List<Material>();
+                materials1.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
+
+                curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials1);
+
                 if (nextStep != default(int))
                 {
                     curTurtorial.textIndex = nextStep;
-                    textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
                 }
                 else
                 {
                     curTurtorial.textIndex++;
-                    textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
                 }
+                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
+                {
+                    List<Material> materials = new List<Material>();
+                    materials.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
+                    materials.Add(outlineMat);
+
+                    curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials);
+                }
+
+                textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
             }
             else
             {
                 curTurtorial.hasPlayed = true;
                 textDisplay.text = string.Empty;
+
+                List<Material> materials = new List<Material>();
+                materials.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
+                curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials);
+
                 curTurtorial = null;
 
-                if(backlogTutorials.Count > 0) 
+                if (backlogTutorials.Count > 0) 
                 {
                     backlogTutorials.RemoveAll(t => t.hasPlayed == true);
 

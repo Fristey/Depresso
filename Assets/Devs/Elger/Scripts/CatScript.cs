@@ -400,7 +400,6 @@ public class CatScript : MonoBehaviour
 
                 counterTopRight = counterAccesibleArea.position + bounds2;
                 counterBottemLeft = counterAccesibleArea.position - bounds2;
-
             }
             else
             {

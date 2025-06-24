@@ -79,7 +79,6 @@ public class GameManager : MonoBehaviour
 
     private void StartDay(int dayIndex)
     {
-
         dayCycle.StartDay(dayIndex);
         dayTimer = 0f;
         //hasDayStarted = true;
