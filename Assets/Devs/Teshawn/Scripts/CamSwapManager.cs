@@ -9,6 +9,7 @@ public class CamSwapManager : MonoBehaviour
     private GrabCup grabcup;
     private LookAround lookAround;
 
+    public GameObject crosshair;
     public bool isLookingAtTablet;
     public bool isLookingAtBook;
 
@@ -28,14 +29,19 @@ public class CamSwapManager : MonoBehaviour
             movement.enabled = false;
             grabcup.enabled = false;
             lookAround.enabled = false;
+            crosshair.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
         }
         else
         {
-            tabletCam.Priority = 1;
-            movement.enabled = true;
-            grabcup.enabled = true;
-            lookAround.enabled = true;
+            if (tabletCam != null)
+            {
+                tabletCam.Priority = 1;
+                movement.enabled = true;
+                grabcup.enabled = true;
+                lookAround.enabled = true;
+                crosshair.SetActive(true);
+            }
         }
 
         if (isLookingAtBook)
@@ -44,6 +50,7 @@ public class CamSwapManager : MonoBehaviour
             movement.enabled = false;
             grabcup.enabled = false;
             lookAround.enabled = false;
+            crosshair.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
         }
         else
@@ -52,6 +59,7 @@ public class CamSwapManager : MonoBehaviour
             movement.enabled = true;
             grabcup.enabled = true;
             lookAround.enabled = true;
+            crosshair.SetActive(true);
         }
     }
 }
