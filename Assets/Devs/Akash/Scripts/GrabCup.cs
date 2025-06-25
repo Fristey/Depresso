@@ -171,42 +171,31 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            rb = hit.rigidbody;
-            holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
-            relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
-            rb.useGravity = false;
-            rb.linearDamping = 10f;
-            isHoldingCup = true;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.None;
-            if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
-            {
+            //if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
+            //{
 
-                rb = hit.rigidbody;
-                holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+            //    rb = hit.rigidbody;
+            //    holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
-                relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
-                rb.useGravity = false;
-                rb.linearDamping = 10f;
-                isHoldingCup = true;
-                rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None;
-            }
-            else if (hit.collider.CompareTag("Coffee"))
+            //    relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+            //    rb.useGravity = false;
+            //    rb.linearDamping = 10f;
+            //    isHoldingCup = true;
+            //    rb.angularVelocity = Vector3.zero;
+            //    rb.constraints = RigidbodyConstraints.None;
+            //}
+            if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
-                Debug.Log("coffee");
             }
             else if (hit.collider.CompareTag("Ice"))
             {
                 machine.mode = State.Cold;
-                Debug.Log("Ice");
             }
             else if (hit.collider.CompareTag("HotWater"))
             {
                 machine.mode = State.Hot;
-                Debug.Log("HotWater");
             }
             else if (hit.collider.CompareTag("Tablet"))
             {
@@ -237,6 +226,15 @@ public class GrabCup : MonoBehaviour
             {
                 hit.collider.gameObject.GetComponent<JarGrabScript>().SpawnInIngredient(hit.point);
             }
+            rb = hit.rigidbody;
+            holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+
+            relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+            rb.useGravity = false;
+            rb.linearDamping = 10f;
+            isHoldingCup = true;
+            rb.angularVelocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.None;
         }
     }
 
