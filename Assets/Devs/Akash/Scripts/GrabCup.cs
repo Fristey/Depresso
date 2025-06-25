@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrabCup : MonoBehaviour
@@ -191,9 +190,15 @@ public class GrabCup : MonoBehaviour
                     rb.angularVelocity = Vector3.zero;
                     rb.constraints = RigidbodyConstraints.None;
                 }
-            }else if (hit.collider.CompareTag("Book"))
+            }
+            else if (hit.collider.CompareTag("Book"))
             {
                 swapManager.isLookingAtBook = true;
+
+            }
+            else if (hit.collider.CompareTag("ingredientes"))
+            {
+                hit.collider.gameObject.GetComponent<JarGrabScript>().SpawnInIngredient(hit.point);
             }
         }
     }
@@ -259,7 +264,7 @@ public class GrabCup : MonoBehaviour
 
     private void YarnDrop()
     {
-        if(curBallScript != null)
+        if (curBallScript != null)
         {
             curBallScript.StartDistraction();
 
