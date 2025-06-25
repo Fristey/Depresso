@@ -29,6 +29,11 @@ public class YarnSpawner : MonoBehaviour
     private Collider yarnCol;
     private MeshRenderer yarnMesh;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Start()
     {
         SpawnYarn();

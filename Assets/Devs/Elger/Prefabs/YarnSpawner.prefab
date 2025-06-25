@@ -111,11 +111,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  yarnPrefab: {fileID: 5684860222992273996, guid: 3aad41c8862e454438979204ca122cdd, type: 3}
   spawn: {fileID: 1511076581861173543}
   catScript: {fileID: 0}
+  animator: {fileID: 0}
+  yarnCoil: {fileID: 1282369664353219528}
   yarnScript: {fileID: 0}
   yarnRb: {fileID: 0}
+  yarnPrefab: {fileID: 5684860222992273996, guid: 3aad41c8862e454438979204ca122cdd, type: 3}
 --- !u!65 &5245074067319375439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -202,6 +204,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddeaa7f7d8c243e48b53af46113bf71b, type: 3}
+--- !u!1 &1282369664353219528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3995754043532996352, guid: ddeaa7f7d8c243e48b53af46113bf71b, type: 3}
+  m_PrefabInstance: {fileID: 2790016577513184456}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1909584270237821298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4339241937584076218, guid: ddeaa7f7d8c243e48b53af46113bf71b, type: 3}

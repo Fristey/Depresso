@@ -8,4 +8,14 @@ public class CatAnimationEvent : MonoBehaviour
     {
         cat.CallInteraction();
     }
+
+    public void LockMovement()
+    {
+        cat.agent.isStopped = true;
+    }
+
+    public void UnlockMovement()
+    {
+        cat.agent.isStopped = false;    
+    }
 }
