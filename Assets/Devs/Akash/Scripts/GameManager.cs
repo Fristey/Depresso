@@ -62,21 +62,6 @@ public class GameManager : MonoBehaviour
         tutorialManager = TutorialManager.instance;
     }
 
-/*    public void StartNextDay()
-    {
-        if (EventManager.instance != null)
-        {
-            EventManager.instance.ClearEvents();
-        }
-
-        int nextDay = dayCycle.currentDayIndex + 1;
-        if (nextDay < dayCycle.days.Count)
-        {
-            dayCycle.StartDay(nextDay);
-            RemoveAllCustomers();
-        }
-    }*/
-
     private void StartDay(int dayIndex)
     {
         dayCycle.StartDay(dayIndex);
@@ -96,6 +81,7 @@ public class GameManager : MonoBehaviour
         }
 
         RemoveAllCustomers();
+        Debug.Log("Day has ended");
     }
 
     public void ClickedDoor()
