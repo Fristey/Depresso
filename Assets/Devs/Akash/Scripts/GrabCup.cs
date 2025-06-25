@@ -196,14 +196,17 @@ public class GrabCup : MonoBehaviour
             else if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
+                Debug.Log("coffee");
             }
             else if (hit.collider.CompareTag("Ice"))
             {
                 machine.mode = State.Cold;
+                Debug.Log("Ice");
             }
             else if (hit.collider.CompareTag("HotWater"))
             {
                 machine.mode = State.Hot;
+                Debug.Log("HotWater");
             }
             else if (hit.collider.CompareTag("Tablet"))
             {

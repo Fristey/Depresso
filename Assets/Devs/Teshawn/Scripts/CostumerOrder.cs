@@ -119,6 +119,7 @@ public class CustomerOrder : MonoBehaviour
         }
         cup.currentAmount = 0;
         pointsManager.AddPoints(customerPoints);
+        pointsManager.CalculateScore();
         customer.Leave();
     }
 
