@@ -36,6 +36,7 @@ public class CustomerOrder : MonoBehaviour
 
     [SerializeField] private GameObject emptyCup;
 
+    private GameManager gameManager;
     private int customerPoints;
 
     private void Awake()
@@ -50,6 +51,7 @@ public class CustomerOrder : MonoBehaviour
     {
         int randomMode = UnityEngine.Random.Range(0, randomSatisfactionMode);
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
+        gameManager = GameManager.Instance;
 
 
         speedBonusTimer = 0f;
@@ -88,10 +90,10 @@ public class CustomerOrder : MonoBehaviour
             GenerateExtraSpeedPoints(extraCurrency);
         }
 
-        if (customer.currentState == CustomerMovement.CustomerState.Waiting || customer.currentState == CustomerMovement.CustomerState.Sitting)
+        if ((customer.currentState == CustomerMovement.CustomerState.Waiting || customer.currentState == CustomerMovement.CustomerState.Sitting) && gameManager.gameState == GameStates.playingDay)
         {
             patiance -= Time.deltaTime;
-            patienceSlider.value = patiance;
+            
             if (patiance < 0)
             {
                 patienceSlider.value = 0;
@@ -100,6 +102,7 @@ public class CustomerOrder : MonoBehaviour
             }
         }
 
+        patienceSlider.value = patiance;
         FailedTime();
     }
 

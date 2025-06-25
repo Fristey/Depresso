@@ -2,6 +2,12 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum GameStates
+{ 
+    tutorial,
+    playingDay,
+    inbetweenDays
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +16,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Daycycle dayCycle;
     private float dayTimer = 0f;
 
-    public bool hasDayStarted = false;
+    //public bool hasDayStarted = false;
+
+    public GameStates gameState = GameStates.playingDay;
+    private GameStates returnState = GameStates.playingDay;
+
+    //Testing
+    public bool trigger = false;
+
+    private TutorialManager tutorialManager;
 
     private void Awake()
     {
@@ -26,39 +40,40 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!hasDayStarted)
+        if (gameState == GameStates.playingDay)
         {
-            return;
-        }
+            dayTimer += Time.deltaTime;
+            float currentDayDuration = dayCycle.GetCurrentDay().dayDuration;
 
-        dayTimer += Time.deltaTime;
-        float currentDayDuration = dayCycle.GetCurrentDay().dayDuration;
-
-        if (dayTimer >= currentDayDuration)
-        {
-            /*            hasDayStarted = false;
-                        dayTimer = 0f;
-                        StartNextDay();*/
-            EndDay();
+            if (dayTimer >= currentDayDuration)
+            {
+                /*            hasDayStarted = false;
+                            dayTimer = 0f;
+                            StartNextDay();*/
+                EndDay();
+            }
         }
     }
 
     private void Start()
     {
         StartDay(0);
+
+        tutorialManager = TutorialManager.instance;
     }
 
     private void StartDay(int dayIndex)
     {
-
         dayCycle.StartDay(dayIndex);
         dayTimer = 0f;
-        hasDayStarted = true;
+        //hasDayStarted = true;
+        gameState = GameStates.playingDay;
     }
 
     private void EndDay()
     {
-        hasDayStarted = false;
+        //hasDayStarted = false;
+        gameState = GameStates.inbetweenDays;
 
         if (EventManager.instance != null)
         {
@@ -71,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     public void ClickedDoor()
     {
-        if (hasDayStarted)
+        if (gameState == GameStates.playingDay)
         {
             return;
         }
@@ -86,7 +101,6 @@ public class GameManager : MonoBehaviour
 
     private void RemoveAllCustomers()
     {
-        
         GameObject[] customers = GameObject.FindGameObjectsWithTag("Customer");
         foreach (GameObject customer in customers)
         {
@@ -99,6 +113,18 @@ public class GameManager : MonoBehaviour
         CustomerMovement.usedWaitSpots.Clear();
     }
 
+    //- Tutorial code -//
+
+    public void SetGameState(GameStates newState)
+    {
+        returnState = gameState;
+        gameState = newState;
+    }
+
+    public void ReturnGameState()
+    {
+        gameState = returnState;
+    }
 }
 
 
@@ -146,8 +172,4 @@ public class Daycycle
     {
         return days[currentDayIndex];
     }
-
-
-
-
 }

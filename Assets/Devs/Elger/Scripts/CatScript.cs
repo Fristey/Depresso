@@ -13,7 +13,8 @@ enum CatStates
     Walking,
     Interacting,
     Distracted,
-    WalkingToCup
+    WalkingToCup,
+    Jumping
 }
 
 public enum CalledFunction
@@ -79,7 +80,7 @@ public class CatScript : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] private Animator animator;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
 
 
     //Misc
@@ -110,7 +111,7 @@ public class CatScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!walkingToMachine)
+        if (!walkingToMachine && state != CatStates.Jumping)
         {
             SetInteract(CalledInteraction.push, other.gameObject);
         }
@@ -169,6 +170,13 @@ public class CatScript : MonoBehaviour
                     StartNewAction();
                 }
                 break;
+            case CatStates.Jumping: 
+                if(Vector3.Distance(new Vector3(0,transform.position.y,0),new Vector3(0,destination.y,0)) < 0.1)
+                {
+                    animator.SetBool("Jump", false);
+                    state = CatStates.Walking;
+                }
+                break;
             default:
                 break;
         }
@@ -192,8 +200,6 @@ public class CatScript : MonoBehaviour
 
     public void SetInteract(CalledInteraction interaction, GameObject go)
     {
-        Debug.Log("Interacting");
-
         curInteract = interaction;
         curInteractObject = go;
 
@@ -217,6 +223,7 @@ public class CatScript : MonoBehaviour
         {
             case CalledInteraction.damage:
                 curCoffeeMachine.fixedOrBroken = espressoAndCoffeeMachine.FixedOrBroken.Broken;
+                StartNewAction();
                 break;
             case CalledInteraction.push:
                 Rigidbody rb = curInteractObject.GetComponent<Rigidbody>();
@@ -241,8 +248,6 @@ public class CatScript : MonoBehaviour
 
         agent.isStopped = false;
         state = CatStates.Walking;
-
-        StartNewAction();
     }
 
     private void CheckForCups()
@@ -326,7 +331,7 @@ public class CatScript : MonoBehaviour
                         break;
                     case CalledFunction.walkToMachine:
                         if (canDmg)
-                        { 
+                        {
                             GameObject go = FindNearestCup(GameObject.FindGameObjectsWithTag("CoffeeMachine"));
 
                             if (go != null)
@@ -400,7 +405,6 @@ public class CatScript : MonoBehaviour
 
                 counterTopRight = counterAccesibleArea.position + bounds2;
                 counterBottemLeft = counterAccesibleArea.position - bounds2;
-
             }
             else
             {
@@ -502,16 +506,25 @@ public class CatScript : MonoBehaviour
 
     public void Jump(Transform areaTrans, MeshRenderer areaRen, bool input, GameObject link)
     {
-        if (!onCounter)
+        float dist = Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0));
+
+        if (canChangeHeight && dist > 1)
         {
-            counterAccesibleArea = areaTrans;
-            counterAccesibleAreaRen = areaRen;
+            if (!onCounter)
+            {
+                counterAccesibleArea = areaTrans;
+                counterAccesibleAreaRen = areaRen;
+            }
+
+            counterLink = link;
+            onCounter = input;
+
+            agent.isStopped = true;
+            animator.SetBool("Jump", true);
+            state = CatStates.Jumping;
+
+            StartCoroutine(HeightChangeCD());
         }
-
-        counterLink = link;
-        onCounter = input;
-
-        StartCoroutine(HeightChangeCD());
     }
     private IEnumerator HeightChangeCD()
     {

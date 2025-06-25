@@ -15,6 +15,7 @@ public class YarnBall : MonoBehaviour
     [SerializeField] private Rigidbody rb;
 
     public YarnSpawner spawner;
+    public GameObject yarnCoil;
 
     [SerializeField] private CatScript cat;
 
@@ -61,11 +62,14 @@ public class YarnBall : MonoBehaviour
     {
         if(state == yarnBallStates.waiting && integrity < maxIntegrity)
         {
-            integrity += restorationSpeed * Time.deltaTime;
+            integrity += Time.deltaTime;
 
             float newScale = scaleChunk * integrity;
 
             transform.localScale = new Vector3(newScale,newScale,newScale);
+
+            float coilScale = 1 / maxIntegrity * integrity;
+            yarnCoil.transform.localScale = new Vector3(coilScale,1,coilScale);
         }
     }
 

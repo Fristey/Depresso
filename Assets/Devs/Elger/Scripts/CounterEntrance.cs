@@ -12,7 +12,6 @@ public class CounterEntrance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Cat is going up");
         cat.Jump(area, areaRen,onCounterSwitch,otherLink);
     }
 }
