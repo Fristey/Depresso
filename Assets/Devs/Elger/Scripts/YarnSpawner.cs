@@ -13,18 +13,21 @@ public class YarnSpawner : MonoBehaviour
     [Header("Logic")]
     [SerializeField] private YarnSpawnStates state = YarnSpawnStates.In;
 
-    [Header("Perm Refrences")]
-    [SerializeField] private GameObject yarnPrefab;
-
+    [Header("Misc")]
     [SerializeField] private GameObject spawn;
 
     [SerializeField] private CatScript catScript;
 
-    [Header("Temp Refrences")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject yarnCoil;
+
+    [Header("Yarn")]
     public YarnBall yarnScript;
     public Rigidbody yarnRb;
+    [SerializeField] private GameObject yarnPrefab;
     private GameObject curYarn;
     private Collider yarnCol;
+    private MeshRenderer yarnMesh;
 
     private void Start()
     {
@@ -43,11 +46,16 @@ public class YarnSpawner : MonoBehaviour
             curYarn.GetComponent<Collider>().enabled = true;
             yarnCol = curYarn.GetComponent<Collider>();
             yarnScript.spawner = this;
+            yarnScript.yarnCoil = yarnCoil;
+            yarnMesh = curYarn.GetComponentInChildren<MeshRenderer>();
         }
         curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
 
         yarnScript.StartRestoration();
+
+        animator.SetBool("Regenerating", true);
+        yarnMesh.enabled = false;
     }
 
     public bool GrabYarn()
@@ -59,6 +67,9 @@ public class YarnSpawner : MonoBehaviour
                 yarnCol.enabled = true;
                 yarnScript.Grabbed();
                 yarnRb.isKinematic = false;
+
+                animator.SetBool("Regenerating", false);
+                yarnMesh.enabled = true;
                 return true;
             case YarnSpawnStates.Out:
                 ReturnYarn();
@@ -69,6 +80,8 @@ public class YarnSpawner : MonoBehaviour
 
     public void ReturnYarn()
     {
+        Debug.Log("Return yarn");
+
         curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
         yarnCol.enabled = false;
@@ -78,5 +91,8 @@ public class YarnSpawner : MonoBehaviour
         catScript.EndDistraction();
 
         yarnScript.StartRestoration();
+
+        animator.SetBool("Regenerating", true);
+        yarnMesh.enabled = false;
     }
 }

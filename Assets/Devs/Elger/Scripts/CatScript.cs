@@ -192,8 +192,6 @@ public class CatScript : MonoBehaviour
 
     public void SetInteract(CalledInteraction interaction, GameObject go)
     {
-        Debug.Log("Interacting");
-
         curInteract = interaction;
         curInteractObject = go;
 
@@ -217,6 +215,7 @@ public class CatScript : MonoBehaviour
         {
             case CalledInteraction.damage:
                 curCoffeeMachine.fixedOrBroken = espressoAndCoffeeMachine.FixedOrBroken.Broken;
+                StartNewAction();
                 break;
             case CalledInteraction.push:
                 Rigidbody rb = curInteractObject.GetComponent<Rigidbody>();
@@ -241,8 +240,6 @@ public class CatScript : MonoBehaviour
 
         agent.isStopped = false;
         state = CatStates.Walking;
-
-        StartNewAction();
     }
 
     private void CheckForCups()
