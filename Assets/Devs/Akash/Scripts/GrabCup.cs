@@ -171,6 +171,15 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
+            rb = hit.rigidbody;
+            holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+
+            relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+            rb.useGravity = false;
+            rb.linearDamping = 10f;
+            isHoldingCup = true;
+            rb.angularVelocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.None;
             if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
             {
 
