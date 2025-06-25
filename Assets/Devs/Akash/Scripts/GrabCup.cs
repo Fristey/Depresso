@@ -225,7 +225,11 @@ public class GrabCup : MonoBehaviour
             else if (hit.collider.CompareTag("ingredientes"))
             {
                 hit.collider.gameObject.GetComponent<JarGrabScript>().SpawnInIngredient(hit.point);
+                Debug.Log("babys");
             }
+            else
+            {
+
             rb = hit.rigidbody;
             holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
@@ -235,6 +239,7 @@ public class GrabCup : MonoBehaviour
             isHoldingCup = true;
             rb.angularVelocity = Vector3.zero;
             rb.constraints = RigidbodyConstraints.None;
+            }
         }
     }
 
