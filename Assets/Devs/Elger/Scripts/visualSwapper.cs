@@ -16,7 +16,7 @@ public class VisualSwapper : MonoBehaviour
             Destroy(visualHolder.transform.GetChild(i).gameObject);
         }
 
-        GameObject _go = Instantiate(visual, position, Quaternion.identity,visualHolder.transform);
+        GameObject _go = Instantiate(visual, position, visualHolder.transform.rotation,visualHolder.transform);
         _go.transform.localPosition = position;
     }
 
@@ -27,7 +27,7 @@ public class VisualSwapper : MonoBehaviour
             Destroy(visualHolder.transform.GetChild(i).gameObject);
         }
 
-        GameObject _go = Instantiate(emptyCup, basePos, Quaternion.identity, visualHolder.transform);
+        GameObject _go = Instantiate(emptyCup, basePos, visualHolder.transform.rotation, visualHolder.transform);
         _go.transform.localPosition = basePos;
     }
 }
