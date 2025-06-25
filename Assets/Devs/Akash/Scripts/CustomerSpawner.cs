@@ -6,8 +6,8 @@ public class CustomerSpawner : MonoBehaviour
 
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private GameObject spawnPoint;
-    private float spawnInterval = 2f;
-    private int maxCustomers = 3; 
+    public float spawnInterval = 2f;
+    public int maxCustomers = 3; 
 
     public  int currentCustomerCount = 0;
 
