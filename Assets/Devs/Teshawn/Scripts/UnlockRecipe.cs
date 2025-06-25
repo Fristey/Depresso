@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UnlockRecipe : MonoBehaviour
 {
-    private OrderManager orderManager;
+    [SerializeField] private OrderManager orderManager;
     private CamSwapManager camSwapManager;
     [Header("recepe buttons")]
     [SerializeField] private GameObject prevButton, nextButton, currentRecepe, previousRecepe;
@@ -25,6 +25,11 @@ public class UnlockRecipe : MonoBehaviour
         if (camSwapManager.isLookingAtBook)
         {
             this.gameObject.SetActive(true);
+        }
+
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            camSwapManager.isLookingAtBook = false;
         }
     }
 
@@ -219,9 +224,7 @@ public class UnlockRecipe : MonoBehaviour
         recipe = candyCaneR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
         Debug.Log(mainRecipeBookMenu);
-
     }
 
     public void UnlockCattachino()
@@ -236,7 +239,7 @@ public class UnlockRecipe : MonoBehaviour
 
     public void UnlockCherryBlos()
     {
-        recipe = cattechinoR;
+        recipe = cherryBlosR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
 

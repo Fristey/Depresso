@@ -34,9 +34,14 @@ public class GrabCup : MonoBehaviour
     //Added by Elger
     private YarnBall curBallScript;
 
+
+    //Added by Teshawn
+    private CamSwapManager swapManager;
+
     private void Start()
     {
         machine = FindFirstObjectByType<espressoAndCoffeeMachine>();
+        swapManager = GetComponent<CamSwapManager>();
     }
 
     private void Update()
@@ -186,8 +191,10 @@ public class GrabCup : MonoBehaviour
                     rb.angularVelocity = Vector3.zero;
                     rb.constraints = RigidbodyConstraints.None;
                 }
+            }else if (hit.collider.CompareTag("Book"))
+            {
+                swapManager.isLookingAtBook = true;
             }
-
         }
     }
 
