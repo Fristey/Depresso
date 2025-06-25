@@ -5,7 +5,7 @@ public class GrabCup : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float grabRange = 3f;
-    [SerializeField] private float moveForce = 50f;
+    [SerializeField] private float moveForce = 150f;
     [SerializeField] private float throwForce = 10f;
     [SerializeField] private float tiltSpeed = 2f;
     [SerializeField] private float maxTiltAngle = 200f;
@@ -20,12 +20,14 @@ public class GrabCup : MonoBehaviour
     [SerializeField] private LayerMask pickupLayer;
 
     private Vector2 tilt;
+    private Vector3 holdPointPosition;
 
     private Quaternion relativeRotation = Quaternion.identity;
 
 
     private Rigidbody rb;
     private bool isHoldingCup = false;
+    private bool isRotating = false;
 
     public LookAround lookAround;
 
@@ -54,21 +56,42 @@ public class GrabCup : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             DropCup();
+
+            isRotating = false;
+            Cursor.lockState = CursorLockMode.None;
+            lookAround.lockCursor = true;
+            lookAround.canLookAround = true;
         }
 
         if (isHoldingCup && rb != null)
         {
             MoveCup();
-            if (Input.GetMouseButton(1)) // Right mouse button to rotate the cup
+
+            if (Input.GetMouseButtonDown(1)) // Right mouse button to rotate the cup
+            {
+                isRotating = true;
+                relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+                Cursor.lockState = CursorLockMode.Locked;
+
+                lookAround.lockCursor = false;
+                lookAround.canLookAround = false;
+            }
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                isRotating = false;
+                Cursor.lockState = CursorLockMode.None;
+                lookAround.lockCursor = true;
+                lookAround.canLookAround = true;
+            }
+
+            if (isRotating) // Rotate the cup while holding the right mouse button
             {
                 RotateCup();
-                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
-                lookAround.lockCursor = true;
-                lookAround.canLookAround = true;
-                Cursor.lockState = CursorLockMode.Locked;
+                rb.MoveRotation(playerCamera.transform.rotation * relativeRotation); // Keep the cup aligned with the camera rotation when not rotating it
             }
 
             if (rb.CompareTag("Extinguisher") && particleSystem != null)
@@ -147,13 +170,15 @@ public class GrabCup : MonoBehaviour
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        relativeRotation = Quaternion.identity;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
             if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
             {
 
                 rb = hit.rigidbody;
+                holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+
+                relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
                 rb.useGravity = false;
                 rb.linearDamping = 10f;
                 isHoldingCup = true;
@@ -220,7 +245,8 @@ public class GrabCup : MonoBehaviour
     {
         /*        Vector3 forceDirection = (holdPoint.position - rb.position);*/
 
-        Vector3 targetPosition = playerCamera.transform.position + playerCamera.transform.forward * holdDistance;
+        Vector3 targetGrabPoint = playerCamera.transform.position + playerCamera.transform.forward * holdDistance;
+        Vector3 targetPosition = targetGrabPoint - rb.transform.TransformVector(holdPointPosition);
         Vector3 forceDirection = (targetPosition - rb.position);
         rb.AddForce(forceDirection * moveForce * Time.deltaTime);
 
@@ -232,17 +258,22 @@ public class GrabCup : MonoBehaviour
 
     private void RotateCup()
     {
-        lookAround.lockCursor = false;
-        lookAround.canLookAround = false;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        tilt.x = Mathf.Clamp(tilt.x + mouseX * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation
-        tilt.y = Mathf.Clamp(tilt.y + mouseY * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation    
+        /*        tilt.x = Mathf.Clamp(tilt.x + mouseX * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation
+                tilt.y = Mathf.Clamp(tilt.y + mouseY * tiltSpeed, -maxTiltAngle, maxTiltAngle); // Clamp the tilt angle to prevent over-rotation    */
 
-        Quaternion tiltRotation = Quaternion.Euler(tilt.y, 0f, -tilt.x);
+        Vector3 cameraRight = playerCamera.transform.right;
+        Vector3 cameraUp = playerCamera.transform.up;
 
-        relativeRotation = tiltRotation;
+        Quaternion horizontal = Quaternion.AngleAxis(mouseX * tiltSpeed, Vector3.up);
+        Quaternion vertical = Quaternion.AngleAxis(mouseY * tiltSpeed, Vector3.right);
+
+        //Quaternion tiltRotation = Quaternion.Euler(tilt.y, 0f, -tilt.x);
+
+        relativeRotation = horizontal * vertical * relativeRotation;
 
         rb.MoveRotation(playerCamera.transform.rotation * relativeRotation);
     }
