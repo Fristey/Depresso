@@ -3,7 +3,6 @@ using UnityEngine.UIElements;
 
 public class VisualSwapper : MonoBehaviour
 {
-    [SerializeField] private Appearances[] visuals;
     [SerializeField] private GameObject visualHolder;
 
     [SerializeField] private GameObject emptyCup;
