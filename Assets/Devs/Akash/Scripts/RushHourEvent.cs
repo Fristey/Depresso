@@ -1,37 +1,45 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class RushHourEvent : MonoBehaviour
+public class RushHourEvent : TempEvent
 {
-    [SerializeField] private float rushHourDuration = 60f; // Duration of the rush hour event in seconds
-    [SerializeField] private int customerIncrease = 5; // Number of additional customers during rush hour
-    private float rushHourTimer;
-    private bool isRushHourActive = false;
+    public float rushHourSpawnTime = 0.5f;
+    [SerializeField] private int maxCustomersDuringRushHour = 7; // Maximum customers during rush hour
+    private int originalMaxCustomers; // Original maximum customers   
+
+    private float originalSpawnTime;
+
     private void Start()
     {
-        rushHourTimer = rushHourDuration;
-    }
-    private void Update()
-    {
-        if (isRushHourActive)
+        duration = 10f; // Set the duration of the rush hour event
+        if (CustomerSpawner.Instance != null)
         {
-            rushHourTimer -= Time.deltaTime;
-            if (rushHourTimer <= 0)
-            {
-                EndRushHour();
-            }
+            originalSpawnTime = CustomerSpawner.Instance.spawnInterval;
+            originalMaxCustomers = CustomerSpawner.Instance.maxCustomers;
+            CustomerSpawner.Instance.SetSpawnSettings(rushHourSpawnTime, maxCustomersDuringRushHour); // Increase max customers to 10 during rush hour
         }
+
+        Invoke(nameof(EndRushHour), duration);
+
+        Debug.Log("Rush Hour Event Started! Customers will spawn more frequently.");
     }
-    public void StartRushHour()
-    {
-        isRushHourActive = true;
-        rushHourTimer = rushHourDuration;
-        CustomerManager.Instance.counterStools.AddRange(new GameObject[customerIncrease]);
-        Debug.Log("Rush Hour started! Increased customer count by " + customerIncrease);
-    }
+
     private void EndRushHour()
     {
-        isRushHourActive = false;
-        CustomerManager.Instance.counterStools.RemoveRange(CustomerManager.Instance.counterStools.Count - customerIncrease, customerIncrease);
-        Debug.Log("Rush Hour ended!");
+        Debug.Log("Rush Hour Event Ended! Customers will return to normal spawning.");
+        if (CustomerSpawner.Instance != null)
+        {
+            CustomerSpawner.Instance.SetSpawnSettings(originalSpawnTime, originalMaxCustomers); // Reset to original settings
+        }
+        Destroy(gameObject); // Destroy the event object after it ends
+     
+    }
+
+  private void OnDestroy()
+    {
+        if(CustomerSpawner.Instance != null)
+        {
+            CustomerSpawner.Instance.SetSpawnSettings(originalSpawnTime, originalMaxCustomers); // Reset to original settings
+        }
     }
 }

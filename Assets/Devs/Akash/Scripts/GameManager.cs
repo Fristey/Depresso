@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
         }
 
         RemoveAllCustomers();
+        Debug.Log("Day has ended");
     }
 
     public void ClickedDoor()
