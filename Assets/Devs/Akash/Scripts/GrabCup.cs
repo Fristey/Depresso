@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GrabCup : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float grabRange = 3f;
-    [SerializeField] private float moveForce = 150f;
+    [SerializeField] private float moveForce = 5000f;
     [SerializeField] private float throwForce = 10f;
     [SerializeField] private float tiltSpeed = 2f;
     [SerializeField] private float maxTiltAngle = 200f;
@@ -15,6 +16,7 @@ public class GrabCup : MonoBehaviour
     [SerializeField] private float scrollSpeed = 70f;
 
     [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private GameObject vfxExtinguisher;
 
     [SerializeField] private LayerMask pickupLayer;
 
@@ -100,6 +102,7 @@ public class GrabCup : MonoBehaviour
                     if (!particleSystem.isPlaying)
                     {
                         particleSystem.Play();
+                        vfxExtinguisher.SetActive(true);
                     }
                 }
                 else
@@ -107,6 +110,7 @@ public class GrabCup : MonoBehaviour
                     if (particleSystem.isPlaying)
                     {
                         particleSystem.Stop();
+                        vfxExtinguisher.SetActive(false);
                     }
                 }
 
