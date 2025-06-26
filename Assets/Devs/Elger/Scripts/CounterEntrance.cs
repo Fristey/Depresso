@@ -10,8 +10,8 @@ public class CounterEntrance : MonoBehaviour
 
     [SerializeField] private bool onCounterSwitch;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        cat.Jump(area, areaRen,onCounterSwitch,otherLinks);
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    cat.Jump(area, areaRen,onCounterSwitch,otherLinks);
+    //}
 }

@@ -31,13 +31,14 @@ public enum CalledInteraction
     damage,
     push
 }
-public class CatScript : MonoBehaviour
+public class CatScript : PermEvent
 {
     [Header("Behaviour")]
     [SerializeField] private CatType type;
     [SerializeField] private CatStates state;
     [SerializeField] private float annoyance;
     private float annoyancePerSec;
+    [SerializeField] private Vector3 spawnPos;
 
     [Header("Movement")]
     [SerializeField] private float range;
@@ -103,6 +104,9 @@ public class CatScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         annoyancePerSec = type.annoyancePerSec;
 
+        accesibleArea = GameObject.FindWithTag("CatBounds").transform;
+        accesibleAreaRen = accesibleArea.GetComponent<MeshRenderer>();
+
         float x1 = accesibleAreaRen.bounds.size.x / 2;
         float y1 = accesibleAreaRen.bounds.size.y / 2;
         float z1 = accesibleAreaRen.bounds.size.z / 2;
@@ -111,14 +115,25 @@ public class CatScript : MonoBehaviour
 
         floorTopRight = accesibleArea.position + bounds1;
         floorBottemLeft = accesibleArea.position - bounds1;
+
+        spawner = FindFirstObjectByType<YarnSpawner>();
+        spawner.catScript = this;
     }
 
     private void Start()
     {
         tutorialManager = TutorialManager.instance;
-        tutorialManager.StartTutorial("Cat");
 
-        StartSpecificAction(CalledFunction.walk);
+        gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        if(HasStarted)
+        {
+            tutorialManager.StartTutorial("Cat");
+            StartSpecificAction(CalledFunction.walk);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -600,25 +615,25 @@ public class CatScript : MonoBehaviour
         yarnBall = null;
     }
 
-    public void Jump(Transform areaTrans, MeshRenderer areaRen, bool input, GameObject[] link)
-    {
-        //float dist = Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0));
+    //public void Jump(Transform areaTrans, MeshRenderer areaRen, bool input, GameObject[] link)
+    //{
+    //    //float dist = Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0));
 
-        //if (canChangeHeight && dist > 0.5f)
-        //{
-        //    counterAccesibleArea = areaTrans;
-        //    counterAccesibleAreaRen = areaRen;
+    //    //if (canChangeHeight && dist > 0.5f)
+    //    //{
+    //    //    counterAccesibleArea = areaTrans;
+    //    //    counterAccesibleAreaRen = areaRen;
 
-        //    counterLinks = link;
-        //    onCounter = input;
+    //    //    counterLinks = link;
+    //    //    onCounter = input;
 
-        //    agent.isStopped = true;
-        //    animator.SetBool("Jump", true);
-        //    state = CatStates.Jumping;
+    //    //    agent.isStopped = true;
+    //    //    animator.SetBool("Jump", true);
+    //    //    state = CatStates.Jumping;
 
-        //    StartCoroutine(HeightChangeCD());
-        //}
-    }
+    //    //    StartCoroutine(HeightChangeCD());
+    //    //}
+    //}
     private IEnumerator MaxJumpTime()
     {
         yield return new WaitForSeconds(2);
@@ -626,6 +641,7 @@ public class CatScript : MonoBehaviour
         {
             agent.isStopped = false;
             isJumping = false;
+            animator.SetBool("Jump", false);
         }
     }
 

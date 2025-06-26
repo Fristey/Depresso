@@ -16,7 +16,7 @@ public class YarnSpawner : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject spawn;
 
-    [SerializeField] private CatScript catScript;
+    public CatScript catScript;
 
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject yarnCoil;
