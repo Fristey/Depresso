@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class GrabCup : MonoBehaviour
 {
@@ -153,9 +152,19 @@ public class GrabCup : MonoBehaviour
             {
                 float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
                 MixingCup mixingCup = rb.GetComponent<MixingCup>();
+
                 if (mixingCup != null)
                 {
                     mixingCup.Spill(spillRate * Time.deltaTime);
+                }
+            }
+            if (tiltAngle > 90)
+            {
+                float spillRate = (tiltAngle - 50f) * 0.1f;
+                PouringScript pouring = rb.GetComponent<PouringScript>();
+                if (pouring != null)
+                {
+                    pouring.PourRate();
                 }
             }
         }
@@ -229,20 +238,19 @@ public class GrabCup : MonoBehaviour
             else if (hit.collider.CompareTag("ingredientes"))
             {
                 hit.collider.gameObject.GetComponent<JarGrabScript>().SpawnInIngredient(hit.point);
-                Debug.Log("babys");
             }
             else
             {
 
-            rb = hit.rigidbody;
-            holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+                rb = hit.rigidbody;
+                holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
-            relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
-            rb.useGravity = false;
-            rb.linearDamping = 10f;
-            isHoldingCup = true;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.None;
+                relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
             }
         }
     }

@@ -36,7 +36,8 @@ public class AddIngredient : MonoBehaviour
                     collision.gameObject.GetComponent<MixingCup>().ingredientesNames.Add(nameOfIngredient);
                     Destroy(this.gameObject);
                 }
-
+                collision.gameObject.GetComponent<MixingCup>().currentAmount++;
+                Destroy(this.gameObject);
             }
         }
     }

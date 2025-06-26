@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8805035764436050778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4998125975438660520}
+  m_Layer: 3
+  m_Name: BottleTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4998125975438660520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805035764436050778}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: -64.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7635045258195627295}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7962250104247323380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10,15 +41,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.658056
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.000000010323826
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.2951646
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
       propertyPath: m_LocalRotation.w
@@ -62,7 +93,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4998125975438660520}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
       insertIndex: -1
@@ -72,7 +106,7 @@ PrefabInstance:
       addedObject: {fileID: 487492886028641822}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5565007378949744747}
+      addedObject: {fileID: -90111728442665496}
   m_SourcePrefab: {fileID: 100100000, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
 --- !u!1 &7115390102074275749 stripped
 GameObject:
@@ -128,7 +162,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5565007378949744747
+--- !u!114 &-90111728442665496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,8 +171,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7115390102074275749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0010fdcb62712b4b8af150b7ec6bfd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c426f03f1a0edf44b9214054032cf0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientes: {fileID: 11400000, guid: 29b42993e19ea7f45b2f6022d50754be, type: 2}
-  nameOfIngredient: Tears
+  bottleTip: {fileID: 4998125975438660520}
+  ObjectToPour: {fileID: 8224868671004114267, guid: f6a2d63ae92ac9e49a20eaa2d8e6aeca, type: 3}
+--- !u!4 &7635045258195627295 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fef4b10fa9881734d8564e5944e3d961, type: 3}
+  m_PrefabInstance: {fileID: 7962250104247323380}
+  m_PrefabAsset: {fileID: 0}
