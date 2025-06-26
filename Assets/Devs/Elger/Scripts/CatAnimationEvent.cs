@@ -9,6 +9,11 @@ public class CatAnimationEvent : MonoBehaviour
         cat.CallInteraction();
     }
 
+    public void Land()
+    {
+        cat.isJumping = false;
+    }
+
     public void LockMovement()
     {
         cat.agent.isStopped = true;

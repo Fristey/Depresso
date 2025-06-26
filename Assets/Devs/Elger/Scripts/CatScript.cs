@@ -50,7 +50,11 @@ public class CatScript : MonoBehaviour
     private bool canChangeHeight = true;
     private bool onCounter = false;
 
+    public bool isJumping = false;
+
     string areaMask = "CatWalkable";
+    [SerializeField] private Vector3 groundHeight;
+    [SerializeField] private Vector3 counterHeight;
 
     private Vector3 floorTopRight;
     private Vector3 floorBottemLeft;
@@ -141,6 +145,17 @@ public class CatScript : MonoBehaviour
 
     private void Update()
     {
+        if(agent.isOnOffMeshLink && !isJumping)
+        {
+            isJumping = true;
+
+            agent.isStopped = true;
+            animator.SetBool("Jump", true);
+            state = CatStates.Jumping;
+
+            StartCoroutine(MaxJumpTime());
+        }
+
         switch (state)
         {
             case CatStates.Sitting:
@@ -464,31 +479,29 @@ public class CatScript : MonoBehaviour
 
             string otherMask;
 
-            if (onCounter && !canChangeHeight)
-            {
-                topRight = counterTopRight;
-                bottemLeft = counterBottemLeft;
+            //if (transform.position.y >= counterHeight.y && !canChangeHeight)
+            //{
+            //topRight = counterTopRight;
+            //bottemLeft = counterBottemLeft;
 
-                areaMask = "Counter"; ;
+            //areaMask = "Counter"; ;
 
-                float x2 = counterAccesibleAreaRen.bounds.size.x / 2;
-                float y2 = counterAccesibleAreaRen.bounds.size.y / 2;
-                float z2 = counterAccesibleAreaRen.bounds.size.z / 2;
+            //float x2 = counterAccesibleAreaRen.bounds.size.x / 2;
+            //float y2 = counterAccesibleAreaRen.bounds.size.y / 2;
+            //float z2 = counterAccesibleAreaRen.bounds.size.z / 2;
 
-                Vector3 bounds2 = new Vector3(x2, y2, z2);
+            //Vector3 bounds2 = new Vector3(x2, y2, z2);
 
-                counterTopRight = counterAccesibleArea.position + bounds2;
-                counterBottemLeft = counterAccesibleArea.position - bounds2;
-            }
-            else
-            {
-                topRight = floorTopRight;
-                bottemLeft = floorBottemLeft;
+            //counterTopRight = counterAccesibleArea.position + bounds2;
+            //counterBottemLeft = counterAccesibleArea.position - bounds2;
+            //}
+            //else
+            //{
+            topRight = floorTopRight;
+            bottemLeft = floorBottemLeft;
 
-                areaMask = "CatWalkable";
-            }
-
-
+            areaMask = "CatWalkable";
+            //}
 
             while (potentiolTarget == Vector3.zero && loops < 100)
             {
@@ -589,23 +602,33 @@ public class CatScript : MonoBehaviour
 
     public void Jump(Transform areaTrans, MeshRenderer areaRen, bool input, GameObject[] link)
     {
-        float dist = Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0));
+        //float dist = Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0));
 
-        if (canChangeHeight && dist > 0.5f)
+        //if (canChangeHeight && dist > 0.5f)
+        //{
+        //    counterAccesibleArea = areaTrans;
+        //    counterAccesibleAreaRen = areaRen;
+
+        //    counterLinks = link;
+        //    onCounter = input;
+
+        //    agent.isStopped = true;
+        //    animator.SetBool("Jump", true);
+        //    state = CatStates.Jumping;
+
+        //    StartCoroutine(HeightChangeCD());
+        //}
+    }
+    private IEnumerator MaxJumpTime()
+    {
+        yield return new WaitForSeconds(2);
+        if(agent.isStopped)
         {
-            counterAccesibleArea = areaTrans;
-            counterAccesibleAreaRen = areaRen;
-
-            counterLinks = link;
-            onCounter = input;
-
-            agent.isStopped = true;
-            animator.SetBool("Jump", true);
-            state = CatStates.Jumping;
-
-            StartCoroutine(HeightChangeCD());
+            agent.isStopped = false;
+            isJumping = false;
         }
     }
+
     private IEnumerator HeightChangeCD()
     {
         canChangeHeight = false;
