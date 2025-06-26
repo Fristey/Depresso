@@ -35,7 +35,7 @@ public class CustomerMovement : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         orderManager = FindAnyObjectByType<OrderManager>();
         order = GetComponent<CustomerOrder>();
-
+        
     }
 
     private void Start()
