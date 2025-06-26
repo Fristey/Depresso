@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class JarGrabScript : MonoBehaviour
 {
-    public Ingredientes ingrediente;
+    public Ingredientes ingredient;
 
+    public GameObject currentIngredient;
     public void SpawnInIngredient(Vector3 pos)
     {
-        Instantiate(ingrediente.ingredientToSpawn,pos,Quaternion.identity);
+        currentIngredient = Instantiate(ingredient.ingredientToSpawn, pos, Quaternion.identity);
     }
+
+
 }

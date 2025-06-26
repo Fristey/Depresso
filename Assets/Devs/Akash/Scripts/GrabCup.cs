@@ -237,7 +237,15 @@ public class GrabCup : MonoBehaviour
             }
             else if (hit.collider.CompareTag("ingredientes"))
             {
-                hit.collider.gameObject.GetComponent<JarGrabScript>().SpawnInIngredient(hit.point);
+                JarGrabScript jars =  hit.collider.gameObject.GetComponent<JarGrabScript>();
+                jars.SpawnInIngredient(hit.transform.position);
+                rb = jars.currentIngredient.GetComponent<Rigidbody>();
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
+
             }
             else
             {
