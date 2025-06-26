@@ -22,7 +22,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     public Ingredientes coffee;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Cup"))
+        if (collision.gameObject.CompareTag("Untagged"))
         {
             if (cup == null)
             {

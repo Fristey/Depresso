@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5234933
+      value: 12.207679
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0977512
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.54364
+      value: 3.6886883
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -66,6 +66,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7883033731369869179}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3900857693045585926}
   m_SourcePrefab: {fileID: 100100000, guid: d0c71ca2737b6964ea4347b8c4c3f1a0, type: 3}
 --- !u!1 &5615660463728336925 stripped
 GameObject:
@@ -120,3 +123,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19550228, y: 0.19550228, z: 0.19550228}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3900857693045585926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615660463728336925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0010fdcb62712b4b8af150b7ec6bfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientes: {fileID: 11400000, guid: 0fa253ef1a2550745a1363069e74ebf7, type: 2}
+  nameOfIngredient: IceCubes
