@@ -52,6 +52,7 @@ public class CatScript : PermEvent
     private bool onCounter = false;
 
     public bool isJumping = false;
+    private bool canJump = true;
 
     string areaMask = "CatWalkable";
     [SerializeField] private Vector3 groundHeight;
@@ -135,10 +136,10 @@ public class CatScript : PermEvent
             StartSpecificAction(CalledFunction.walk);
         }
     }
-
+    #region Interaction
     private void OnTriggerEnter(Collider other)
     {
-        if (!walkingToMachine && state != CatStates.Jumping && !focus)
+        if (!walkingToMachine && state != CatStates.Jumping && !focus && !isJumping)
         {
             SetInteract(CalledInteraction.push, other.gameObject);
 
@@ -149,104 +150,6 @@ public class CatScript : PermEvent
                 //StartSpecificAction(CalledFunction.walkToMachine);
             }
         }
-    }
-
-    IEnumerator CupLaunchCooldown()
-    {
-        canLaunch = false;
-        yield return new WaitForSeconds(cupLauchCD);
-        canLaunch = true;
-    }
-
-    private void Update()
-    {
-        if(agent.isOnOffMeshLink && !isJumping)
-        {
-            isJumping = true;
-
-            agent.isStopped = true;
-            animator.SetBool("Jump", true);
-            state = CatStates.Jumping;
-
-            StartCoroutine(MaxJumpTime());
-        }
-
-        switch (state)
-        {
-            case CatStates.Sitting:
-                break;
-            case CatStates.Walking:
-                if (Vector3.Distance(transform.position, destination) < 1.2f && walkingToMachine)
-                {
-                    SetInteract(CalledInteraction.damage, curCoffeeMachine.gameObject);
-                    break;
-                }
-                else if (Vector3.Distance(transform.position, destination) < 0.3f && !walkingToMachine)
-                {
-                    StartNewAction();
-                    focus = false;
-                    if (tutorialManager.StepFinished("Cat", 1))
-                    {
-                        Debug.Log("test");
-                        StartSpecificAction(CalledFunction.walkToCup);
-                    }
-                }
-
-                if (canLaunch && !walkingToMachine && !focus)
-                {
-                    CheckForCups();
-                }
-                break;
-            case CatStates.Interacting:
-
-                break;
-            case CatStates.Distracted:
-                if (yarnBall != null)
-                {
-                    if (CheckPath(yarnBall.transform.position, areaMask))
-                    {
-                        destination = yarnBall.transform.position;
-                        agent.destination = destination;
-                    }
-                    else
-                    {
-                        EndDistraction();
-                        spawner.ReturnYarn();
-                    }
-                }
-                break;
-            case CatStates.WalkingToCup:
-                if (Vector3.Distance(transform.position, destination) < 0.2)
-                {
-                    StartNewAction();
-                }
-                break;
-            case CatStates.Jumping:
-                if (Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0)) < 0.1)
-                {
-                    animator.SetBool("Jump", false);
-                    state = CatStates.Walking;
-                }
-                break;
-            default:
-                break;
-        }
-
-        agent.speed = type.speed.Evaluate(annoyance);
-
-        if (state != CatStates.Distracted)
-        {
-            if (annoyance < 100)
-            {
-                annoyance += annoyancePerSec * Time.deltaTime;
-            }
-        }
-        else if (annoyance > 0)
-        {
-            annoyance -= annoyancePerSec * Time.deltaTime;
-        }
-
-        Mathf.Clamp(annoyance, 0, 100);
     }
 
     public void SetInteract(CalledInteraction interaction, GameObject go)
@@ -302,6 +205,8 @@ public class CatScript : PermEvent
         state = CatStates.Walking;
     }
 
+
+
     private void CheckForCups()
     {
         //Gets all nearby cups inside a radius around the cat
@@ -328,6 +233,227 @@ public class CatScript : PermEvent
         }
     }
 
+    IEnumerator CupLaunchCooldown()
+    {
+        canLaunch = false;
+        yield return new WaitForSeconds(cupLauchCD);
+        canLaunch = true;
+    }
+    #endregion
+    #region Destination Genenration and Location checking
+    private Vector3 GenerateTarget(Vector3 target = default(Vector3))
+    {
+        Vector3 potentiolTarget = Vector3.zero;
+
+        if (target != default(Vector3))
+        {
+            NavMeshHit hit;
+            var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
+
+            NavMesh.SamplePosition(target, out hit, range, catWalkableMask);
+
+            if (CheckPath(hit.position, areaMask))
+            {
+                Debug.Log("Route possible");
+                potentiolTarget = hit.position;
+            }
+        }
+
+        if (potentiolTarget == Vector3.zero)
+        {
+            int loops = 0;
+
+            Vector3 topRight;
+            Vector3 bottemLeft;
+
+            string otherMask;
+
+            //if (transform.position.y >= counterHeight.y && !canChangeHeight)
+            //{
+            //topRight = counterTopRight;
+            //bottemLeft = counterBottemLeft;
+
+            //areaMask = "Counter"; ;
+
+            //float x2 = counterAccesibleAreaRen.bounds.size.x / 2;
+            //float y2 = counterAccesibleAreaRen.bounds.size.y / 2;
+            //float z2 = counterAccesibleAreaRen.bounds.size.z / 2;
+
+            //Vector3 bounds2 = new Vector3(x2, y2, z2);
+
+            //counterTopRight = counterAccesibleArea.position + bounds2;
+            //counterBottemLeft = counterAccesibleArea.position - bounds2;
+            //}
+            //else
+            //{
+            topRight = floorTopRight;
+            bottemLeft = floorBottemLeft;
+
+            areaMask = "CatWalkable";
+            //}
+
+            while (potentiolTarget == Vector3.zero && loops < 100)
+            {
+                Vector3 tempTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
+
+                NavMeshHit hit;
+                var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
+
+                NavMesh.SamplePosition(tempTarget, out hit, range, catWalkableMask);
+
+                if (CheckPath(hit.position, areaMask))
+                {
+                    potentiolTarget = hit.position;
+                    dests.Clear();
+                }
+
+                Debug.Log("loops = " + loops);
+
+                dests.Add(tempTarget);
+
+                loops++;
+            }
+        }
+        return potentiolTarget;
+    }
+
+    private bool CheckPath(Vector3 goal, string areaMask)
+    {
+        NavMeshPath path = new NavMeshPath();
+        var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
+
+        NavMesh.CalculatePath(transform.position, goal, catWalkableMask, path);
+
+        if (path.status == NavMeshPathStatus.PathComplete)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private GameObject FindNearestCup(GameObject[] cups)
+    {
+        if (cups.Length > 0)
+        {
+            GameObject targetCup = cups[0];
+
+            for (int i = 0; i < cups.Length; i++)
+            {
+                float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
+                float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
+
+                if (CheckPath(cups[i].transform.position, areaMask))
+                {
+                    if (potDist < curDist)
+                    {
+                        targetCup = cups[i];
+                    }
+                }
+            }
+
+            NavMeshPath path1 = new NavMeshPath();
+            agent.CalculatePath(targetCup.transform.position, path1);
+
+            if (path1.status == NavMeshPathStatus.PathComplete)
+
+                return targetCup;
+        }
+        return null;
+    }
+    #endregion
+    private void Update()
+    {
+        if(agent.isOnOffMeshLink && !isJumping && canJump)
+        {
+            Debug.Log("Start jump");
+            StartCoroutine(MaxJumpTime());
+            isJumping = true;
+
+            agent.isStopped = true;
+            animator.SetBool("Jump", true);
+            state = CatStates.Jumping;
+        }
+
+        switch (state)
+        {
+            case CatStates.Sitting:
+                break;
+            case CatStates.Walking:
+                if (Vector3.Distance(transform.position, destination) < 1.2f && walkingToMachine)
+                {
+                    SetInteract(CalledInteraction.damage, curCoffeeMachine.gameObject);
+                    break;
+                }
+                else if (Vector3.Distance(transform.position, destination) < 0.3f && !walkingToMachine)
+                {
+                    StartNewAction();
+                    focus = false;
+                    if (tutorialManager.StepFinished("Cat", 1))
+                    {
+                        StartSpecificAction(CalledFunction.walkToCup);
+                    }
+                }
+
+                if (canLaunch && !walkingToMachine && !focus)
+                {
+                    CheckForCups();
+                }
+                break;
+            case CatStates.Interacting:
+
+                break;
+            case CatStates.Distracted:
+                if (yarnBall != null)
+                {
+                    if (CheckPath(yarnBall.transform.position, areaMask))
+                    {
+                        destination = yarnBall.transform.position;
+                        agent.destination = destination;
+                    }
+                    else
+                    {
+                        EndDistraction();
+                        spawner.ReturnYarn();
+                    }
+                }
+                break;
+            case CatStates.WalkingToCup:
+                if (Vector3.Distance(transform.position, destination) < 0.2)
+                {
+                    StartNewAction();
+                }
+                break;
+            case CatStates.Jumping:
+                if (Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0)) < 0.2)
+                {
+                    animator.SetBool("Jump", false);
+                    state = CatStates.Walking;
+                }
+                break;
+            default:
+                break;
+        }
+
+        agent.speed = type.speed.Evaluate(annoyance);
+
+        if (state != CatStates.Distracted)
+        {
+            if (annoyance < 100)
+            {
+                annoyance += annoyancePerSec * Time.deltaTime;
+            }
+        }
+        else if (annoyance > 0)
+        {
+            annoyance -= annoyancePerSec * Time.deltaTime;
+        }
+
+        Mathf.Clamp(annoyance, 0, 100);
+    }
+
+    #region Actions
     private void StartSpecificAction(CalledFunction function)
     {
         switch (function)
@@ -467,128 +593,6 @@ public class CatScript : PermEvent
         }
     }
 
-    private Vector3 GenerateTarget(Vector3 target = default(Vector3))
-    {
-        Vector3 potentiolTarget = Vector3.zero;
-
-        if (target != default(Vector3))
-        {
-            NavMeshHit hit;
-            var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
-
-            NavMesh.SamplePosition(target, out hit, range, catWalkableMask);
-
-            if (CheckPath(hit.position, areaMask))
-            {
-                Debug.Log("Route possible");
-                potentiolTarget = hit.position;
-            }
-        }
-
-        if (potentiolTarget == Vector3.zero)
-        {
-            int loops = 0;
-
-            Vector3 topRight;
-            Vector3 bottemLeft;
-
-            string otherMask;
-
-            //if (transform.position.y >= counterHeight.y && !canChangeHeight)
-            //{
-            //topRight = counterTopRight;
-            //bottemLeft = counterBottemLeft;
-
-            //areaMask = "Counter"; ;
-
-            //float x2 = counterAccesibleAreaRen.bounds.size.x / 2;
-            //float y2 = counterAccesibleAreaRen.bounds.size.y / 2;
-            //float z2 = counterAccesibleAreaRen.bounds.size.z / 2;
-
-            //Vector3 bounds2 = new Vector3(x2, y2, z2);
-
-            //counterTopRight = counterAccesibleArea.position + bounds2;
-            //counterBottemLeft = counterAccesibleArea.position - bounds2;
-            //}
-            //else
-            //{
-            topRight = floorTopRight;
-            bottemLeft = floorBottemLeft;
-
-            areaMask = "CatWalkable";
-            //}
-
-            while (potentiolTarget == Vector3.zero && loops < 100)
-            {
-                Vector3 tempTarget = new Vector3(UnityEngine.Random.Range(topRight.x, bottemLeft.x), UnityEngine.Random.Range(topRight.y, bottemLeft.y), UnityEngine.Random.Range(topRight.z, bottemLeft.z));
-
-                NavMeshHit hit;
-                var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
-
-                NavMesh.SamplePosition(tempTarget, out hit, range, catWalkableMask);
-
-                if (CheckPath(hit.position, areaMask))
-                {
-                    potentiolTarget = hit.position;
-                    dests.Clear();
-                }
-
-                Debug.Log("loops = " + loops);
-
-                dests.Add(tempTarget);
-
-                loops++;
-            }
-        }
-        return potentiolTarget;
-    }
-
-    private bool CheckPath(Vector3 goal, string areaMask)
-    {
-        NavMeshPath path = new NavMeshPath();
-        var catWalkableMask = 1 << NavMesh.GetAreaFromName(areaMask);
-
-        NavMesh.CalculatePath(transform.position, goal, catWalkableMask, path);
-
-        if (path.status == NavMeshPathStatus.PathComplete)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    private GameObject FindNearestCup(GameObject[] cups)
-    {
-        if (cups.Length > 0)
-        {
-            GameObject targetCup = cups[0];
-
-            for (int i = 0; i < cups.Length; i++)
-            {
-                float curDist = Vector3.Distance(targetCup.transform.position, transform.position);
-                float potDist = Vector3.Distance(cups[i].transform.position, transform.position);
-
-                if (CheckPath(cups[i].transform.position, areaMask))
-                {
-                    if (potDist < curDist)
-                    {
-                        targetCup = cups[i];
-                    }
-                }
-            }
-
-            NavMeshPath path1 = new NavMeshPath();
-            agent.CalculatePath(targetCup.transform.position, path1);
-
-            if (path1.status == NavMeshPathStatus.PathComplete)
-
-                return targetCup;
-        }
-        return null;
-    }
-
     private IEnumerator SitTimer()
     {
         animator.SetBool("Sitting", true);
@@ -614,6 +618,8 @@ public class CatScript : PermEvent
 
         yarnBall = null;
     }
+    #endregion
+
 
     //public void Jump(Transform areaTrans, MeshRenderer areaRen, bool input, GameObject[] link)
     //{
@@ -645,19 +651,25 @@ public class CatScript : PermEvent
         }
     }
 
+    public void StartChangeHeightCD()
+    {
+        StartCoroutine(HeightChangeCD());
+    }
     private IEnumerator HeightChangeCD()
     {
-        canChangeHeight = false;
-        for (int i = 0; i < counterLinks.Length; i++)
-        {
-            counterLinks[i].SetActive(false);
-        }
+        //canChangeHeight = false;
+        //for (int i = 0; i < counterLinks.Length; i++)
+        //{
+        //    counterLinks[i].SetActive(false);
+        //}
+        canJump = false;
         yield return new WaitForSeconds(heightChangeCD);
-        canChangeHeight = true;
-        for (int i = 0; i < counterLinks.Length; i++)
-        {
-            counterLinks[i].SetActive(true);
-        }
+        canJump = true;
+        //canChangeHeight = true;
+        //for (int i = 0; i < counterLinks.Length; i++)
+        //{
+        //    counterLinks[i].SetActive(true);
+        //}
     }
 
     private void OnDrawGizmos()
