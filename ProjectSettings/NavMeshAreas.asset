@@ -15,7 +15,7 @@ NavMeshProjectSettings:
     cost: 1
   - name: CatCounter
     cost: 1
-  - name: 
+  - name: Counter
     cost: 1
   - name: 
     cost: 1
@@ -91,12 +91,12 @@ NavMeshProjectSettings:
       m_Flags: 0
   - serializedVersion: 3
     agentTypeID: -1372625422
-    agentRadius: 0.27
+    agentRadius: 0.23
     agentHeight: 2
-    agentSlope: 45
+    agentSlope: 60
     agentClimb: 0.4
-    ledgeDropHeight: 2
-    maxJumpAcrossDistance: 0
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 2
     minRegionArea: 2
     manualCellSize: 0
     cellSize: 0.16666667

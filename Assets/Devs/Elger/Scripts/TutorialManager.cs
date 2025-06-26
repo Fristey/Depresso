@@ -27,11 +27,11 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager instance;
 
     [SerializeField] private Material outlineMat;
-    
+
 
     private void Awake()
     {
-        if (instance == null) 
+        if (instance == null)
         {
             instance = this;
         }
@@ -49,7 +49,7 @@ public class TutorialManager : MonoBehaviour
     {
         Tutorial tempTutorial = tutorials.Find(x => x.identifier.Contains(identifier));
 
-        if (tempTutorial != null && !tempTutorial.hasPlayed) 
+        if (tempTutorial != null && !tempTutorial.hasPlayed)
         {
             if (curTurtorial == null)
             {
@@ -59,13 +59,10 @@ public class TutorialManager : MonoBehaviour
                 Debug.Log(curTurtorial.texts[curTurtorial.textIndex]);
                 textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
 
-                List<Material> materials = new List<Material>();
-                materials.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
-                materials.Add(outlineMat);
-
-                curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials);
+                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
+                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
             }
-            else 
+            else
             {
                 backlogTutorials.Add(tempTutorial);
             }
@@ -74,20 +71,41 @@ public class TutorialManager : MonoBehaviour
 
     }
 
+    private void SetMaterial(MeshRenderer meshRenderer, bool addOutline)
+    {
+        List<Material> materials = new List<Material>();
+        Material origin = null;
+
+        if (meshRenderer != null)
+        {
+            origin = meshRenderer.material;
+        }
+
+        if (origin != null && origin != outlineMat)
+        {
+            materials.Add(origin);
+        }
+
+        if (addOutline)
+        {
+            materials.Add(outlineMat);
+        }
+
+        meshRenderer.SetMaterials(materials);
+    }
+
     /// <summary>
-    /// fill nextStep if a specific step is wanted else will just play next step. Identiefier required
+    /// fill nextStep if a specific step is wanted else will just play next step. Identiefier required. Returns true if the next step could be called
     // / </summary>
     /// <param name="finishedStep"></param>
-    public virtual void StepFinished( string identifier, int nextStep = default(int))
+    public virtual bool StepFinished(string identifier, int nextStep = default(int))
     {
-        if (curTurtorial != null && !curTurtorial.hasPlayed && identifier == curTurtorial.identifier)
+        if (curTurtorial != null && !curTurtorial.hasPlayed && identifier == curTurtorial.identifier && nextStep > curTurtorial.textIndex)
         {
             if (curTurtorial.textIndex < curTurtorial.texts.Length - 1)
             {
-                List<Material> materials1 = new List<Material>();
-                materials1.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
-
-                curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials1);
+                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
+                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
 
                 if (nextStep != default(int))
                 {
@@ -97,14 +115,9 @@ public class TutorialManager : MonoBehaviour
                 {
                     curTurtorial.textIndex++;
                 }
-                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                {
-                    List<Material> materials = new List<Material>();
-                    materials.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
-                    materials.Add(outlineMat);
 
-                    curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials);
-                }
+                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
+                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
 
                 textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
             }
@@ -113,13 +126,12 @@ public class TutorialManager : MonoBehaviour
                 curTurtorial.hasPlayed = true;
                 textDisplay.text = string.Empty;
 
-                List<Material> materials = new List<Material>();
-                materials.Add(curTurtorial.meshRenderers[curTurtorial.textIndex].material);
-                curTurtorial.meshRenderers[curTurtorial.textIndex].SetMaterials(materials);
+                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
+                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
 
                 curTurtorial = null;
 
-                if (backlogTutorials.Count > 0) 
+                if (backlogTutorials.Count > 0)
                 {
                     backlogTutorials.RemoveAll(t => t.hasPlayed == true);
 
@@ -127,12 +139,17 @@ public class TutorialManager : MonoBehaviour
                     {
                         StartTutorial(backlogTutorials[0].identifier);
                     }
-                } else
+                }
+                else
                 {
                     GameManager.Instance.ReturnGameState();
                 }
             }
-
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

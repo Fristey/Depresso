@@ -24,8 +24,6 @@ public class GameManager : MonoBehaviour
     //Testing
     public bool trigger = false;
 
-    private TutorialManager tutorialManager;
-
     private void Awake()
     {
         if (Instance == null)
@@ -58,8 +56,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartDay(0);
-
-        tutorialManager = TutorialManager.instance;
     }
 
     private void StartDay(int dayIndex)

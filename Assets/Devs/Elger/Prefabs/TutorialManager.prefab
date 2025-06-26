@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5584391441125598943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8029495572990823116}
+  - component: {fileID: 5263827538005195681}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8029495572990823116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5584391441125598943}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 539.99994, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5263827538005195681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5584391441125598943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905dcd8e288164d4cb63b3c8677bb1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorials:
+  - identifier: Cat
+    hasPlayed: 0
+    texts:
+    - 'This is your cat '
+    - It has a tendency to push cups
+    - And damage machines
+    - That can be fixed with a wrench
+    - 'You can distract it and calm down by playing with it '
+    - But that only works for so long
+    meshRenderers:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    textIndex: 0
+  backlogTutorials: []
+  textDisplay: {fileID: 0}
+  outlineMat: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
