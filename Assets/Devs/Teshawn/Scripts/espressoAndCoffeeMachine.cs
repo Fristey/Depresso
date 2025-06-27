@@ -22,7 +22,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     public Ingredientes coffee;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Cup"))
+        if (collision.gameObject.CompareTag("Untagged"))
         {
             if (cup == null)
             {
@@ -36,12 +36,12 @@ public class espressoAndCoffeeMachine : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (isfixing) 
+        if (isfixing)
         {
-            isfixing = false; 
+            isfixing = false;
         }
 
-        if (cup != null) 
+        if (cup != null)
         {
             cup = null;
         }
@@ -71,6 +71,7 @@ public class espressoAndCoffeeMachine : MonoBehaviour
             {
                 fixedOrBroken = FixedOrBroken.Fixed;
                 fixingTime = 0;
+                TutorialManager.instance.StepFinished("Cat", 4);
             }
         }
         else

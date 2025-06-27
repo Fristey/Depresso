@@ -85,7 +85,8 @@ public class EventManager : MonoBehaviour
     {
         for (int i = 0; i < permEvents.Count; i++)
         {
-            Instantiate(permEvents[i], transform.position, Quaternion.identity);
+            permEvents[i].GetComponent<PermEvent>().HasStarted = true;
+            permEvents[i].SetActive(true);
         }
 
         StartCoroutine(EventCD());

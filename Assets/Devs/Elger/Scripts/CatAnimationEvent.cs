@@ -9,13 +9,21 @@ public class CatAnimationEvent : MonoBehaviour
         cat.CallInteraction();
     }
 
+    public void Land()
+    {
+        cat.isJumping = false;
+        cat.StartChangeHeightCD();
+    }
+
     public void LockMovement()
     {
         cat.agent.isStopped = true;
+        Debug.Log("Cant move");
     }
 
     public void UnlockMovement()
     {
-        cat.agent.isStopped = false;    
+        cat.agent.isStopped = false;
+        Debug.Log("Can move");
     }
 }

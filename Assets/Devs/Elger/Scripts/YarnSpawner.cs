@@ -16,7 +16,7 @@ public class YarnSpawner : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject spawn;
 
-    [SerializeField] private CatScript catScript;
+    public CatScript catScript;
 
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject yarnCoil;
@@ -54,6 +54,10 @@ public class YarnSpawner : MonoBehaviour
             yarnScript.yarnCoil = yarnCoil;
             yarnMesh = curYarn.GetComponentInChildren<MeshRenderer>();
         }
+        else
+        {
+            TutorialManager.instance.StepFinished("Cat", 7);
+        }
         curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
 
@@ -75,6 +79,7 @@ public class YarnSpawner : MonoBehaviour
 
                 animator.SetBool("Regenerating", false);
                 yarnMesh.enabled = true;
+                TutorialManager.instance.StepFinished("Cat",5);
                 return true;
             case YarnSpawnStates.Out:
                 ReturnYarn();
@@ -99,5 +104,7 @@ public class YarnSpawner : MonoBehaviour
 
         animator.SetBool("Regenerating", true);
         yarnMesh.enabled = false;
+
+        TutorialManager.instance.StepFinished("Cat", 6);
     }
 }

@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class GrabCup : MonoBehaviour
 {
@@ -154,9 +152,19 @@ public class GrabCup : MonoBehaviour
             {
                 float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
                 MixingCup mixingCup = rb.GetComponent<MixingCup>();
+
                 if (mixingCup != null)
                 {
                     mixingCup.Spill(spillRate * Time.deltaTime);
+                }
+            }
+            if (tiltAngle > 90)
+            {
+                float spillRate = (tiltAngle - 50f) * 0.1f;
+                PouringScript pouring = rb.GetComponent<PouringScript>();
+                if (pouring != null)
+                {
+                    pouring.PourRate();
                 }
             }
         }
@@ -176,29 +184,21 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            rb = hit.rigidbody;
-            holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
-            relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
-            rb.useGravity = false;
-            rb.linearDamping = 10f;
-            isHoldingCup = true;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.None;
-            if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
-            {
+            //if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
+            //{
 
-                rb = hit.rigidbody;
-                holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+            //    rb = hit.rigidbody;
+            //    holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
-                relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
-                rb.useGravity = false;
-                rb.linearDamping = 10f;
-                isHoldingCup = true;
-                rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None;
-            }
-            else if (hit.collider.CompareTag("Coffee"))
+            //    relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+            //    rb.useGravity = false;
+            //    rb.linearDamping = 10f;
+            //    isHoldingCup = true;
+            //    rb.angularVelocity = Vector3.zero;
+            //    rb.constraints = RigidbodyConstraints.None;
+            //}
+            if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
             }
@@ -229,9 +229,36 @@ public class GrabCup : MonoBehaviour
                     rb.angularVelocity = Vector3.zero;
                     rb.constraints = RigidbodyConstraints.None;
                 }
-            }else if (hit.collider.CompareTag("Book"))
+            }
+            else if (hit.collider.CompareTag("Book"))
             {
                 swapManager.isLookingAtBook = true;
+
+            }
+            else if (hit.collider.CompareTag("ingredientes"))
+            {
+                JarGrabScript jars =  hit.collider.gameObject.GetComponent<JarGrabScript>();
+                jars.SpawnInIngredient(hit.transform.position);
+                rb = jars.currentIngredient.GetComponent<Rigidbody>();
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
+
+            }
+            else
+            {
+
+                rb = hit.rigidbody;
+                holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
+
+                relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
+                rb.useGravity = false;
+                rb.linearDamping = 10f;
+                isHoldingCup = true;
+                rb.angularVelocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.None;
             }
         }
     }
@@ -303,7 +330,7 @@ public class GrabCup : MonoBehaviour
 
     private void YarnDrop()
     {
-        if(curBallScript != null)
+        if (curBallScript != null)
         {
             curBallScript.StartDistraction();
 
