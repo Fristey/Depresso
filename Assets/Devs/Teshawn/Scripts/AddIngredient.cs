@@ -85,7 +85,7 @@ public class AddIngredient : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) == false && grabStatus == GrabStatus.grabbed)
+        if (Input.GetMouseButton(0) == false && grabStatus == GrabStatus.grabbed || grabStatus == GrabStatus.none)
         {
             SetGrabbed(GrabStatus.dropped);
         }
