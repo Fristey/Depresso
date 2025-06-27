@@ -1,5 +1,14 @@
 using UnityEngine;
 
+public enum GrabStatus
+{
+    none,
+    dropped,
+    picking_up,
+    grabbed
+}
+
+
 public class GrabCup : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
@@ -39,6 +48,7 @@ public class GrabCup : MonoBehaviour
 
     //Added by Teshawn
     private CamSwapManager swapManager;
+    [SerializeField] private AddIngredient currentIngredient;
 
     private void Start()
     {
@@ -175,7 +185,7 @@ public class GrabCup : MonoBehaviour
             holdDistance = Mathf.Lerp(holdDistance, Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance), Time.deltaTime * 5f);
         }
 
-        Debug.Log("fixed update running");
+        //Debug.Log("fixed update running");
     }
 
     private void grabCup()
@@ -184,6 +194,8 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
+            Debug.Log("clicked on: " + hit.collider.name + " with tag: "+ hit.collider.tag);
+
 
             //if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
             //{
@@ -246,6 +258,12 @@ public class GrabCup : MonoBehaviour
                 rb.angularVelocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.None;
 
+                 currentIngredient = jars.currentIngredient.GetComponent<AddIngredient>();
+                if (currentIngredient != null)
+                {
+                    currentIngredient.SetGrabbed(GrabStatus.picking_up);
+                    currentIngredient.SetToGrabbed();
+                }
             }
             else
             {
@@ -259,6 +277,14 @@ public class GrabCup : MonoBehaviour
                 isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.None;
+
+                 currentIngredient = hit.collider.gameObject.GetComponent<AddIngredient>();
+                if (currentIngredient != null)
+                {
+                    currentIngredient.SetGrabbed(GrabStatus.picking_up);
+                    currentIngredient.SetToGrabbed();
+                }
+      
             }
         }
     }
