@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 public class FireEvent : TempEvent
 {
     [SerializeField] GameObject firePrefab;
     [SerializeField] private Vector3 center;
     [SerializeField] private float spawnRadius = 2f;
+
 
     private void Start()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FireSource : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class FireSource : MonoBehaviour
     private bool isSpreading = false;
     private bool isExtinguished = false;
 
+    private float gameOverTime = 15f;
+    private float elapsedTime = 0f;
     public void StartFire()
     {
         if(isExtinguished)
@@ -31,7 +34,17 @@ public class FireSource : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        Debug.Log("Update on");
+        elapsedTime += Time.deltaTime;
 
+        if (elapsedTime >= gameOverTime)
+        {
+            Debug.Log("MEOW");
+            SceneManager.LoadScene("StartScene");
+        }
+    }
     private IEnumerator Spread()
     {
         while (isSpreading)
