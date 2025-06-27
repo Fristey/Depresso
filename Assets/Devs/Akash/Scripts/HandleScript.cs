@@ -40,13 +40,13 @@ public class HandleScript : MonoBehaviour
         coffeeMachine.currentIngredient();
         if (Input.GetMouseButtonDown(0))
         {
-            lookAround.canLookAround = false; // Disable looking around when holding the handle
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 3f))
             {
 
                 if (hit.transform == transform)
                 {
+                    lookAround.canLookAround = false; // Disable looking around when holding the handle
                     isHeldDown = true;
                 }
             }

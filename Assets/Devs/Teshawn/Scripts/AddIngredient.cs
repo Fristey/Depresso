@@ -7,32 +7,64 @@ public class AddIngredient : MonoBehaviour
     public Ingredientes ingredientes;
     public string nameOfIngredient;
 
-    private bool canBeDestroyed;
+    public bool isGrabbed;
+    [SerializeField] private GrabStatus grabStatus;
+
     private float destroyDelayTimer = 5f;
 
     private void Start()
     {
+        isGrabbed = true;
+        grabStatus = GrabStatus.none;
+
         nameOfIngredient = ingredientes.nameOfIngredient;
         originalPos = this.transform.position;
+    }
 
-        canBeDestroyed = false;
+    public void SetToGrabbed()
+    {
+        Invoke("InvokeGrabbed", 1f);
+    }
+
+    private void InvokeGrabbed()
+    {
+        grabStatus = GrabStatus.grabbed;
     }
 
     private void Update()
     {
+        if (Input.GetMouseButton(0) == false && grabStatus == GrabStatus.grabbed)
+        {
+            SetGrabbed(GrabStatus.dropped);
+        }
+
         if (this.transform.position.y < -5)
             this.transform.position = originalPos;
 
-        destroyDelayTimer -= Time.deltaTime;
-        if (destroyDelayTimer <= 0)
+        if (grabStatus == GrabStatus.dropped)
+            destroyDelayTimer -= Time.deltaTime;
+
+        if (grabStatus == GrabStatus.grabbed || grabStatus == GrabStatus.picking_up)
+            destroyDelayTimer = 5;
+
+        if (destroyDelayTimer <= 0 && grabStatus == GrabStatus.dropped)
         {
             destroyDelayTimer = 0;
-            canBeDestroyed = true;
+            Destroy(this.gameObject);
         }
+        //Debug.Log(isGrabbed);
+    }
+
+    public void SetGrabbed( GrabStatus status)
+    {
+        Debug.Log("SetGrabbed: " + status);
+        grabStatus = status ;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("collision with: " + collision.gameObject.name);
+
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             if (collision.gameObject.GetComponent<MixingCup>().currentAmount < collision.gameObject.GetComponent<MixingCup>().maxAmount)
@@ -52,9 +84,10 @@ public class AddIngredient : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        else if (collision.gameObject.CompareTag("Untagged") && canBeDestroyed)
+
+        if (Input.GetMouseButton(0) == false && grabStatus == GrabStatus.grabbed || grabStatus == GrabStatus.none)
         {
-            Destroy(this.gameObject, 5f);
+            SetGrabbed(GrabStatus.dropped);
         }
     }
 }
