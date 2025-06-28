@@ -369,6 +369,14 @@ public class CatScript : PermEvent
         {
             Debug.Log("Start jump");
             StartCoroutine(MaxJumpTime());
+            StartChangeHeightCD();
+
+            if(CheckPath(destination, areaMask))
+            {
+                destination = GenerateTarget();
+                agent.destination = destination;
+            }
+
             isJumping = true;
 
             agent.isStopped = true;
@@ -426,7 +434,7 @@ public class CatScript : PermEvent
                 }
                 break;
             case CatStates.Jumping:
-                if (Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0)) < 0.2)
+                if (!agent.isOnOffMeshLink)
                 {
                     animator.SetBool("Jump", false);
                     state = CatStates.Walking;
@@ -657,19 +665,17 @@ public class CatScript : PermEvent
     }
     private IEnumerator HeightChangeCD()
     {
-        //canChangeHeight = false;
-        //for (int i = 0; i < counterLinks.Length; i++)
-        //{
-        //    counterLinks[i].SetActive(false);
-        //}
+        for (int i = 0; i < counterLinks.Length; i++)
+        {
+            counterLinks[i].SetActive(false);
+        }
         canJump = false;
         yield return new WaitForSeconds(heightChangeCD);
         canJump = true;
-        //canChangeHeight = true;
-        //for (int i = 0; i < counterLinks.Length; i++)
-        //{
-        //    counterLinks[i].SetActive(true);
-        //}
+        for (int i = 0; i < counterLinks.Length; i++)
+        {
+            counterLinks[i].SetActive(true);
+        }
     }
 
     private void OnDrawGizmos()
