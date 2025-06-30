@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class TutorialManager : MonoBehaviour
 
         public string[] texts;
         public MeshRenderer[] meshRenderers;
+
+        public float maxTutorialTime;
 
         public int textIndex = 0;
     }
@@ -55,20 +58,20 @@ public class TutorialManager : MonoBehaviour
             {
                 GameManager.Instance.SetGameState(GameStates.tutorial);
 
+                StartCoroutine(TutorialTimer());
+
                 curTurtorial = tempTutorial;
                 Debug.Log(curTurtorial.texts[curTurtorial.textIndex]);
                 textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
 
                 if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
+                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], true);
             }
             else
             {
                 backlogTutorials.Add(tempTutorial);
             }
         }
-
-
     }
 
     private void SetMaterial(MeshRenderer meshRenderer, bool addOutline)
@@ -100,7 +103,7 @@ public class TutorialManager : MonoBehaviour
     /// <param name="finishedStep"></param>
     public virtual bool StepFinished(string identifier, int nextStep = default(int))
     {
-        if (curTurtorial != null && !curTurtorial.hasPlayed && identifier == curTurtorial.identifier && nextStep > curTurtorial.textIndex)
+        if (curTurtorial != null && !curTurtorial.hasPlayed && identifier == curTurtorial.identifier && nextStep == curTurtorial.textIndex+1)
         {
             if (curTurtorial.textIndex < curTurtorial.texts.Length - 1)
             {
@@ -117,12 +120,14 @@ public class TutorialManager : MonoBehaviour
                 }
 
                 if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
+                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], true);
 
                 textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
             }
             else
             {
+                StopAllCoroutines();
+
                 curTurtorial.hasPlayed = true;
                 textDisplay.text = string.Empty;
 
@@ -150,6 +155,15 @@ public class TutorialManager : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    private IEnumerator TutorialTimer()
+    {
+        yield return new WaitForSeconds(curTurtorial.maxTutorialTime);
+        if (curTurtorial.hasPlayed)
+        {
+            StepFinished(curTurtorial.identifier, curTurtorial.meshRenderers.Length - 1);
         }
     }
 }
