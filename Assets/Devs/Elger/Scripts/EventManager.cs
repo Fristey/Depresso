@@ -136,6 +136,12 @@ public class EventManager : MonoBehaviour
 
         permEvents.Clear();
         curEvent = null;
+
+        for (int i = 0; i < permEvents.Count; i++)
+        {
+            permEvents[i].GetComponent<PermEvent>().HasStarted = false;
+            permEvents[i].SetActive(false);
+        }
     }
     
     private IEnumerator EventDur()
