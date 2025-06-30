@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: FakeCoffee
   m_EditorClassIdentifier: 
   requiredIngredientes:
-  - {fileID: 11400000, guid: 6406323a02be9134db3582f8301100f3, type: 2}
+  - {fileID: 11400000, guid: 0cff4801c16bbb248bfdc9b07b5828fe, type: 2}
   - {fileID: 11400000, guid: 0fa253ef1a2550745a1363069e74ebf7, type: 2}
-  - {fileID: 11400000, guid: a175880bdc8f8ff43b68b2d97057dd88, type: 2}
   nameOfDrink: FakeCoffee
-  drink: {fileID: 0}
+  drink: {fileID: 1614156065620242929, guid: e45e049d676a0dd4d88ca189d90c7d22, type: 3}
+  price: 10
+  position: {x: 0, y: 0, z: 0}
