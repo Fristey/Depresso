@@ -64,9 +64,21 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1489127855729941654, guid: 77e2ca1a78b8e194ab09e162dfe172a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -42.861755
+      objectReference: {fileID: 0}
+    - target: {fileID: -1489127855729941654, guid: 77e2ca1a78b8e194ab09e162dfe172a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 6.190154e-16
+      objectReference: {fileID: 0}
+    - target: {fileID: -1489127855729941654, guid: 77e2ca1a78b8e194ab09e162dfe172a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 2.3091177e-15
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 77e2ca1a78b8e194ab09e162dfe172a3, type: 3}
       propertyPath: m_Name
-      value: CatWalk (1)
+      value: P_Jerald
       objectReference: {fileID: 0}
     - target: {fileID: 8450823977713706984, guid: 77e2ca1a78b8e194ab09e162dfe172a3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

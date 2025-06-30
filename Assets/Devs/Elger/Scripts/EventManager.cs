@@ -83,8 +83,12 @@ public class EventManager : MonoBehaviour
     //Allowing the gameManager to start the days events (A kind of start function)
     public void StartEvents()
     {
+
         for (int i = 0; i < permEvents.Count; i++)
         {
+            Debug.Log("Starting day events");
+
+
             permEvents[i].GetComponent<PermEvent>().HasStarted = true;
             permEvents[i].SetActive(true);
         }
@@ -132,6 +136,12 @@ public class EventManager : MonoBehaviour
 
         permEvents.Clear();
         curEvent = null;
+
+        for (int i = 0; i < permEvents.Count; i++)
+        {
+            permEvents[i].GetComponent<PermEvent>().HasStarted = false;
+            permEvents[i].SetActive(false);
+        }
     }
     
     private IEnumerator EventDur()

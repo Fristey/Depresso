@@ -43,6 +43,7 @@ public class FireSource : MonoBehaviour
         {
             Debug.Log("MEOW");
             SceneManager.LoadScene("StartScene");
+            Cursor.lockState = CursorLockMode.None;
         }
     }
     private IEnumerator Spread()

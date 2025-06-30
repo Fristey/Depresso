@@ -56,7 +56,7 @@ public class YarnSpawner : MonoBehaviour
         }
         else
         {
-            TutorialManager.instance.StepFinished("Cat", 7);
+            TutorialManager.instance.StepFinished("Cat", 6);
         }
         curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
