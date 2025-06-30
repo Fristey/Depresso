@@ -163,7 +163,7 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(curTurtorial.maxTutorialTime);
         if (curTurtorial.hasPlayed)
         {
-            StepFinished(curTurtorial.identifier, curTurtorial.meshRenderers.Length - 1);
+            StepFinished(curTurtorial.identifier, curTurtorial.meshRenderers.Length);
         }
     }
 }

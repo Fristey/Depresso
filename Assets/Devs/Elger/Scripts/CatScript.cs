@@ -390,6 +390,12 @@ public class CatScript : PermEvent
         switch (state)
         {
             case CatStates.Sitting:
+                if (isDistracted)
+                {
+                    animator.SetBool("Sitting", false);
+
+                    state = CatStates.Walking;
+                }
                 break;
             case CatStates.Walking:
 
