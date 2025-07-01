@@ -262,7 +262,7 @@ public class GrabCup : MonoBehaviour
             else
             {
 
-                rb = hit.rigidbody;
+                rb = hit.rigidbody; 
                 holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
 
                 relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;

@@ -31,6 +31,8 @@ public class MixingCup : MonoBehaviour
         if (currentAmount <= 0)
         {
             visualSwapper.ResetVisual();
+            cupIngredientes.Clear();
+            ingredientesNames.Clear();
             drinkToserve = null;
         }
     }
