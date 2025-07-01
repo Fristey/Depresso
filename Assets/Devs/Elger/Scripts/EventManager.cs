@@ -134,7 +134,6 @@ public class EventManager : MonoBehaviour
         tempEvents.Clear();
         playableTempEvents.Clear();
 
-        permEvents.Clear();
         curEvent = null;
 
         for (int i = 0; i < permEvents.Count; i++)
@@ -142,6 +141,8 @@ public class EventManager : MonoBehaviour
             permEvents[i].GetComponent<PermEvent>().HasStarted = false;
             permEvents[i].SetActive(false);
         }
+
+        permEvents.Clear();
     }
     
     private IEnumerator EventDur()

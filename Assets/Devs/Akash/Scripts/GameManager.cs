@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public enum GameStates
 { 
@@ -91,6 +92,9 @@ public class GameManager : MonoBehaviour
         if (nextDay < dayCycle.days.Count)
         {
             StartDay(nextDay);
+        } else
+        {
+            SceneManager.LoadScene("EndScene");
         }
     }
 
