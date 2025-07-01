@@ -341,8 +341,13 @@ public class CatScript : PermEvent
             agent.CalculatePath(targetCup.transform.position, path1);
 
             if (path1.status == NavMeshPathStatus.PathComplete)
-
+            {
                 return targetCup;
+            } else
+            {
+                tutorialManager.StepFinished("Cat", 3);
+            }
+
         }
         return null;
     }
