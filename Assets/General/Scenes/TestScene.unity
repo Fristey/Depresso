@@ -1495,9 +1495,61 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: book
+      value: 
+      objectReference: {fileID: 311708530}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: coffeeM
+      value: 
+      objectReference: {fileID: 2100000, guid: deb3dc67cd48b9344911924a6fa96dce, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: cosmosM
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b5ba7af64c0ea14cab068955f97622b, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: appleCinM
+      value: 
+      objectReference: {fileID: 2100000, guid: ed91751974dff2e468b7d203b4470caf, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: lavanderM
+      value: 
+      objectReference: {fileID: 2100000, guid: 96f2aa1da9ea4f04f98599123e024f4e, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: candyCaneM
+      value: 
+      objectReference: {fileID: 2100000, guid: 46b817562354c344ba3ca3559e968669, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: iceCoffeeM
+      value: 
+      objectReference: {fileID: 2100000, guid: efce227b662b17742976fbfc3665898d, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: rosecardaM
+      value: 
+      objectReference: {fileID: 2100000, guid: c99a03d7096ee3543b9202eba37aa3d1, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: cattechinoM
+      value: 
+      objectReference: {fileID: 2100000, guid: 5611567d36fef234b9068f2205d42451, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: cherryBlosM
+      value: 
+      objectReference: {fileID: 2100000, guid: 36d5bfd8131561e4da10ee95d277a2a5, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: orderManager
+      value: 
+      objectReference: {fileID: 661936096}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: currentRecepe
       value: 
       objectReference: {fileID: 313621348}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: pumpkinSpiceM
+      value: 
+      objectReference: {fileID: 2100000, guid: a2fc428897d40a74ea92e41ddfd0e7fd, type: 2}
+    - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: espressoDepreM
+      value: 
+      objectReference: {fileID: 2100000, guid: 9604840b98ab9ef46bc389dd17ff3443, type: 2}
     - target: {fileID: 6089758485778375445, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1675,7 +1727,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 440413466308584855, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
@@ -3318,6 +3371,17 @@ MonoBehaviour:
   m_Bidirectional: 1
   m_AutoUpdatePosition: 0
   m_Area: 3
+--- !u!114 &661936096 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1360446330725198976, guid: 972718e4ccde6e94399cfa31e8acb722, type: 3}
+  m_PrefabInstance: {fileID: 7369607139174502595}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a992f8d8bfb61c7478b7f3fb0f1affd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &663030385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9345,7 +9409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2492990714357030986, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2492990714357030986, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_TagString

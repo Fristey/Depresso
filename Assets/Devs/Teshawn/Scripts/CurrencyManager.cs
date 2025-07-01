@@ -13,6 +13,10 @@ public class CurrencyManager : MonoBehaviour
 
     private void Update()
     {
-        currencyText.text = playerCurrency.ToString();
+        if (currencyText != null)
+        {
+
+            currencyText.text = playerCurrency.ToString();
+        }
     }
 }
