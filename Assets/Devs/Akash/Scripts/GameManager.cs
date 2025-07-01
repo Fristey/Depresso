@@ -143,7 +143,7 @@ public class Daycycle
 
     public void StartDay(int dayNumber)
     {
-        Debug.Log("Start the day");
+        Debug.Log(dayNumber);
 
         currentDayIndex = dayNumber;
 
