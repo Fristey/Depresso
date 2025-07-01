@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] private Daycycle dayCycle;
+    [SerializeField] public Daycycle dayCycle;
     private float dayTimer = 0f;
 
     //public bool hasDayStarted = false;
@@ -141,6 +141,7 @@ public class Daycycle
         [SerializeField] public List<GameObject> temporaryEvents = new List<GameObject>();
         [SerializeField] public List<GameObject> permanentEvents = new List<GameObject>();
         public int eventAmount;
+        [SerializeField] public int maxOrdersPerCustomer;
     }
     [SerializeField] public List<Day> days = new List<Day>();
     [SerializeField] public int currentDayIndex = 0;

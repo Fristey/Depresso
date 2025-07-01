@@ -39,6 +39,7 @@ public class CustomerOrder : MonoBehaviour
     private GameManager gameManager;
     private int customerPoints;
 
+
     private void Awake()
     {
         manager = FindFirstObjectByType<OrderManager>();
@@ -66,7 +67,7 @@ public class CustomerOrder : MonoBehaviour
             patiance += extraPatience;
         }
 
-        amountOfOrders = UnityEngine.Random.Range(1, 3);
+        amountOfOrders = UnityEngine.Random.Range(1, gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer + 1);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
@@ -93,7 +94,7 @@ public class CustomerOrder : MonoBehaviour
         if ((customer.currentState == CustomerMovement.CustomerState.Waiting || customer.currentState == CustomerMovement.CustomerState.Sitting) && gameManager.gameState == GameStates.playingDay)
         {
             patiance -= Time.deltaTime;
-            
+
             if (patiance < 0)
             {
                 patienceSlider.value = 0;
@@ -170,7 +171,7 @@ public class CustomerOrder : MonoBehaviour
             {
                 for (int i = 0; i < costumerOrders.Count; i++)
                 {
-                    if (costumerOrders.Contains(collision.gameObject.GetComponent<MixingCup>().drinkToserve))
+                    if (costumerOrders.Contains(cup.drinkToserve))
                     {
                         //Elger: switch the cup back to the blank cup
                         swapper.ResetVisual();
@@ -186,8 +187,8 @@ public class CustomerOrder : MonoBehaviour
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
 
-                        costumerOrders.RemoveAt(i);
-                        orderText.RemoveAt(i);
+                        costumerOrders.Remove(cup.drinkToserve);
+                        orderText.Remove(cup.drinkName);
                     }
                 }
             }

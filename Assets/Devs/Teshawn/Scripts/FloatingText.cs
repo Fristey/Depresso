@@ -36,7 +36,7 @@ public class FloatingText : MonoBehaviour
             }
             else if(mixingCup.drinkToserve != null)
             {
-                textMeshPro.text = mixingCup.drinkToserve.nameOfDrink;
+                textMeshPro.text = mixingCup.drinkName;
             }
             else
             {
