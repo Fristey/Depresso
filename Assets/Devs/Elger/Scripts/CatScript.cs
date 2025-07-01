@@ -125,6 +125,16 @@ public class CatScript : PermEvent
 
         tutorialManager.StartTutorial("Cat");
         StartSpecificAction(CalledFunction.walk);
+
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("CoffeeMachine").Length ; i++)
+        {
+            Debug.Log(GameObject.FindGameObjectsWithTag("CoffeeMachine")[i]);
+        }
+    }
+
+    private void OnEnable()
+    {
+            FindObjectOfType<YarnSpawner>().catScript = this;
     }
 
     #region Interaction
@@ -343,7 +353,8 @@ public class CatScript : PermEvent
             if (path1.status == NavMeshPathStatus.PathComplete)
             {
                 return targetCup;
-            } else
+            }
+            else
             {
                 tutorialManager.StepFinished("Cat", 3);
             }
@@ -354,13 +365,13 @@ public class CatScript : PermEvent
     #endregion
     private void Update()
     {
-        if(agent.isOnOffMeshLink && !isJumping && canJump)
+        if (agent.isOnOffMeshLink && !isJumping && canJump)
         {
             Debug.Log("Start jump");
             StartCoroutine(MaxJumpTime());
             StartChangeHeightCD();
 
-            if(CheckPath(destination, areaMask))
+            if (CheckPath(destination, areaMask))
             {
                 destination = GenerateTarget();
                 agent.destination = destination;
@@ -406,7 +417,7 @@ public class CatScript : PermEvent
                     agent.destination = destination;
                 }
 
-                if (!CheckPath(destination, areaMask)) 
+                if (!CheckPath(destination, areaMask))
                 {
                     StartNewAction();
                 }
@@ -645,7 +656,7 @@ public class CatScript : PermEvent
         StartNewAction();
 
         yarnBall = null;
-        isDistracted= false;
+        isDistracted = false;
     }
     #endregion
 
@@ -672,7 +683,7 @@ public class CatScript : PermEvent
     private IEnumerator MaxJumpTime()
     {
         yield return new WaitForSeconds(2);
-        if(agent.isStopped)
+        if (agent.isStopped)
         {
             agent.isStopped = false;
             isJumping = false;
