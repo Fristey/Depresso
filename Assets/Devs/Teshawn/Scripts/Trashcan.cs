@@ -11,6 +11,7 @@ public class Trashcan : MonoBehaviour
             if (collision.gameObject.GetComponent<MixingCup>().drinkToserve == null)
             {
                 collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Clear();
+                collision.gameObject.GetComponent<MixingCup>().ingredientesNames.Clear();
                 collision.gameObject.GetComponent<MixingCup>().currentAmount = 0;
             }
             else
