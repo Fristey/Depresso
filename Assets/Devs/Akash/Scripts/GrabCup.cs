@@ -106,15 +106,12 @@ public class GrabCup : MonoBehaviour
 
             if (rb.CompareTag("Extinguisher") && particleSystem != null)
             {
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    if (!particleSystem.isPlaying)
-                    {
                         particleSystem.Play();
                         vfxExtinguisher.SetActive(true);
-                    }
                 }
-                else
+                else if(Input.GetKeyUp(KeyCode.Space))
                 {
                     if (particleSystem.isPlaying)
                     {
@@ -194,9 +191,6 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            Debug.Log("clicked on: " + hit.collider.name + " with tag: "+ hit.collider.tag);
-
-
             //if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
             //{
 

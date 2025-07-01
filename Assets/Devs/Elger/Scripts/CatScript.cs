@@ -242,7 +242,6 @@ public class CatScript : PermEvent
 
             if (CheckPath(hit.position, areaMask))
             {
-                Debug.Log("Route possible");
                 potentiolTarget = hit.position;
             }
         }
@@ -294,9 +293,6 @@ public class CatScript : PermEvent
                     potentiolTarget = hit.position;
                     dests.Clear();
                 }
-
-                Debug.Log("loops = " + loops);
-
                 dests.Add(tempTarget);
 
                 loops++;
@@ -426,7 +422,6 @@ public class CatScript : PermEvent
                     focus = false;
                     if (tutorialManager.StepFinished("Cat", 1))
                     {
-                        Debug.Log("Walking to cup");
                         StartSpecificAction(CalledFunction.walkToCup);
                     }
                 }
