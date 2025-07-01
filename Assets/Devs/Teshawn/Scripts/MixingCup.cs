@@ -10,6 +10,7 @@ public class MixingCup : MonoBehaviour
     public List<Ingredientes> cupIngredientes;
     public List<string> ingredientesNames;
     public GameObject normalCup;
+    public string drinkName;
     public Recipes drinkToserve;
 
     OrderManager orderManager;
@@ -52,6 +53,7 @@ public class MixingCup : MonoBehaviour
             if (cupIngredientes.SequenceEqual(orderManager.possibleDrinks[i].requiredIngredientes))
             {
                 drinkToserve = orderManager.possibleDrinks[i];
+                drinkName = orderManager.possibleDrinks[i].nameOfDrink;
                 visualSwapper.Swap(drinkToserve.drink, drinkToserve.position);
                 currentAmount += 20;
                 ingredientesNames.Clear();
