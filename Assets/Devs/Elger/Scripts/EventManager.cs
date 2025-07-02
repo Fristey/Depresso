@@ -101,10 +101,12 @@ public class EventManager : MonoBehaviour
         switch (state)
         {
             case EventManagerStates.Waiting:
-                if(eventAmount > 0)
+                if (eventAmount > 0)
                 {
                     //Spawn New Event
-                    curEvent = Instantiate(SelectEvent(), transform.position, Quaternion.identity);
+                    curEvent = SelectEvent();
+                    if (curEvent == null)
+                        Instantiate(curEvent, transform.position, Quaternion.identity);
 
                     eventDur = GetEventDur();
                     StartCoroutine(EventDur());
@@ -144,7 +146,7 @@ public class EventManager : MonoBehaviour
 
         permEvents.Clear();
     }
-    
+
     private IEnumerator EventDur()
     {
         state = EventManagerStates.Playing;
@@ -154,7 +156,7 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSeconds(eventDur);
 
         Destroy(curEvent);
-        StartCoroutine (EventCD());
+        StartCoroutine(EventCD());
     }
     private IEnumerator EventCD()
     {
@@ -174,16 +176,20 @@ public class EventManager : MonoBehaviour
     private GameObject SelectEvent()
     {
         int index = Random.Range(0, playableTempEvents.Count - 1);
-        GameObject chosenEvent = playableTempEvents[index];
-
-        playableTempEvents.RemoveAt(index);
-        eventAmount--;
-
-        if (playableTempEvents.Count == 0)
+        if (playableTempEvents[index] == null)
         {
-            playableTempEvents = new List<GameObject>(tempEvents);
-        }
+            GameObject chosenEvent = playableTempEvents[index];
 
-        return chosenEvent;
+            playableTempEvents.RemoveAt(index);
+            eventAmount--;
+
+            if (playableTempEvents.Count == 0)
+            {
+                playableTempEvents = new List<GameObject>(tempEvents);
+            }
+
+            return chosenEvent;
+        }
+        return null;
     }
 }
