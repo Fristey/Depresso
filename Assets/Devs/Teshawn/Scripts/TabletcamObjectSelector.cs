@@ -4,10 +4,14 @@ using UnityEngine;
 public class TabletcamObjectSelector : MonoBehaviour
 {
     private CamSwapManager camSwap;
-    public List<UpgradeFurniture> upgradeFurnitureList;
 
     private Camera tabletCam;
     public LayerMask mask;
+
+    public GameObject selectedFurniture;
+
+    [SerializeField] private MeshRenderer mainRenderer;
+
     private void Start()
     {
         tabletCam = FindFirstObjectByType<Camera>();
@@ -28,11 +32,7 @@ public class TabletcamObjectSelector : MonoBehaviour
                     {
                         if (hit.collider.gameObject.GetComponent<UpgradeFurniture>() != null)
                         {
-                            if (!hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu)
-                            {
-                                hit.collider.gameObject.GetComponent<UpgradeFurniture>().selectMenu.SetActive(true);
-                                hit.collider.gameObject.GetComponent<UpgradeFurniture>().isInMenu = true;
-                            }
+                            selectedFurniture = hit.collider.gameObject;
                         }
                     }
                 }
@@ -42,11 +42,9 @@ public class TabletcamObjectSelector : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape))
         {
             camSwap.isLookingAtTablet = false;
-            foreach (var furniture in upgradeFurnitureList)
-            {
-                furniture.isInMenu = false;
-                furniture.ExitUpgradeMenus();
-            }
+            selectedFurniture = null;
         }
     }
+
+   
 }

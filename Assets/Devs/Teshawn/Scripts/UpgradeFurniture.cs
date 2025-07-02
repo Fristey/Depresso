@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,33 +7,103 @@ public class UpgradeFurniture : MonoBehaviour
     private CurrencyManager currencyManager;
     private TabletcamObjectSelector tabletcamObjectSelector;
     private Inventory inventory;
+    [SerializeField] private Material highLight;
+
 
     [SerializeField] private int price;
 
     public GameObject selectMenu;
+
+    [SerializeField] private GameObject purchaseBtn,placeBtn,exitpu,exitpl;
     [Header("shop")]
-    public GameObject purchaseConfermMenu;
-    public GameObject purchaseMenu;
+    [SerializeField] private GameObject normalPu, fancyPu, cyberPu, asianPu;
+
     [Header("placement")]
-    public GameObject placeConfermMenu;
-    public GameObject placeMenu;
+    [SerializeField] private GameObject normalPul, fancyPl, cyberPl, asianPl;
+
+    [Header("confirm")]
+    [SerializeField] private GameObject confirmPu, denyPu, confirmPl, denyPl;
 
     [SerializeField] private GameObject normalObject, fancyObject, CyberObject, asianObject;
 
     [SerializeField] private GameObject currentObject;
-    [SerializeField] private GameObject previousObject;
+    public GameObject previousObject;
     [SerializeField] private GameObject PurchaseObject;
     [SerializeField] private GameObject placedObject;
 
-    public bool isInMenu;
     void Start()
     {
-        isInMenu = false;
         previousObject = normalObject;
         currencyManager = FindFirstObjectByType<CurrencyManager>();
         tabletcamObjectSelector = FindAnyObjectByType<TabletcamObjectSelector>();
         inventory = FindFirstObjectByType<Inventory>();
-        tabletcamObjectSelector.upgradeFurnitureList.Add(this);
+
+        normalPu.SetActive(false);
+        fancyPu.SetActive(false);
+        cyberPu.SetActive(false);
+        asianPu.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(PurchaseObject != null)
+        {
+            confirmPu.SetActive(true);
+            denyPu.SetActive(true);
+        }
+        else
+        {
+            confirmPu.SetActive(false);
+            denyPu.SetActive(false);
+        }
+
+        if (placedObject != null)
+        {
+            confirmPl.SetActive(true);
+            denyPl.SetActive(true);
+        }
+        else
+        {
+            confirmPl.SetActive(false);
+            denyPl.SetActive(false);
+        }
+
+        if(tabletcamObjectSelector.selectedFurniture != this.gameObject)
+        {
+            selectMenu.SetActive(false);
+            Highlight(previousObject.GetComponent<MeshRenderer>() , false);
+        }
+        else
+        {
+            selectMenu.SetActive(true);
+            Highlight(previousObject.GetComponent<MeshRenderer>(), true);
+
+        }
+
+    }
+
+    private void Highlight(MeshRenderer mainMesh, bool isSelected)
+    {
+        List<Material> materials = new List<Material>();
+        Material mainMat = null;
+
+        if (mainMesh != null)
+        {
+            mainMat = mainMesh.material;
+        }
+
+        if (mainMat != null && mainMat != highLight)
+        {
+            materials.Add(mainMat);
+        }
+
+        if (isSelected)
+        {
+            materials.Add(highLight);
+        }
+
+        mainMesh.SetMaterials(materials);
+
     }
 
     public void Purchase()
@@ -41,8 +112,10 @@ public class UpgradeFurniture : MonoBehaviour
         {
             currencyManager.playerCurrency -= price;
             inventory.furniture.Add(PurchaseObject);
-            purchaseConfermMenu.SetActive(false);
-            isInMenu = false;
+            PurchaseObject = null;
+
+            placeBtn.SetActive(true);
+            purchaseBtn.SetActive(true);
         }
         else
         {
@@ -54,137 +127,204 @@ public class UpgradeFurniture : MonoBehaviour
     {
         if (placedObject != null)
         {
-            if (inventory.furniture.Contains(placedObject))
+            for(int i = 0; i < inventory.furniture.Count; i++)
             {
-                currentObject = placedObject;
-                if (currentObject != previousObject)
+                if (inventory.furniture[i].name == placedObject.name)
                 {
-                    currentObject.SetActive(true);
-                }
-                if (previousObject != null)
-                {
-                    previousObject.SetActive(false);
-                    currentObject.SetActive(true);
-                    previousObject = currentObject;
-                    inventory.furniture.Remove(placedObject);
-                }
-                else
-                {
-                    previousObject = currentObject;
+                    currentObject = placedObject;
+                    if (currentObject != previousObject)
+                    {
+                        currentObject.SetActive(true);
+                    }
+                    if (previousObject != null)
+                    {
+                        previousObject.SetActive(false);
+                        currentObject.SetActive(true);
+                        previousObject = currentObject;
+                        inventory.furniture.Remove(placedObject);
+                    }
+                    else
+                    {
+                        previousObject = currentObject;
+                    }
                 }
             }
-            placeConfermMenu.SetActive(false);
-            isInMenu = false;
+           
+            placeBtn.SetActive(true);
+            purchaseBtn.SetActive(true);
+
+            placedObject = null;
         }
     }
     public void SelectPlace()
     {
-        selectMenu.SetActive(false);
-        placeMenu.SetActive(true);
+        purchaseBtn.SetActive(false);
+        placeBtn.SetActive(false);
+
+        exitpl.SetActive(true);
+        fancyPl.SetActive(true);
+        cyberPl.SetActive(true);
+        asianPl.SetActive(true);
+        normalPul.SetActive(true);
     }
     #region purchase Functions
     public void FancyPurchase()
     {
         price = 20;
         PurchaseObject = fancyObject;
-        purchaseMenu.SetActive(false);
-        purchaseConfermMenu.SetActive(true);
+        normalPu.SetActive(false);
+        fancyPu.SetActive(false);
+        cyberPu.SetActive(false);
+        asianPu.SetActive(false);
+        exitpu.SetActive(false);
+
     }
 
     public void CyberPurchase()
     {
         price = 30;
         PurchaseObject = CyberObject;
-        purchaseMenu.SetActive(false);
-        purchaseConfermMenu.SetActive(true);
+        normalPu.SetActive(false);
+        fancyPu.SetActive(false);
+        cyberPu.SetActive(false);
+        asianPu.SetActive(false);
+        exitpu.SetActive(false);
+
     }
 
     public void NormalObjectPurchase()
     {
         price = 10;
         PurchaseObject = normalObject;
-        purchaseMenu.SetActive(false);
-        purchaseConfermMenu.SetActive(true);
+        normalPu.SetActive(false);
+        fancyPu.SetActive(false);
+        cyberPu.SetActive(false);
+        asianPu.SetActive(false);
+        exitpu.SetActive(false);
+
     }
 
     public void AsianObjectPurchase()
     {
         price = 50;
         PurchaseObject = asianObject;
-        purchaseMenu.SetActive(false);
-        purchaseConfermMenu.SetActive(true);
+        normalPu.SetActive(false);
+        fancyPu.SetActive(false);
+        cyberPu.SetActive(false);
+        asianPu.SetActive(false);
+        exitpu.SetActive(false);
+
+
     }
 
     public void SelectShop()
     {
-        selectMenu.SetActive(false);
-        purchaseMenu.SetActive(true);
+        normalPu.SetActive(true);
+        fancyPu.SetActive(true);
+        cyberPu.SetActive(true);
+        asianPu.SetActive(true);
+        exitpu.SetActive(true);
+
+        purchaseBtn.SetActive(false);
+        placeBtn.SetActive(false);
     }
 
     public void DenyPurchase()
     {
-        purchaseConfermMenu.SetActive(false);
-        purchaseMenu.SetActive(true);
-    }
-
-    public void PurchaseFurniture()
-    {
-        purchaseConfermMenu.SetActive(true);
-        purchaseMenu.SetActive(false);
+        PurchaseObject = null;
+        normalPu.SetActive(true);
+        fancyPu.SetActive(true);
+        cyberPu.SetActive(true);
+        asianPu.SetActive(true);
+        exitpu.SetActive(true);
     }
 
     public void ExitPurchase()
     {
-        purchaseMenu.SetActive(false);
-        selectMenu.SetActive(true);
+        normalPu.SetActive(false);
+        fancyPu.SetActive(false);
+        cyberPu.SetActive(false);
+        asianPu.SetActive(false);
+        exitpu.SetActive(false);
+
+        purchaseBtn.SetActive(true);
+        placeBtn.SetActive(true);
+
     }
     #endregion
+
     #region place Functions
     public void PlaceFancy()
     {
         placedObject = fancyObject;
-        placeMenu.SetActive(false);
-        placeConfermMenu.SetActive(true);
+        normalPul.SetActive(false);
+        fancyPl.SetActive(false);
+        cyberPl.SetActive(false);
+        asianPl.SetActive(false);
+
+        exitpl.SetActive(false);
     }
+
     public void PlaceCyber()
     {
         placedObject = CyberObject;
-        placeMenu.SetActive(false);
-        placeConfermMenu.SetActive(true);
+        fancyPl.SetActive(false);
+        cyberPl.SetActive(false);
+        asianPl.SetActive(false);
+        normalPul.SetActive(false);
+
+        exitpl.SetActive(false);
     }
 
     public void placeAsionObject()
     {
         placedObject = asianObject;
-        placeMenu.SetActive(false);
-        placeConfermMenu.SetActive(true);
+        fancyPl.SetActive(false);
+        cyberPl.SetActive(false);
+        asianPl.SetActive(false);
+        normalPul.SetActive(false);
+
+        exitpl.SetActive(false);
     }
     public void PlaceNormal()
     {
         placedObject = normalObject;
-        placeMenu.SetActive(false);
-        placeConfermMenu.SetActive(true);
+        fancyPl.SetActive(false);
+        cyberPl.SetActive(false);
+        asianPl.SetActive(false);
+        normalPul.SetActive(false);
+
+        exitpl.SetActive(false);
     }
 
     public void DenyPlace()
     {
-        placeConfermMenu.SetActive(false);
-        placeMenu.SetActive(true);
+
+
+        fancyPl.SetActive(true);
+        cyberPl.SetActive(true);
+        asianPl.SetActive(true);
+        normalPul.SetActive(true);
+
+        confirmPl.SetActive(false);
+        denyPl.SetActive(false);
     }
 
     public void ExitPlace()
     {
-        placeMenu.SetActive(false);
-        selectMenu.SetActive(true);
+        fancyPl.SetActive(false);
+        cyberPl.SetActive(false);
+        asianPl.SetActive(false);
+        normalPul.SetActive(false);
+        exitpl.SetActive(false);
+
+        placeBtn.SetActive(true);
+        purchaseBtn.SetActive(true);
     }
     #endregion
 
     public void ExitUpgradeMenus()
     {
         selectMenu.SetActive(false);
-        placeMenu.SetActive(false);
-        placeConfermMenu.SetActive(false);
-        purchaseConfermMenu.SetActive(false);
-        purchaseMenu.SetActive(false);
     }
 }
