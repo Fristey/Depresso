@@ -82,7 +82,7 @@ public class YarnSpawner : MonoBehaviour
 
                 yarnScript.cat = catScript;
 
-                TutorialManager.instance.StepFinished("Cat",5);
+                TutorialManager.instance.StepFinished("Cat", 5);
                 return true;
             case YarnSpawnStates.Out:
                 ReturnYarn();
@@ -101,7 +101,8 @@ public class YarnSpawner : MonoBehaviour
 
         state = YarnSpawnStates.In;
 
-        catScript.EndDistraction();
+        if (catScript != null)
+            catScript.EndDistraction();
 
         yarnScript.StartRestoration();
 
