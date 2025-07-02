@@ -1,11 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
-using UnityEditor.Build;
-using UnityEngine;
 using UnityEngine.AI;
 
 enum CatStates
@@ -420,6 +414,10 @@ public class CatScript : PermEvent
                 if (!CheckPath(destination, areaMask))
                 {
                     StartNewAction();
+                    if (tutorialManager.StepFinished("Cat", 2))
+                    {
+                        StartSpecificAction(CalledFunction.walkToMachine);
+                    }
                 }
 
                 if (!agent.isOnOffMeshLink)
