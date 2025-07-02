@@ -119,8 +119,7 @@ public class CustomerOrder : MonoBehaviour
             GenerateExtraCupFillCurrency(currencyGiven);
         }
         cup.currentAmount = 0;
-        //pointsManager.AddPoints(customerPoints);
-        //pointsManager.CalculateScore();
+        pointsManager.AddPoints(customerPoints);
         customer.Leave();
     }
 
