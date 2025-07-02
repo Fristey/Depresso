@@ -17,6 +17,8 @@ public class PointsManager : MonoBehaviour
     {
         pointsText.text = amountOfPoints.ToString();
         moneyText.text = currencyManager.playerCurrency.ToString();
+        PlayerPrefs.SetInt("score", amountOfPoints);
+        PlayerPrefs.Save();
     }
 
     public void ShowPoints()

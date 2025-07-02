@@ -185,9 +185,9 @@ public class CustomerOrder : MonoBehaviour
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
-                        Debug.Log(i);
                         costumerOrders.Remove(costumerOrders[i]);
                         orderText.Remove(cup.drinkName);
+                        patiance += 5f;
                     }
                 }
             }

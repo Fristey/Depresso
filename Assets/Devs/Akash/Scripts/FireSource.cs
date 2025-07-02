@@ -42,7 +42,7 @@ public class FireSource : MonoBehaviour
         if (elapsedTime >= gameOverTime)
         {
             Debug.Log("MEOW");
-            SceneManager.LoadScene("StartScene");
+            SceneManager.LoadScene("End Scene");
             Cursor.lockState = CursorLockMode.None;
         }
     }
