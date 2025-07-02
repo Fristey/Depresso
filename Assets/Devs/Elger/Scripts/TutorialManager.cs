@@ -58,9 +58,10 @@ public class TutorialManager : MonoBehaviour
             {
                 GameManager.Instance.SetGameState(GameStates.tutorial);
 
+                curTurtorial = tempTutorial;
+
                 StartCoroutine(TutorialTimer());
 
-                curTurtorial = tempTutorial;
                 Debug.Log(curTurtorial.texts[curTurtorial.textIndex]);
                 textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
 

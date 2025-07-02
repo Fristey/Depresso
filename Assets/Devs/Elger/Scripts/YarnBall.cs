@@ -17,7 +17,7 @@ public class YarnBall : MonoBehaviour
     public YarnSpawner spawner;
     public GameObject yarnCoil;
 
-    [SerializeField] private CatScript cat;
+    public CatScript cat;
 
     [SerializeField] private yarnBallStates state = yarnBallStates.waiting;
 

@@ -79,6 +79,9 @@ public class YarnSpawner : MonoBehaviour
 
                 animator.SetBool("Regenerating", false);
                 yarnMesh.enabled = true;
+
+                yarnScript.cat = catScript;
+
                 TutorialManager.instance.StepFinished("Cat",5);
                 return true;
             case YarnSpawnStates.Out:
