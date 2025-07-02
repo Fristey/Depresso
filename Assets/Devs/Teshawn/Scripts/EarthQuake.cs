@@ -14,7 +14,7 @@ public class EarthQuake : TempEvent
     }
 
     IEnumerator Shake()
-    {
+    {       
         Vector3 OGpos = map.map.transform.localPosition;
         float elapsedTime = 0f;
         while(elapsedTime < duration)

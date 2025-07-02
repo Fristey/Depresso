@@ -119,8 +119,7 @@ public class CustomerOrder : MonoBehaviour
             GenerateExtraCupFillCurrency(currencyGiven);
         }
         cup.currentAmount = 0;
-        //pointsManager.AddPoints(customerPoints);
-        //pointsManager.CalculateScore();
+        pointsManager.AddPoints(customerPoints);
         customer.Leave();
     }
 
@@ -186,9 +185,9 @@ public class CustomerOrder : MonoBehaviour
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
-
-                        costumerOrders.Remove(cup.drinkToserve);
+                        costumerOrders.Remove(costumerOrders[i]);
                         orderText.Remove(cup.drinkName);
+                        patiance += 5f;
                     }
                 }
             }

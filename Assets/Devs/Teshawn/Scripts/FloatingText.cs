@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class FloatingText : MonoBehaviour
 {
-    private TextMeshProUGUI textMeshPro;
+    [SerializeField] private TextMeshProUGUI textMeshPro, amountTextpro;
     private AddIngredient ingrediente;
     private CustomerOrder orderOfThisCustomer;
     private MixingCup mixingCup;
 
-    
+
     void Start()
     {
         ingrediente = GetComponentInParent<AddIngredient>();
@@ -30,18 +30,20 @@ public class FloatingText : MonoBehaviour
         }
         else if (mixingCup != null)
         {
-            if (mixingCup.ingredientesNames.Count > 0) 
+            amountTextpro.text = mixingCup.currentAmount.ToString() + "/100";
+            if (mixingCup.ingredientesNames.Count > 0)
             {
                 textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
+
             }
-            else if(mixingCup.drinkToserve != null)
+            else if (mixingCup.drinkToserve != null)
             {
                 textMeshPro.text = mixingCup.drinkName;
             }
             else
             {
                 textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);
-            }   
+            }
         }
     }
 }
