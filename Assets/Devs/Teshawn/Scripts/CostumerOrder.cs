@@ -186,8 +186,8 @@ public class CustomerOrder : MonoBehaviour
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
                         }
-
-                        costumerOrders.Remove(cup.drinkToserve);
+                        Debug.Log(i);
+                        costumerOrders.Remove(costumerOrders[i]);
                         orderText.Remove(cup.drinkName);
                     }
                 }
