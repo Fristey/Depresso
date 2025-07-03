@@ -69,6 +69,14 @@ public class GameManager : MonoBehaviour
 
     private void EndDay()
     {
+        PointsManager points = GameObject.FindFirstObjectByType<PointsManager>();
+        Debug.Log(points);
+
+        if (points != null)
+        {
+            points.ShowPoints();
+        }
+
         //hasDayStarted = false;
         gameState = GameStates.inbetweenDays;
 
@@ -83,6 +91,14 @@ public class GameManager : MonoBehaviour
 
     public void ClickedDoor()
     {
+        PointsManager points = GameObject.FindFirstObjectByType<PointsManager>();
+        Debug.Log(points);
+
+        if (points != null)
+        {
+            points.StopShowing();
+        }
+
         if (gameState == GameStates.playingDay)
         {
             return;
@@ -148,16 +164,10 @@ public class Daycycle
 
     public void StartDay(int dayNumber)
     {
-        Debug.Log(dayNumber);
 
         currentDayIndex = dayNumber;
 
         Day currentDay = days[currentDayIndex];
-
-        if (CustomerSpawner.Instance != null)
-        {
-            CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
-        }
 
         if (EventManager.instance != null)
         {
@@ -166,7 +176,10 @@ public class Daycycle
             EventManager.instance.StartEvents();
         }
 
-
+        if (CustomerSpawner.Instance != null)
+        {
+            CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
+        }
     }
 
     public Day GetCurrentDay()

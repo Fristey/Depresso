@@ -20,6 +20,7 @@ public class EventManager : MonoBehaviour
     [SerializeField] private List<GameObject> permEvents = new List<GameObject>();
 
     [SerializeField] private GameObject curEvent;
+     private GameObject activeEvent;
 
     [Header("Stats")]
     [SerializeField] private EventManagerStates state;
@@ -101,13 +102,16 @@ public class EventManager : MonoBehaviour
         switch (state)
         {
             case EventManagerStates.Waiting:
-                if(eventAmount > 0)
+                if (eventAmount > 0)
                 {
                     //Spawn New Event
-                    curEvent = Instantiate(SelectEvent(), transform.position, Quaternion.identity);
-
-                    eventDur = GetEventDur();
-                    StartCoroutine(EventDur());
+                    curEvent = SelectEvent();
+                    if (curEvent != null)
+                    {
+                        activeEvent = Instantiate(curEvent, transform.position, Quaternion.identity);
+                        eventDur = GetEventDur();
+                        StartCoroutine(EventDur());
+                    }
                 }
                 break;
             case EventManagerStates.Playing:
@@ -117,12 +121,14 @@ public class EventManager : MonoBehaviour
 
     private float GetEventDur()
     {
-        TempEvent temp = curEvent.GetComponent<TempEvent>();
-        if (temp != null)
+        if(curEvent != null)
         {
-            return temp.duration;
+            TempEvent temp = curEvent.GetComponent<TempEvent>();
+            if (temp != null)
+            {
+                return temp.duration;
+            }
         }
-
         return 7;
     }
 
@@ -133,6 +139,8 @@ public class EventManager : MonoBehaviour
 
         tempEvents.Clear();
         playableTempEvents.Clear();
+        DestroyImmediate(activeEvent, true);
+        activeEvent = null;
 
         curEvent = null;
 
@@ -144,7 +152,7 @@ public class EventManager : MonoBehaviour
 
         permEvents.Clear();
     }
-    
+
     private IEnumerator EventDur()
     {
         state = EventManagerStates.Playing;
@@ -153,8 +161,10 @@ public class EventManager : MonoBehaviour
 
         yield return new WaitForSeconds(eventDur);
 
-        Destroy(curEvent);
-        StartCoroutine (EventCD());
+        DestroyImmediate(activeEvent,true );
+        activeEvent = null;
+
+        StartCoroutine(EventCD());
     }
     private IEnumerator EventCD()
     {
@@ -174,16 +184,21 @@ public class EventManager : MonoBehaviour
     private GameObject SelectEvent()
     {
         int index = Random.Range(0, playableTempEvents.Count - 1);
-        GameObject chosenEvent = playableTempEvents[index];
-
-        playableTempEvents.RemoveAt(index);
-        eventAmount--;
-
-        if (playableTempEvents.Count == 0)
+        Debug.Log(index);
+        if (playableTempEvents.Count > 0)
         {
-            playableTempEvents = new List<GameObject>(tempEvents);
-        }
+            GameObject chosenEvent = playableTempEvents[index];
 
-        return chosenEvent;
+            playableTempEvents.RemoveAt(index);
+            eventAmount--;
+
+            if (playableTempEvents.Count == 0)
+            {
+                playableTempEvents = new List<GameObject>(tempEvents);
+            }
+
+            return chosenEvent;
+        }
+        return null;
     }
 }

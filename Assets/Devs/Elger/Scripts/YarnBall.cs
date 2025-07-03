@@ -60,23 +60,25 @@ public class YarnBall : MonoBehaviour
 
     private void Update()
     {
-        if(state == yarnBallStates.waiting && integrity < maxIntegrity)
+        if (state == yarnBallStates.waiting && integrity < maxIntegrity)
         {
             integrity += Time.deltaTime;
 
             float newScale = scaleChunk * integrity;
 
-            transform.localScale = new Vector3(newScale,newScale,newScale);
+            transform.localScale = new Vector3(newScale, newScale, newScale);
 
             float coilScale = 1 / maxIntegrity * integrity;
-            yarnCoil.transform.localScale = new Vector3(coilScale,1,coilScale);
+            yarnCoil.transform.localScale = new Vector3(coilScale, 1, coilScale);
         }
     }
 
     public void StartDistraction()
     {
         state = yarnBallStates.released;
-        cat.StartDistraction(gameObject);
+
+        if (cat != null)
+            cat.StartDistraction(gameObject);
     }
 
     public void Grabbed()

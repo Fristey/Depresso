@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -13,12 +14,25 @@ public class TutorialManager : MonoBehaviour
         public string identifier;
         public bool hasPlayed;
 
-        public string[] texts;
-        public MeshRenderer[] meshRenderers;
-
         public float maxTutorialTime;
 
-        public int textIndex = 0;
+        public int stepIndex = 0;
+
+        public List<Step> steps = new List<Step>();
+    }
+
+    [System.Serializable]
+    public class Step
+    {
+        public MeshRenderer objectRenderer;
+        public SkinnedMeshRenderer characterRenderer;
+
+        public string text;
+
+        public Material outline;
+
+        [Header("If maxStepTime is left empty time is infinite")]
+        public float maxStepTime;
     }
 
     [SerializeField] private List<Tutorial> tutorials = new List<Tutorial>();
@@ -28,8 +42,6 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TMP_Text textDisplay;
 
     public static TutorialManager instance;
-
-    [SerializeField] private Material outlineMat;
 
 
     private void Awake()
@@ -62,11 +74,10 @@ public class TutorialManager : MonoBehaviour
 
                 StartCoroutine(TutorialTimer());
 
-                Debug.Log(curTurtorial.texts[curTurtorial.textIndex]);
-                textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
+                Debug.Log(curTurtorial.steps[curTurtorial.stepIndex].text);
+                textDisplay.text = curTurtorial.steps[curTurtorial.stepIndex].text;
 
-                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], true);
+                SetMaterial(true);
             }
             else
             {
@@ -75,27 +86,46 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void SetMaterial(MeshRenderer meshRenderer, bool addOutline)
+    private void SetMaterial(bool addOutline)
     {
         List<Material> materials = new List<Material>();
         Material origin = null;
 
-        if (meshRenderer != null)
+        MeshRenderer curMeshRen = curTurtorial.steps[curTurtorial.stepIndex].objectRenderer;
+        SkinnedMeshRenderer curSkinMeshRen = curTurtorial.steps[curTurtorial.stepIndex].characterRenderer;
+
+        Material curOutline = curTurtorial.steps[curTurtorial.stepIndex].outline;
+
+        if (curMeshRen != null)
         {
-            origin = meshRenderer.material;
+            origin = curMeshRen.material;
+        }
+        else if (curSkinMeshRen != null)
+        {
+            origin = curSkinMeshRen.material;
         }
 
-        if (origin != null && origin != outlineMat)
+        if (curTurtorial.steps[curTurtorial.stepIndex].outline != null)
         {
-            materials.Add(origin);
+            if (origin != null && origin != curTurtorial.steps[curTurtorial.stepIndex].outline)
+            {
+                materials.Add(origin);
+            }
+
+            if (addOutline)
+            {
+                materials.Add(curOutline);
+            }
         }
 
-        if (addOutline)
+        if (curMeshRen != null)
         {
-            materials.Add(outlineMat);
+            curMeshRen.SetMaterials(materials);
         }
-
-        meshRenderer.SetMaterials(materials);
+        else if (curSkinMeshRen != null)
+        {
+            curSkinMeshRen.SetMaterials(materials);
+        }
     }
 
     /// <summary>
@@ -104,26 +134,29 @@ public class TutorialManager : MonoBehaviour
     /// <param name="finishedStep"></param>
     public virtual bool StepFinished(string identifier, int nextStep = default(int))
     {
-        if (curTurtorial != null && !curTurtorial.hasPlayed && identifier == curTurtorial.identifier && nextStep == curTurtorial.textIndex+1)
+        if (curTurtorial != null && !curTurtorial.hasPlayed && identifier == curTurtorial.identifier && nextStep == curTurtorial.stepIndex + 1)
         {
-            if (curTurtorial.textIndex < curTurtorial.texts.Length - 1)
+            if (curTurtorial.stepIndex < curTurtorial.steps.Count - 1)
             {
-                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
+                SetMaterial(false);
 
                 if (nextStep != default(int))
                 {
-                    curTurtorial.textIndex = nextStep;
+                    curTurtorial.stepIndex = nextStep;
                 }
                 else
                 {
-                    curTurtorial.textIndex++;
+                    curTurtorial.stepIndex++;
                 }
 
-                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], true);
+                if (curTurtorial.steps[curTurtorial.stepIndex].maxStepTime > 0)
+                {
+                    StartCoroutine(StepTimer(curTurtorial.stepIndex,curTurtorial.identifier));
+                }
 
-                textDisplay.text = curTurtorial.texts[curTurtorial.textIndex];
+                SetMaterial(true);
+
+                textDisplay.text = curTurtorial.steps[curTurtorial.stepIndex].text;
             }
             else
             {
@@ -132,8 +165,7 @@ public class TutorialManager : MonoBehaviour
                 curTurtorial.hasPlayed = true;
                 textDisplay.text = string.Empty;
 
-                if (curTurtorial.meshRenderers[curTurtorial.textIndex] != null)
-                    SetMaterial(curTurtorial.meshRenderers[curTurtorial.textIndex], false);
+                SetMaterial(false);
 
                 curTurtorial = null;
 
@@ -164,7 +196,16 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(curTurtorial.maxTutorialTime);
         if (curTurtorial.hasPlayed)
         {
-            StepFinished(curTurtorial.identifier, curTurtorial.meshRenderers.Length);
+            StepFinished(curTurtorial.identifier, curTurtorial.steps.Count);
+        }
+    }
+
+    private IEnumerator StepTimer(int currentTutorialIndex, string currentIdentifier)
+    {
+        yield return new WaitForSeconds(curTurtorial.steps[curTurtorial.stepIndex].maxStepTime);
+        if (curTurtorial.stepIndex == currentTutorialIndex )
+        {
+            StepFinished(currentIdentifier, currentTutorialIndex + 1);
         }
     }
 }

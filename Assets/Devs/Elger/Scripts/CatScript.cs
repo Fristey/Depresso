@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine;
 
 enum CatStates
 {
@@ -55,12 +54,6 @@ public class CatScript : PermEvent
     private Vector3 floorTopRight;
     private Vector3 floorBottemLeft;
 
-    private Vector3 counterTopRight;
-    private Vector3 counterBottemLeft;
-
-    private Transform counterAccesibleArea;
-    private MeshRenderer counterAccesibleAreaRen;
-
     [SerializeField] private GameObject[] counterLinks;
 
     private bool sitbuffer = false;
@@ -90,6 +83,7 @@ public class CatScript : PermEvent
     private bool canDmg = true;
     private bool walkingToMachine = false;
     private bool focus = false;
+    private bool jumpLockout = true;
     private espressoAndCoffeeMachine curCoffeeMachine;
 
     private TutorialManager tutorialManager;
@@ -188,11 +182,11 @@ public class CatScript : PermEvent
 
                     StartNewAction();
                     StartCoroutine(CupLaunchCooldown());
+                }
 
-                    if (tutorialManager.StepFinished("Cat", 2))
-                    {
-                        StartSpecificAction(CalledFunction.walkToMachine);
-                    }
+                if (tutorialManager.StepFinished("Cat", 2))
+                {
+                    StartSpecificAction(CalledFunction.walkToMachine);
                 }
                 break;
         }
@@ -364,14 +358,10 @@ public class CatScript : PermEvent
         if (agent.isOnOffMeshLink && !isJumping && canJump)
         {
             Debug.Log("Start jump");
-            StartCoroutine(MaxJumpTime());
-            StartChangeHeightCD();
 
-            if (CheckPath(destination, areaMask))
-            {
-                destination = GenerateTarget();
-                agent.destination = destination;
-            }
+            StartCoroutine(MaxJumpTime());
+
+            StartChangeHeightCD();
 
             isJumping = true;
 
@@ -416,6 +406,10 @@ public class CatScript : PermEvent
                 if (!CheckPath(destination, areaMask))
                 {
                     StartNewAction();
+                    if (tutorialManager.StepFinished("Cat", 2))
+                    {
+                        StartSpecificAction(CalledFunction.walkToMachine);
+                    }
                 }
 
                 if (!agent.isOnOffMeshLink)
@@ -484,6 +478,9 @@ public class CatScript : PermEvent
         {
             counterLinks[i].SetActive(true);
         }
+
+        jumpLockout = false;
+
         canJump = true;
 
         switch (function)
@@ -537,6 +534,8 @@ public class CatScript : PermEvent
     private void StartNewAction()
     {
         int rolledNum = UnityEngine.Random.Range(0, 101);
+
+        jumpLockout = false;
 
         for (int i = 0; i < type.catActions.Count; i++)
         {
@@ -689,7 +688,10 @@ public class CatScript : PermEvent
 
     public void StartChangeHeightCD()
     {
-        StartCoroutine(HeightChangeCD());
+        if (jumpLockout)
+        {
+            StartCoroutine(HeightChangeCD());
+        }
     }
     private IEnumerator HeightChangeCD()
     {
