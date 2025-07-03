@@ -30,6 +30,7 @@ public class CatScript : PermEvent
     [Header("Behaviour")]
     [SerializeField] private CatType type;
     [SerializeField] private CatStates state;
+    private CatStates savedState;
     [SerializeField] private float annoyance;
     private float annoyancePerSec;
     [SerializeField] private Vector3 spawnPos;
@@ -67,6 +68,8 @@ public class CatScript : PermEvent
 
     private GameObject curInteractObject;
     private CalledInteraction curInteract;
+
+    private GameObject curCup;
 
     [Header("Yarn")]
     [SerializeField] private YarnSpawner spawner;
@@ -148,7 +151,7 @@ public class CatScript : PermEvent
             case CalledInteraction.damage:
                 walkingToMachine = false;
                 break;
-            case CalledInteraction.push:
+            case CalledInteraction.push: 
                 break;
         }
 
@@ -367,6 +370,9 @@ public class CatScript : PermEvent
 
             agent.isStopped = true;
             animator.SetBool("Jump", true);
+
+            savedState = state;
+
             state = CatStates.Jumping;
         }
 
@@ -438,16 +444,16 @@ public class CatScript : PermEvent
                 }
                 break;
             case CatStates.WalkingToCup:
-                if (Vector3.Distance(transform.position, destination) < 0.2)
+                if(Vector3.Distance(transform.position, curCup.transform.position) < 0.2f)
                 {
-                    StartNewAction();
+                    SetInteract(CalledInteraction.push,curCup);
                 }
                 break;
             case CatStates.Jumping:
                 if (!agent.isOnOffMeshLink)
                 {
                     animator.SetBool("Jump", false);
-                    state = CatStates.Walking;
+                    state = savedState;
                 }
                 break;
             default:
@@ -504,6 +510,8 @@ public class CatScript : PermEvent
                 {
                     destination = v3.transform.position;
                     state = CatStates.WalkingToCup;
+
+                    curCup = v3;
                 }
 
                 agent.destination = destination;
