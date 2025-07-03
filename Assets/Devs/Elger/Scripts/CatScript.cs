@@ -9,7 +9,8 @@ enum CatStates
     Walking,
     Interacting,
     WalkingToCup,
-    Jumping
+    Jumping,
+    Null
 }
 
 public enum CalledFunction
@@ -30,6 +31,7 @@ public class CatScript : PermEvent
     [Header("Behaviour")]
     [SerializeField] private CatType type;
     [SerializeField] private CatStates state;
+    [SerializeField] private CatStates savedState;
     [SerializeField] private float annoyance;
     private float annoyancePerSec;
     [SerializeField] private Vector3 spawnPos;
@@ -67,6 +69,8 @@ public class CatScript : PermEvent
 
     private GameObject curInteractObject;
     private CalledInteraction curInteract;
+
+    private GameObject curCup;
 
     [Header("Yarn")]
     [SerializeField] private YarnSpawner spawner;
@@ -116,7 +120,7 @@ public class CatScript : PermEvent
         tutorialManager.StartTutorial("Cat");
         StartSpecificAction(CalledFunction.walk);
 
-        for (int i = 0; i < GameObject.FindGameObjectsWithTag("CoffeeMachine").Length ; i++)
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("CoffeeMachine").Length; i++)
         {
             Debug.Log(GameObject.FindGameObjectsWithTag("CoffeeMachine")[i]);
         }
@@ -124,7 +128,7 @@ public class CatScript : PermEvent
 
     private void OnEnable()
     {
-            FindObjectOfType<YarnSpawner>().catScript = this;
+        FindObjectOfType<YarnSpawner>().catScript = this;
     }
 
     #region Interaction
@@ -359,7 +363,7 @@ public class CatScript : PermEvent
         {
             Debug.Log("Start jump");
 
-            StartCoroutine(MaxJumpTime());
+            //StartCoroutine(MaxJumpTime());
 
             StartChangeHeightCD();
 
@@ -367,6 +371,16 @@ public class CatScript : PermEvent
 
             agent.isStopped = true;
             animator.SetBool("Jump", true);
+
+            if (state != CatStates.Jumping && state != CatStates.Interacting && state != CatStates.Sitting)
+            {
+                savedState = state;
+            }
+            else
+            {
+                savedState = CatStates.Null;
+            }
+
             state = CatStates.Jumping;
         }
 
@@ -438,16 +452,17 @@ public class CatScript : PermEvent
                 }
                 break;
             case CatStates.WalkingToCup:
-                if (Vector3.Distance(transform.position, destination) < 0.2)
+                if (Vector3.Distance(transform.position, curCup.transform.position) < 0.2f)
                 {
-                    StartNewAction();
+                    SetInteract(CalledInteraction.push, curCup);
                 }
                 break;
             case CatStates.Jumping:
                 if (!agent.isOnOffMeshLink)
                 {
                     animator.SetBool("Jump", false);
-                    state = CatStates.Walking;
+                    if (savedState != CatStates.Null)
+                        state = savedState;
                 }
                 break;
             default:
@@ -504,6 +519,8 @@ public class CatScript : PermEvent
                 {
                     destination = v3.transform.position;
                     state = CatStates.WalkingToCup;
+
+                    curCup = v3;
                 }
 
                 agent.destination = destination;
@@ -675,16 +692,16 @@ public class CatScript : PermEvent
     //    //    StartCoroutine(HeightChangeCD());
     //    //}
     //}
-    private IEnumerator MaxJumpTime()
-    {
-        yield return new WaitForSeconds(2);
-        if (agent.isStopped)
-        {
-            agent.isStopped = false;
-            isJumping = false;
-            animator.SetBool("Jump", false);
-        }
-    }
+    //private IEnumerator MaxJumpTime()
+    //{
+    //    yield return new WaitForSeconds(2);
+    //    if (agent.isStopped)
+    //    {
+    //        agent.isStopped = false;
+    //        isJumping = false;
+    //        animator.SetBool("Jump", false);
+    //    }
+    //}
 
     public void StartChangeHeightCD()
     {
