@@ -155,7 +155,7 @@ public class GrabCup : MonoBehaviour
         {
             float tiltAngle = Vector3.Angle(Vector3.up, rb.transform.up);
 
-            if (tiltAngle > 30f)
+            if (tiltAngle >= 50f)
             {
                 float spillRate = (tiltAngle - 50f) * 0.1f; // Calculate the spill rate based on the angle
                 MixingCup mixingCup = rb.GetComponent<MixingCup>();
