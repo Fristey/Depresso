@@ -179,7 +179,7 @@ public class GrabCup : MonoBehaviour
         if (scroll != 0f)
         {
             //holdDistance = Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance); // Adjust the hold distance based on the scroll input
-            holdDistance = Mathf.Lerp(holdDistance, Mathf.Clamp(holdDistance - scroll * scrollSpeed, maxScrollDistance, minScrollDistance), Time.deltaTime * 5f);
+            holdDistance = Mathf.Lerp(holdDistance, Mathf.Clamp(holdDistance + scroll * scrollSpeed, minScrollDistance,  maxScrollDistance), Time.deltaTime * 5f);
         }
 
         //Debug.Log("fixed update running");
