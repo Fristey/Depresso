@@ -31,6 +31,7 @@ public class FloatingText : MonoBehaviour
         else if (mixingCup != null)
         {
             amountTextpro.text = mixingCup.currentAmount.ToString() + "/100";
+            amountTextpro.text.Trim();
             if (mixingCup.ingredientesNames.Count > 0)
             {
                 textMeshPro.text = string.Join("\n", mixingCup.ingredientesNames);

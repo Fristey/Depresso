@@ -70,6 +70,7 @@ public class MixingCup : MonoBehaviour
     {
         //Debug.Log("Spilling amount: " + amount);
         currentAmount = Mathf.Max(currentAmount - amount, 0f);
+        currentAmount = Mathf.Round(currentAmount);
         //Debug.Log("Current Amount:" + currentAmount);
     }
 }
