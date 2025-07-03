@@ -66,8 +66,10 @@ public class CustomerOrder : MonoBehaviour
         {
             patiance += extraPatience;
         }
+        //for testing
         amountOfOrders = gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer;
-        //amountOfOrders = UnityEngine.Random.Range(1, gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer + 1);
+        //for playing
+        amountOfOrders = UnityEngine.Random.Range(1, gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer + 1);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
