@@ -169,12 +169,6 @@ public class Daycycle
 
         Day currentDay = days[currentDayIndex];
 
-        
-        if (CustomerSpawner.Instance != null)
-        {
-            CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
-        }
-
         if (EventManager.instance != null)
         {
             EventManager.instance.SetDayEvents(days[dayNumber].temporaryEvents, days[dayNumber].permanentEvents, days[dayNumber].eventAmount, days[dayNumber].dayDuration);
@@ -182,7 +176,10 @@ public class Daycycle
             EventManager.instance.StartEvents();
         }
 
-
+        if (CustomerSpawner.Instance != null)
+        {
+            CustomerSpawner.Instance.SetSpawnSettings(currentDay.customerSpawnTimer, currentDay.maxCustomers);
+        }
     }
 
     public Day GetCurrentDay()

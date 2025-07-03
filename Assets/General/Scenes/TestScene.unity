@@ -8579,12 +8579,112 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 46913030}
     - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].identifier
+      value: Cat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
       propertyPath: tutorials.Array.data[0].maxTutorialTime
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].maxTutorialTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].texts.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].texts.Array.data[0]'
+      value: 'This is your cat '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].texts.Array.data[1]'
+      value: It has a tendency to push cups
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].texts.Array.data[2]'
+      value: And damage machines
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].texts.Array.data[3]'
+      value: That can be fixed with a wrench
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].texts.Array.data[4]'
+      value: 'You can distract it and calm down by playing with it '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].texts.Array.data[5]'
+      value: But that only works for so long
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
       propertyPath: tutorials.Array.data[0].meshRenderers.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[0].text
+      value: This is your cat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[1].text
+      value: It likes pushing cups
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[2].text
+      value: And damaging the coffee machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[3].text
+      value: That can be fixed with a wrench
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[4].text
+      value: That can be fixed with a wrench
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[5].text
+      value: But that only works for so long
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].meshRenderers.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[0].text
+      value: This is your cat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[1].text
+      value: It likes pushing cups
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[2].text
+      value: And damaging the coffee machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[3].text
+      value: That can be fixed with a wrench
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[4].text
+      value: That can be fixed with a wrench
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[5].text
+      value: But that only works for so long
       objectReference: {fileID: 0}
     - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
       propertyPath: 'tutorials.Array.data[0].meshRenderers.Array.data[1]'
@@ -8602,6 +8702,142 @@ PrefabInstance:
       propertyPath: 'tutorials.Array.data[0].meshRenderers.Array.data[4]'
       value: 
       objectReference: {fileID: 2088459180}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[0].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[1].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[2].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[3].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[4].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[5].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].meshRenderers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1757509878}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].meshRenderers.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1485543984}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].meshRenderers.Array.data[3]'
+      value: 
+      objectReference: {fileID: 919273281}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: 'tutorials.Array.data[1].meshRenderers.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2088459180}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[0].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[1].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[2].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[3].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[4].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[5].outline
+      value: 
+      objectReference: {fileID: 2100000, guid: d15541c560138394bb9bdd3c1ec17013, type: 2}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[0].maxStepTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[5].maxStepTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[0].maxStepTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[1].maxStepTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[5].maxStepTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[2].objectRenderer
+      value: 
+      objectReference: {fileID: 1485543984}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[3].objectRenderer
+      value: 
+      objectReference: {fileID: 919273281}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[4].objectRenderer
+      value: 
+      objectReference: {fileID: 2088459180}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[5].objectRenderer
+      value: 
+      objectReference: {fileID: 919273281}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[2].objectRenderer
+      value: 
+      objectReference: {fileID: 1485543984}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[3].objectRenderer
+      value: 
+      objectReference: {fileID: 919273281}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[4].objectRenderer
+      value: 
+      objectReference: {fileID: 2088459180}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[5].objectRenderer
+      value: 
+      objectReference: {fileID: 919273281}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[0].characterRenderer
+      value: 
+      objectReference: {fileID: 1387990044}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[0].steps.Array.data[1].characterRenderer
+      value: 
+      objectReference: {fileID: 1387990044}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[0].characterRenderer
+      value: 
+      objectReference: {fileID: 1387990044}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[1].characterRenderer
+      value: 
+      objectReference: {fileID: 1387990044}
+    - target: {fileID: 5263827538005195681, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
+      propertyPath: tutorials.Array.data[1].steps.Array.data[2].characterRenderer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5584391441125598943, guid: 8dac5f29ae479c24da09eb2ac83d5ba5, type: 3}
       propertyPath: m_Name
       value: TutorialManager
@@ -8658,6 +8894,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5625080375529400961, guid: 85103591aba71394cb655c9177c00510, type: 3}
   m_PrefabInstance: {fileID: 1118787226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1387990044 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 383611842613204484, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
+  m_PrefabInstance: {fileID: 1798155606}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1388473224
 PrefabInstance:
@@ -11240,7 +11481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 383611842613204484, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 383611842613204484, guid: a474808e9581cf54eb9effed00d282ee, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -12339,7 +12580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: dayCycle.days.Array.data[0].permanentEvents.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: dayCycle.days.Array.data[0].temporaryEvents.Array.size
@@ -12392,11 +12633,11 @@ PrefabInstance:
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: 'dayCycle.days.Array.data[0].permanentEvents.Array.data[0]'
       value: 
-      objectReference: {fileID: 1687868671}
+      objectReference: {fileID: 1798155607}
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: 'dayCycle.days.Array.data[0].temporaryEvents.Array.data[0]'
       value: 
-      objectReference: {fileID: 5954915189422344308, guid: e1e29a957546e924599b9e531700019f, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4714913806383604193, guid: a095161e3b0021c42b7e9480d2ca3a13, type: 3}
       propertyPath: 'dayCycle.days.Array.data[0].temporaryEvents.Array.data[1]'
       value: 
