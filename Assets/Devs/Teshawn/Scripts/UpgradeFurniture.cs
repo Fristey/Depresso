@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class UpgradeFurniture : MonoBehaviour
     private TabletcamObjectSelector tabletcamObjectSelector;
     private Inventory inventory;
     [SerializeField] private Material highLight;
+    [SerializeField] private TextMeshProUGUI priceTag;
 
 
     [SerializeField] private int price;
@@ -46,6 +48,7 @@ public class UpgradeFurniture : MonoBehaviour
 
     private void Update()
     {
+       
         if(PurchaseObject != null)
         {
             confirmPu.SetActive(true);
@@ -79,6 +82,8 @@ public class UpgradeFurniture : MonoBehaviour
             Highlight(previousObject.GetComponent<MeshRenderer>(), true);
 
         }
+
+        priceTag.text = price.ToString();
 
     }
 

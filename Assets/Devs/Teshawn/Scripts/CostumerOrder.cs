@@ -193,6 +193,7 @@ public class CustomerOrder : MonoBehaviour
                         costumerOrders.Remove(costumerOrders[i]);
                         orderText.Remove(cup.drinkName);
                         collision.gameObject.GetComponent<MixingCup>().currentAmount = 0;
+                        collision.gameObject.GetComponent<MixingCup>().cupIngredientes.Clear();
                         patiance += 5f;
                     }
                 }

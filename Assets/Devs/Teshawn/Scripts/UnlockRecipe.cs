@@ -1,9 +1,16 @@
+using TMPro;
 using UnityEngine;
 
 public class UnlockRecipe : MonoBehaviour
 {
+    private int unlockPrice;
+
     [SerializeField] private OrderManager orderManager;
+    [SerializeField] private CurrencyManager currencyManager;
     private CamSwapManager camSwapManager;
+
+    [SerializeField] private TextMeshProUGUI pricetag;
+
     [Header("recepe buttons")]
     [SerializeField] private GameObject prevButton, nextButton, currentRecepe, previousRecepe;
 
@@ -25,6 +32,7 @@ public class UnlockRecipe : MonoBehaviour
 
     private void Update()
     {
+        
         if (camSwapManager.isLookingAtBook)
         {
             this.gameObject.SetActive(true);
@@ -35,7 +43,7 @@ public class UnlockRecipe : MonoBehaviour
             {
                 appleCin.SetActive(false);
             }
-            else if(orderManager.possibleDrinks[i].name == candyCaneR.name)
+            else if (orderManager.possibleDrinks[i].name == candyCaneR.name)
             {
                 candyCane.SetActive(false);
             }
@@ -75,58 +83,75 @@ public class UnlockRecipe : MonoBehaviour
             {
                 rosecarda.SetActive(false);
             }
+            pricetag.text = unlockPrice.ToString();
         }
-       
 
-        if(Input.GetKey(KeyCode.Escape))
+
+        if (Input.GetKey(KeyCode.Escape))
         {
             camSwapManager.isLookingAtBook = false;
         }
         if (currentRecepe == appleCin)
         {
-         
+
             book.GetComponent<MeshRenderer>().material = appleCinM;
+            unlockPrice = appleCinR.price * 2;
         }
         else if (currentRecepe == candyCane)
         {
-          
+
             book.GetComponent<MeshRenderer>().material = candyCaneM;
+            unlockPrice = candyCaneR.price * 2;
+
 
         }
         else if (currentRecepe == cattechino)
         {
-        
+
             book.GetComponent<MeshRenderer>().material = cattechinoM;
+            unlockPrice = cattechinoR.price * 2;
+
         }
         else if (currentRecepe == cherryBlos)
         {
-           
+
             book.GetComponent<MeshRenderer>().material = cherryBlosM;
+            unlockPrice = cherryBlosR.price * 2;
+
         }
         else if (currentRecepe == coffee)
         {
 
             book.GetComponent<MeshRenderer>().material = coffeeM;
+            unlockPrice = coffeeR.price * 2;
+
         }
         else if (currentRecepe == cosmos)
         {
-           
+
             book.GetComponent<MeshRenderer>().material = cosmosM;
+            unlockPrice = cosmosR.price * 2;
+
         }
         else if (currentRecepe == espressoDepres)
         {
-          
+
             book.GetComponent<MeshRenderer>().material = espressoDepreM;
+            unlockPrice = espressoDepreR.price * 2;
+
         }
         else if (currentRecepe == pumpkinSpice)
         {
-           
+
             book.GetComponent<MeshRenderer>().material = pumpkinSpiceM;
+            unlockPrice = pumpkinSpiceR.price * 2;
+
         }
         else if (currentRecepe == lavander)
         {
-          
+
             book.GetComponent<MeshRenderer>().material = lavanderM;
+            unlockPrice = lavanderR.price * 2;
         }
     }
 
@@ -134,9 +159,12 @@ public class UnlockRecipe : MonoBehaviour
     {
         if (!orderManager.possibleDrinks.Contains(recipe))
         {
-            orderManager.possibleDrinks.Add(recipe);
-            mainRecipeBookMenu.SetActive(true);
-            unlockRecipeMenu.SetActive(false);
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+                mainRecipeBookMenu.SetActive(true);
+                unlockRecipeMenu.SetActive(false);
+            }
         }
         else
         {
@@ -335,8 +363,6 @@ public class UnlockRecipe : MonoBehaviour
         recipe = coffeeR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
-
     }
 
     public void UnlockCosmos()
@@ -344,9 +370,6 @@ public class UnlockRecipe : MonoBehaviour
         recipe = cosmosR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
-
-
     }
 
     public void UnlockEpressoDepress()
@@ -354,9 +377,6 @@ public class UnlockRecipe : MonoBehaviour
         recipe = espressoDepreR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
-
-
     }
 
     public void UnlockIceCoffee()
@@ -364,9 +384,6 @@ public class UnlockRecipe : MonoBehaviour
         recipe = iceCoffeeR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
-
-
     }
 
     public void UnlockLavander()
@@ -374,8 +391,6 @@ public class UnlockRecipe : MonoBehaviour
         recipe = lavanderR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
-
     }
 
     public void UnlockPumpkinSpice()
@@ -383,8 +398,6 @@ public class UnlockRecipe : MonoBehaviour
         recipe = pumpkinSpiceR;
         unlockRecipeMenu.SetActive(true);
         mainRecipeBookMenu.SetActive(false);
-
-
     }
 
     public void UnlockRosecarda()
