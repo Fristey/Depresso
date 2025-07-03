@@ -66,8 +66,8 @@ public class CustomerOrder : MonoBehaviour
         {
             patiance += extraPatience;
         }
-
-        amountOfOrders = UnityEngine.Random.Range(1, gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer + 1);
+        amountOfOrders = gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer;
+        //amountOfOrders = UnityEngine.Random.Range(1, gameManager.dayCycle.days[gameManager.dayCycle.currentDayIndex].maxOrdersPerCustomer + 1);
         for (int i = 0; i < amountOfOrders; i++)
         {
             manager.GeneratingOrder();
@@ -184,9 +184,13 @@ public class CustomerOrder : MonoBehaviour
                             manager.GeneratingOrder();
                             costumerOrders.Add(manager.orderGiven);
                             orderText.Add(manager.orderGiven.nameOfDrink);
+                            patiance += 5f;
+                            Debug.Log("spilled");
                         }
+
                         costumerOrders.Remove(costumerOrders[i]);
                         orderText.Remove(cup.drinkName);
+                        collision.gameObject.GetComponent<MixingCup>().currentAmount = 0;
                         patiance += 5f;
                     }
                 }

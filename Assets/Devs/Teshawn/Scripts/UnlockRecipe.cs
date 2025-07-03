@@ -29,7 +29,54 @@ public class UnlockRecipe : MonoBehaviour
         {
             this.gameObject.SetActive(true);
         }
-        Debug.Log("book: "+ book + "mesh: " + book.GetComponent<MeshRenderer>().material + "current recipe: " + appleCinM);
+        for (int i = 0; i < orderManager.possibleDrinks.Count; i++)
+        {
+            if (orderManager.possibleDrinks[i].name == appleCinR.name)
+            {
+                appleCin.SetActive(false);
+            }
+            else if(orderManager.possibleDrinks[i].name == candyCaneR.name)
+            {
+                candyCane.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == cattechinoR.name)
+            {
+                cattechino.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == cherryBlosR.name)
+            {
+                cherryBlos.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == coffeeR.name)
+            {
+                coffee.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == cosmosR.name)
+            {
+                cosmos.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == espressoDepreR.name)
+            {
+                espressoDepres.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == iceCoffeeR.name)
+            {
+                iceCoffee.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == lavanderR.name)
+            {
+                lavander.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == pumpkinSpiceR.name)
+            {
+                pumpkinSpice.SetActive(false);
+            }
+            else if (orderManager.possibleDrinks[i].name == rosecardaR.name)
+            {
+                rosecarda.SetActive(false);
+            }
+        }
+       
 
         if(Input.GetKey(KeyCode.Escape))
         {

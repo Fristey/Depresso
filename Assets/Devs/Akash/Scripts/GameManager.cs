@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
     public void ClickedDoor()
     {
         PointsManager points = GameObject.FindFirstObjectByType<PointsManager>();
-        Debug.Log(points);
 
         if (points != null)
         {

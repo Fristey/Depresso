@@ -10,7 +10,7 @@ public class AddIngredient : MonoBehaviour
     public bool isGrabbed;
     [SerializeField] private GrabStatus grabStatus;
 
-    private float destroyDelayTimer = 5f;
+    private float destroyDelayTimer = 3f;
 
     private void Start()
     {
@@ -45,7 +45,7 @@ public class AddIngredient : MonoBehaviour
             destroyDelayTimer -= Time.deltaTime;
 
         if (grabStatus == GrabStatus.grabbed || grabStatus == GrabStatus.picking_up)
-            destroyDelayTimer = 5;
+            destroyDelayTimer = 3;
 
         if (destroyDelayTimer <= 0 && grabStatus == GrabStatus.dropped)
         {
@@ -57,14 +57,11 @@ public class AddIngredient : MonoBehaviour
 
     public void SetGrabbed( GrabStatus status)
     {
-        Debug.Log("SetGrabbed: " + status);
         grabStatus = status ;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collision with: " + collision.gameObject.name);
-
         if (collision.gameObject.GetComponent<MixingCup>() != null)
         {
             if (collision.gameObject.GetComponent<MixingCup>().currentAmount < collision.gameObject.GetComponent<MixingCup>().maxAmount)

@@ -36,6 +36,11 @@ public class MixingCup : MonoBehaviour
             ingredientesNames.Clear();
             drinkToserve = null;
         }
+
+        if(currentAmount > maxAmount)
+        {
+            currentAmount = maxAmount;
+        }
     }
 
     /// <summary>
