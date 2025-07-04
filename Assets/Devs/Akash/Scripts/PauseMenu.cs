@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isPaused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
         {
             pauseMenuUI.SetActive(true);
             Time.timeScale = 0f; // Pause the game
@@ -27,7 +27,7 @@ public class PauseMenu : MonoBehaviour
             Cursor.lockState = CursorLockMode.None; // Unlock the cursor
             Cursor.visible = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && isPaused)
+        else if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
         {
             ResumeGame();
         }
