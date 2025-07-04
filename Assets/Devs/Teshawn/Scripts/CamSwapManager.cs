@@ -5,6 +5,7 @@ public class CamSwapManager : MonoBehaviour
 {
     public CinemachineCamera tabletCam;
     public CinemachineCamera bookCam;
+    public CinemachineCamera doorCam;
     private PlayerMovement movement;
     private GrabCup grabcup;
     private LookAround lookAround;
@@ -13,6 +14,7 @@ public class CamSwapManager : MonoBehaviour
     public GameObject ceiling;
     public bool isLookingAtTablet;
     public bool isLookingAtBook;
+    public bool isLookingAtDoor;
 
     private void Start()
     {
@@ -59,6 +61,24 @@ public class CamSwapManager : MonoBehaviour
         else
         {
             bookCam.Priority = 1;
+            movement.enabled = true;
+            grabcup.enabled = true;
+            lookAround.enabled = true;
+            crosshair.SetActive(true);
+        }
+
+        if (isLookingAtDoor)
+        {
+            doorCam.Priority = 10;
+            movement.enabled = false;
+            grabcup.enabled = false;
+            lookAround.enabled = false;
+            crosshair.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            doorCam.Priority = 1;
             movement.enabled = true;
             grabcup.enabled = true;
             lookAround.enabled = true;
