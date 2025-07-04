@@ -54,10 +54,7 @@ public class YarnSpawner : MonoBehaviour
             yarnScript.yarnCoil = yarnCoil;
             yarnMesh = curYarn.GetComponentInChildren<MeshRenderer>();
         }
-        else
-        {
-            TutorialManager.instance.StepFinished("Cat", 6);
-        }
+
         curYarn.transform.position = spawn.transform.position;
         yarnRb.isKinematic = true;
 
@@ -82,7 +79,6 @@ public class YarnSpawner : MonoBehaviour
 
                 yarnScript.cat = catScript;
 
-                TutorialManager.instance.StepFinished("Cat", 5);
                 return true;
             case YarnSpawnStates.Out:
                 ReturnYarn();
@@ -108,7 +104,5 @@ public class YarnSpawner : MonoBehaviour
 
         animator.SetBool("Regenerating", true);
         yarnMesh.enabled = false;
-
-        TutorialManager.instance.StepFinished("Cat", 6);
     }
 }
