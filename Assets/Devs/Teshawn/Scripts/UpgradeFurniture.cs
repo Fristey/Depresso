@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public class UpgradeFurniture : MonoBehaviour
@@ -12,79 +11,46 @@ public class UpgradeFurniture : MonoBehaviour
     [SerializeField] private TextMeshProUGUI priceTag;
 
 
-    [SerializeField] private int price;
+    private int price = 300;
+
+    [SerializeField] private int index;
+    [SerializeField] private int prevIndex;
 
     public GameObject selectMenu;
-
-    [SerializeField] private GameObject purchaseBtn,placeBtn,exitpu,exitpl;
-    [Header("shop")]
-    [SerializeField] private GameObject normalPu, fancyPu, cyberPu, asianPu;
-
-    [Header("placement")]
-    [SerializeField] private GameObject normalPul, fancyPl, cyberPl, asianPl;
-
-    [Header("confirm")]
-    [SerializeField] private GameObject confirmPu, denyPu, confirmPl, denyPl;
-
-    [SerializeField] private GameObject normalObject, fancyObject, CyberObject, asianObject;
-
+    [SerializeField] private List<GameObject> furnitureObj;
     [SerializeField] private GameObject currentObject;
-    public GameObject previousObject;
-    [SerializeField] private GameObject PurchaseObject;
-    [SerializeField] private GameObject placedObject;
+    [SerializeField] private GameObject prevObj;
+
+
 
     void Start()
     {
-        previousObject = normalObject;
         currencyManager = FindFirstObjectByType<CurrencyManager>();
         tabletcamObjectSelector = FindAnyObjectByType<TabletcamObjectSelector>();
         inventory = FindFirstObjectByType<Inventory>();
 
-        normalPu.SetActive(false);
-        fancyPu.SetActive(false);
-        cyberPu.SetActive(false);
-        asianPu.SetActive(false);
+        prevIndex = index;
     }
 
     private void Update()
     {
-       
-        if(PurchaseObject != null)
+        if (currentObject != null)
         {
-            confirmPu.SetActive(true);
-            denyPu.SetActive(true);
-        }
-        else
-        {
-            confirmPu.SetActive(false);
-            denyPu.SetActive(false);
-        }
+            if (tabletcamObjectSelector.selectedFurniture != this.gameObject)
+            {
+                selectMenu.SetActive(false);
+                Highlight(currentObject.GetComponent<MeshRenderer>(), false);
+            }
+            else
+            {
+                selectMenu.SetActive(true);
+                Highlight(currentObject.GetComponent<MeshRenderer>(), true);
 
-        if (placedObject != null)
-        {
-            confirmPl.SetActive(true);
-            denyPl.SetActive(true);
-        }
-        else
-        {
-            confirmPl.SetActive(false);
-            denyPl.SetActive(false);
-        }
+            }
 
-        if(tabletcamObjectSelector.selectedFurniture != this.gameObject)
-        {
-            selectMenu.SetActive(false);
-            Highlight(previousObject.GetComponent<MeshRenderer>() , false);
-        }
-        else
-        {
-            selectMenu.SetActive(true);
-            Highlight(previousObject.GetComponent<MeshRenderer>(), true);
+            priceTag.text = price.ToString();
 
         }
-
-        priceTag.text = price.ToString();
-
     }
 
     private void Highlight(MeshRenderer mainMesh, bool isSelected)
@@ -111,223 +77,88 @@ public class UpgradeFurniture : MonoBehaviour
 
     }
 
-    public void Purchase()
+    public void IndexUp()
     {
-        if (currencyManager.playerCurrency > price)
+        if (index == furnitureObj.Count - 1)
         {
-            currencyManager.playerCurrency -= price;
-            inventory.furniture.Add(PurchaseObject);
-            PurchaseObject = null;
-
-            placeBtn.SetActive(true);
-            purchaseBtn.SetActive(true);
+            index = 0;
         }
         else
         {
-            Debug.Log("cant buy");
+            index++;
         }
+        furnitureSwap();
     }
 
-    public void PlaceObject()
+    public void IndexDown()
     {
-        if (placedObject != null)
+        if (index == 0)
         {
-            for(int i = 0; i < inventory.furniture.Count; i++)
-            {
-                if (inventory.furniture[i].name == placedObject.name)
-                {
-                    currentObject = placedObject;
-                    if (currentObject != previousObject)
-                    {
-                        currentObject.SetActive(true);
-                    }
-                    if (previousObject != null)
-                    {
-                        previousObject.SetActive(false);
-                        currentObject.SetActive(true);
-                        previousObject = currentObject;
-                        inventory.furniture.Remove(placedObject);
-                    }
-                    else
-                    {
-                        previousObject = currentObject;
-                    }
-                }
-            }
-           
-            placeBtn.SetActive(true);
-            purchaseBtn.SetActive(true);
+            index = furnitureObj.Count - 1;
 
-            placedObject = null;
+        }
+        else
+        {
+            index--;
+        }
+        furnitureSwap();
+    }
+
+    private void furnitureSwap()
+    {
+        //for (int i = 0; i < furnitureObj.Count; i++)
+        //{
+        //    if (index == i)
+        //    {
+        //        furnitureObj[i].SetActive(true);
+        //        currentObject = furnitureObj[i];    
+        //    }
+        //    else
+        //    {
+        //        furnitureObj[i].SetActive(false);
+        //    }
+        //}
+        for (int i = 0; i < furnitureObj.Count; i++)
+        {
+            furnitureObj[i].SetActive(false);
+        }
+        furnitureObj[index].SetActive(true);
+        currentObject = furnitureObj[index];
+    }
+
+    public void Purchase()
+    {
+        if (currentObject != null)
+        {
+            currencyManager.playerCurrency -= price;
+            inventory.furniture.Add(currentObject);
+            prevObj = currentObject;
+            prevIndex = index;
         }
     }
-    public void SelectPlace()
+
+    public void Place()
     {
-        purchaseBtn.SetActive(false);
-        placeBtn.SetActive(false);
+        for (int i = 0; i < inventory.furniture.Count; i++)
+        {
+            if (inventory.furniture[i].name.Equals(currentObject.name))
+            {
+                inventory.furniture.RemoveAt(i);
+            }
+            else
+            {
+                index = prevIndex;
+            }
+        }
 
-        exitpl.SetActive(true);
-        fancyPl.SetActive(true);
-        cyberPl.SetActive(true);
-        asianPl.SetActive(true);
-        normalPul.SetActive(true);
+        if (prevObj == null)
+        {
+            index = prevIndex;
+
+        }
+        furnitureSwap();
+        tabletcamObjectSelector.selectedFurniture = null;
     }
-    #region purchase Functions
-    public void FancyPurchase()
-    {
-        price = 20;
-        PurchaseObject = fancyObject;
-        normalPu.SetActive(false);
-        fancyPu.SetActive(false);
-        cyberPu.SetActive(false);
-        asianPu.SetActive(false);
-        exitpu.SetActive(false);
-
-    }
-
-    public void CyberPurchase()
-    {
-        price = 30;
-        PurchaseObject = CyberObject;
-        normalPu.SetActive(false);
-        fancyPu.SetActive(false);
-        cyberPu.SetActive(false);
-        asianPu.SetActive(false);
-        exitpu.SetActive(false);
-
-    }
-
-    public void NormalObjectPurchase()
-    {
-        price = 10;
-        PurchaseObject = normalObject;
-        normalPu.SetActive(false);
-        fancyPu.SetActive(false);
-        cyberPu.SetActive(false);
-        asianPu.SetActive(false);
-        exitpu.SetActive(false);
-
-    }
-
-    public void AsianObjectPurchase()
-    {
-        price = 50;
-        PurchaseObject = asianObject;
-        normalPu.SetActive(false);
-        fancyPu.SetActive(false);
-        cyberPu.SetActive(false);
-        asianPu.SetActive(false);
-        exitpu.SetActive(false);
-
-
-    }
-
-    public void SelectShop()
-    {
-        normalPu.SetActive(true);
-        fancyPu.SetActive(true);
-        cyberPu.SetActive(true);
-        asianPu.SetActive(true);
-        exitpu.SetActive(true);
-
-        purchaseBtn.SetActive(false);
-        placeBtn.SetActive(false);
-    }
-
-    public void DenyPurchase()
-    {
-        PurchaseObject = null;
-        normalPu.SetActive(true);
-        fancyPu.SetActive(true);
-        cyberPu.SetActive(true);
-        asianPu.SetActive(true);
-        exitpu.SetActive(true);
-    }
-
-    public void ExitPurchase()
-    {
-        normalPu.SetActive(false);
-        fancyPu.SetActive(false);
-        cyberPu.SetActive(false);
-        asianPu.SetActive(false);
-        exitpu.SetActive(false);
-
-        purchaseBtn.SetActive(true);
-        placeBtn.SetActive(true);
-
-    }
-    #endregion
-
-    #region place Functions
-    public void PlaceFancy()
-    {
-        placedObject = fancyObject;
-        normalPul.SetActive(false);
-        fancyPl.SetActive(false);
-        cyberPl.SetActive(false);
-        asianPl.SetActive(false);
-
-        exitpl.SetActive(false);
-    }
-
-    public void PlaceCyber()
-    {
-        placedObject = CyberObject;
-        fancyPl.SetActive(false);
-        cyberPl.SetActive(false);
-        asianPl.SetActive(false);
-        normalPul.SetActive(false);
-
-        exitpl.SetActive(false);
-    }
-
-    public void placeAsionObject()
-    {
-        placedObject = asianObject;
-        fancyPl.SetActive(false);
-        cyberPl.SetActive(false);
-        asianPl.SetActive(false);
-        normalPul.SetActive(false);
-
-        exitpl.SetActive(false);
-    }
-    public void PlaceNormal()
-    {
-        placedObject = normalObject;
-        fancyPl.SetActive(false);
-        cyberPl.SetActive(false);
-        asianPl.SetActive(false);
-        normalPul.SetActive(false);
-
-        exitpl.SetActive(false);
-    }
-
-    public void DenyPlace()
-    {
-
-
-        fancyPl.SetActive(true);
-        cyberPl.SetActive(true);
-        asianPl.SetActive(true);
-        normalPul.SetActive(true);
-
-        confirmPl.SetActive(false);
-        denyPl.SetActive(false);
-    }
-
-    public void ExitPlace()
-    {
-        fancyPl.SetActive(false);
-        cyberPl.SetActive(false);
-        asianPl.SetActive(false);
-        normalPul.SetActive(false);
-        exitpl.SetActive(false);
-
-        placeBtn.SetActive(true);
-        purchaseBtn.SetActive(true);
-    }
-    #endregion
-
     public void ExitUpgradeMenus()
     {
         selectMenu.SetActive(false);
