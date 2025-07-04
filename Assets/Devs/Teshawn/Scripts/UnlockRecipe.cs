@@ -19,7 +19,7 @@ public class UnlockRecipe : MonoBehaviour
     [SerializeField] private Material appleCinM, candyCaneM, cattechinoM, cherryBlosM, coffeeM, cosmosM, espressoDepreM, iceCoffeeM, lavanderM, pumpkinSpiceM, rosecardaM;
 
     public GameObject book;
-    public GameObject unlockRecipeMenu, mainRecipeBookMenu;
+    public GameObject mainRecipeBookMenu;
     public Recipes recipe;
 
     void Start()
@@ -152,23 +152,6 @@ public class UnlockRecipe : MonoBehaviour
 
             book.GetComponent<MeshRenderer>().material = lavanderM;
             unlockPrice = lavanderR.price * 2;
-        }
-    }
-
-    public void UnlockMoreRecipes()
-    {
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-                mainRecipeBookMenu.SetActive(true);
-                unlockRecipeMenu.SetActive(false);
-            }
-        }
-        else
-        {
-            Debug.Log("you have this drink");
         }
     }
 
@@ -329,88 +312,134 @@ public class UnlockRecipe : MonoBehaviour
     public void UnlockAppleCin()
     {
         recipe = appleCinR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockCandyCane()
     {
         recipe = candyCaneR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockCattachino()
     {
         recipe = cattechinoR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
-
-
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockCherryBlos()
     {
         recipe = cherryBlosR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
-
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
 
     }
 
     public void UnlockCoffee()
     {
         recipe = coffeeR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockCosmos()
     {
         recipe = cosmosR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockEpressoDepress()
     {
         recipe = espressoDepreR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockIceCoffee()
     {
         recipe = iceCoffeeR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockLavander()
     {
         recipe = lavanderR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockPumpkinSpice()
     {
         recipe = pumpkinSpiceR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
 
     public void UnlockRosecarda()
     {
         recipe = rosecardaR;
-        unlockRecipeMenu.SetActive(true);
-        mainRecipeBookMenu.SetActive(false);
+        if (!orderManager.possibleDrinks.Contains(recipe))
+        {
+            if (currencyManager.playerCurrency >= unlockPrice)
+            {
+                orderManager.possibleDrinks.Add(recipe);
+            }
+        }
     }
     #endregion
-
-    public void Deny()
-    {
-        mainRecipeBookMenu.SetActive(true);
-        unlockRecipeMenu.SetActive(false);
-    }
 }

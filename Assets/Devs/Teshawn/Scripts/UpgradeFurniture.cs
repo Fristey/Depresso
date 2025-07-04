@@ -19,9 +19,6 @@ public class UpgradeFurniture : MonoBehaviour
     public GameObject selectMenu;
     [SerializeField] private List<GameObject> furnitureObj;
     [SerializeField] private GameObject currentObject;
-    [SerializeField] private GameObject prevObj;
-
-
 
     void Start()
     {
@@ -106,18 +103,6 @@ public class UpgradeFurniture : MonoBehaviour
 
     private void furnitureSwap()
     {
-        //for (int i = 0; i < furnitureObj.Count; i++)
-        //{
-        //    if (index == i)
-        //    {
-        //        furnitureObj[i].SetActive(true);
-        //        currentObject = furnitureObj[i];    
-        //    }
-        //    else
-        //    {
-        //        furnitureObj[i].SetActive(false);
-        //    }
-        //}
         for (int i = 0; i < furnitureObj.Count; i++)
         {
             furnitureObj[i].SetActive(false);
@@ -132,7 +117,6 @@ public class UpgradeFurniture : MonoBehaviour
         {
             currencyManager.playerCurrency -= price;
             inventory.furniture.Add(currentObject);
-            prevObj = currentObject;
             prevIndex = index;
         }
     }
@@ -149,12 +133,6 @@ public class UpgradeFurniture : MonoBehaviour
             {
                 index = prevIndex;
             }
-        }
-
-        if (prevObj == null)
-        {
-            index = prevIndex;
-
         }
         furnitureSwap();
         tabletcamObjectSelector.selectedFurniture = null;
