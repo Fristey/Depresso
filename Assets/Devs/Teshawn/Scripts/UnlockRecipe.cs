@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,11 +13,12 @@ public class UnlockRecipe : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pricetag;
 
     [Header("recepe buttons")]
-    [SerializeField] private GameObject prevButton, nextButton, currentRecepe, previousRecepe;
+    [SerializeField] private GameObject prevButton, nextButton, unlockButton;
 
-    [SerializeField] private GameObject appleCin, candyCane, cattechino, cherryBlos, coffee, cosmos, espressoDepres, iceCoffee, lavander, pumpkinSpice, rosecarda;
-    [SerializeField] private Recipes appleCinR, candyCaneR, cattechinoR, cherryBlosR, coffeeR, cosmosR, espressoDepreR, iceCoffeeR, lavanderR, pumpkinSpiceR, rosecardaR;
-    [SerializeField] private Material appleCinM, candyCaneM, cattechinoM, cherryBlosM, coffeeM, cosmosM, espressoDepreM, iceCoffeeM, lavanderM, pumpkinSpiceM, rosecardaM;
+    [SerializeField] private List<Material> pageMats;
+    [SerializeField] private List<Recipes> pageRecipes;
+
+    [SerializeField] private int recipeIndex;
 
     public GameObject book;
     public GameObject mainRecipeBookMenu;
@@ -27,419 +29,71 @@ public class UnlockRecipe : MonoBehaviour
         orderManager = FindAnyObjectByType<OrderManager>();
         camSwapManager = FindFirstObjectByType<CamSwapManager>();
         mainRecipeBookMenu.SetActive(true);
-        book.GetComponent<MeshRenderer>().material = appleCinM;
     }
 
     private void Update()
     {
-        
+
         if (camSwapManager.isLookingAtBook)
         {
             this.gameObject.SetActive(true);
         }
-        for (int i = 0; i < orderManager.possibleDrinks.Count; i++)
-        {
-            if (orderManager.possibleDrinks[i].name == appleCinR.name)
-            {
-                appleCin.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == candyCaneR.name)
-            {
-                candyCane.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == cattechinoR.name)
-            {
-                cattechino.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == cherryBlosR.name)
-            {
-                cherryBlos.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == coffeeR.name)
-            {
-                coffee.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == cosmosR.name)
-            {
-                cosmos.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == espressoDepreR.name)
-            {
-                espressoDepres.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == iceCoffeeR.name)
-            {
-                iceCoffee.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == lavanderR.name)
-            {
-                lavander.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == pumpkinSpiceR.name)
-            {
-                pumpkinSpice.SetActive(false);
-            }
-            else if (orderManager.possibleDrinks[i].name == rosecardaR.name)
-            {
-                rosecarda.SetActive(false);
-            }
-            pricetag.text = unlockPrice.ToString();
-        }
 
-
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            camSwapManager.isLookingAtBook = false;
-        }
-        if (currentRecepe == appleCin)
-        {
-
-            book.GetComponent<MeshRenderer>().material = appleCinM;
-            unlockPrice = appleCinR.price * 2;
-        }
-        else if (currentRecepe == candyCane)
-        {
-
-            book.GetComponent<MeshRenderer>().material = candyCaneM;
-            unlockPrice = candyCaneR.price * 2;
-
-
-        }
-        else if (currentRecepe == cattechino)
-        {
-
-            book.GetComponent<MeshRenderer>().material = cattechinoM;
-            unlockPrice = cattechinoR.price * 2;
-
-        }
-        else if (currentRecepe == cherryBlos)
-        {
-
-            book.GetComponent<MeshRenderer>().material = cherryBlosM;
-            unlockPrice = cherryBlosR.price * 2;
-
-        }
-        else if (currentRecepe == coffee)
-        {
-
-            book.GetComponent<MeshRenderer>().material = coffeeM;
-            unlockPrice = coffeeR.price * 2;
-
-        }
-        else if (currentRecepe == cosmos)
-        {
-
-            book.GetComponent<MeshRenderer>().material = cosmosM;
-            unlockPrice = cosmosR.price * 2;
-
-        }
-        else if (currentRecepe == espressoDepres)
-        {
-
-            book.GetComponent<MeshRenderer>().material = espressoDepreM;
-            unlockPrice = espressoDepreR.price * 2;
-
-        }
-        else if (currentRecepe == pumpkinSpice)
-        {
-
-            book.GetComponent<MeshRenderer>().material = pumpkinSpiceM;
-            unlockPrice = pumpkinSpiceR.price * 2;
-
-        }
-        else if (currentRecepe == lavander)
-        {
-
-            book.GetComponent<MeshRenderer>().material = lavanderM;
-            unlockPrice = lavanderR.price * 2;
-        }
+        Display();
     }
 
     public void NextPage()
     {
-        if (previousRecepe != null)
-            previousRecepe.SetActive(false);
 
-        if (currentRecepe == appleCin)
+        if (recipeIndex == pageRecipes.Count - 1)
         {
-            previousRecepe = appleCin;
-            previousRecepe.SetActive(false);
-            currentRecepe = candyCane;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = appleCinM;
+            recipeIndex = 0;
         }
-        else if (currentRecepe == candyCane)
+        else
         {
-            previousRecepe = candyCane;
-            previousRecepe.SetActive(false);
-            currentRecepe = cattechino;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = candyCaneM;
-
-        }
-        else if (currentRecepe == cattechino)
-        {
-            previousRecepe = cattechino;
-            previousRecepe.SetActive(false);
-            currentRecepe = cherryBlos;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = cattechinoM;
-        }
-        else if (currentRecepe == cherryBlos)
-        {
-            previousRecepe = cherryBlos;
-            previousRecepe.SetActive(false);
-            currentRecepe = coffee;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = cherryBlosM;
-        }
-        else if (currentRecepe == coffee)
-        {
-            previousRecepe = coffee;
-            previousRecepe.SetActive(false);
-            currentRecepe = cosmos;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = coffeeM;
-        }
-        else if (currentRecepe == cosmos)
-        {
-            previousRecepe = cosmos;
-            previousRecepe.SetActive(false);
-            currentRecepe = espressoDepres;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = cosmosM;
-        }
-        else if (currentRecepe == espressoDepres)
-        {
-            previousRecepe = espressoDepres;
-            previousRecepe.SetActive(false);
-            currentRecepe = pumpkinSpice;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = espressoDepreM;
-        }
-        else if (currentRecepe == pumpkinSpice)
-        {
-            previousRecepe = pumpkinSpice;
-            previousRecepe.SetActive(false);
-            currentRecepe = lavander;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = pumpkinSpiceM;
-        }
-        else if (currentRecepe == lavander)
-        {
-            previousRecepe = lavander;
-            previousRecepe.SetActive(false);
-            currentRecepe = appleCin;
-            currentRecepe.SetActive(true);
-            book.GetComponent<MeshRenderer>().material = lavanderM;
+            recipeIndex++;
         }
     }
 
     public void PrevPage()
     {
-        if (currentRecepe != null)
-            currentRecepe.SetActive(false);
-
-        if (currentRecepe == appleCin)
+        if (recipeIndex == 0)
         {
-            previousRecepe = pumpkinSpice;
-            previousRecepe.SetActive(true);
-            currentRecepe = lavander;
-            currentRecepe.SetActive(false);
+            recipeIndex = pageRecipes.Count - 1;
         }
-        else if (currentRecepe == candyCane)
+        else
         {
-            previousRecepe = lavander;
-            previousRecepe.SetActive(true);
-            currentRecepe = appleCin;
-            currentRecepe.SetActive(false);
-
-        }
-        else if (currentRecepe == cattechino)
-        {
-            previousRecepe = appleCin;
-            previousRecepe.SetActive(true);
-            currentRecepe = candyCane;
-            currentRecepe.SetActive(false);
-
-        }
-        else if (currentRecepe == cherryBlos)
-        {
-            previousRecepe = candyCane;
-            previousRecepe.SetActive(true);
-            currentRecepe = cattechino;
-            currentRecepe.SetActive(false);
-
-        }
-        else if (currentRecepe == coffee)
-        {
-            previousRecepe = cattechino;
-            previousRecepe.SetActive(true);
-            currentRecepe = cherryBlos;
-            currentRecepe.SetActive(false);
-        }
-        else if (currentRecepe == cosmos)
-        {
-            previousRecepe = cherryBlos;
-            previousRecepe.SetActive(true);
-            currentRecepe = coffee;
-            currentRecepe.SetActive(false);
-        }
-        else if (currentRecepe == espressoDepres)
-        {
-            previousRecepe = coffee;
-            previousRecepe.SetActive(true);
-            currentRecepe = cosmos;
-            currentRecepe.SetActive(false);
-        }
-        else if (currentRecepe == pumpkinSpice)
-        {
-            previousRecepe = cosmos;
-            previousRecepe.SetActive(true);
-            currentRecepe = espressoDepres;
-            currentRecepe.SetActive(false);
-        }
-        else if (currentRecepe == lavander)
-        {
-            previousRecepe = espressoDepres;
-            previousRecepe.SetActive(true);
-            currentRecepe = pumpkinSpice;
-            currentRecepe.SetActive(false);
+            recipeIndex--;
         }
     }
 
-    #region Unlock Functions
-    public void UnlockAppleCin()
+    public void Display()
     {
-        recipe = appleCinR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
+        for (int i = 0; i < pageRecipes.Count; i++)
         {
-            if (currencyManager.playerCurrency >= unlockPrice)
+            book.GetComponent<MeshRenderer>().material = pageMats[recipeIndex];
+        }
+
+        for (int i = 0; i < orderManager.possibleDrinks.Count; i++)
+        {
+            if (!orderManager.possibleDrinks.Contains(pageRecipes[recipeIndex]))
             {
-                orderManager.possibleDrinks.Add(recipe);
+                unlockButton.SetActive(true);
+                recipe = pageRecipes[recipeIndex];
+            }
+            else
+            {
+                unlockButton.SetActive(false);
+                
             }
         }
     }
 
-    public void UnlockCandyCane()
+    public void Unlock()
     {
-        recipe = candyCaneR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
+        if(recipe != null)
         {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
+            orderManager.possibleDrinks.Add(recipe);
         }
     }
-
-    public void UnlockCattachino()
-    {
-        recipe = cattechinoR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockCherryBlos()
-    {
-        recipe = cherryBlosR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-
-    }
-
-    public void UnlockCoffee()
-    {
-        recipe = coffeeR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockCosmos()
-    {
-        recipe = cosmosR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockEpressoDepress()
-    {
-        recipe = espressoDepreR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockIceCoffee()
-    {
-        recipe = iceCoffeeR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockLavander()
-    {
-        recipe = lavanderR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockPumpkinSpice()
-    {
-        recipe = pumpkinSpiceR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-
-    public void UnlockRosecarda()
-    {
-        recipe = rosecardaR;
-        if (!orderManager.possibleDrinks.Contains(recipe))
-        {
-            if (currencyManager.playerCurrency >= unlockPrice)
-            {
-                orderManager.possibleDrinks.Add(recipe);
-            }
-        }
-    }
-    #endregion
 }
