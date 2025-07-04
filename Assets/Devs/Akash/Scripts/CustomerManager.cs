@@ -7,6 +7,7 @@ public class CustomerManager : MonoBehaviour
     public static CustomerManager Instance;
 
     public List<GameObject> counterStools = new List<GameObject>();
+    public List<Transform> lookPoints = new List<Transform>();
     public List<GameObject> waitPoints = new List<GameObject>();
     public GameObject exitPoint;
     public GameObject spawnPoint;
