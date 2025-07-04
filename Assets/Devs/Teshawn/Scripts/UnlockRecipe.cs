@@ -19,6 +19,7 @@ public class UnlockRecipe : MonoBehaviour
     [SerializeField] private List<Recipes> pageRecipes;
 
     [SerializeField] private int recipeIndex;
+    [SerializeField] private int price;
 
     public GameObject book;
     public GameObject mainRecipeBookMenu;
@@ -37,6 +38,21 @@ public class UnlockRecipe : MonoBehaviour
         if (camSwapManager.isLookingAtBook)
         {
             this.gameObject.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                PrevPage();
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                NextPage();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                camSwapManager.isLookingAtBook = false;
+            }
         }
 
         Display();
@@ -80,6 +96,7 @@ public class UnlockRecipe : MonoBehaviour
             {
                 unlockButton.SetActive(true);
                 recipe = pageRecipes[recipeIndex];
+                pricetag.text = price.ToString();
             }
             else
             {
@@ -87,6 +104,7 @@ public class UnlockRecipe : MonoBehaviour
                 
             }
         }
+        price = recipe.price;
     }
 
     public void Unlock()
