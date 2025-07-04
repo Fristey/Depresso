@@ -53,6 +53,11 @@ public class UnlockRecipe : MonoBehaviour
             {
                 camSwapManager.isLookingAtBook = false;
             }
+
+            if (Input.GetKeyDown(KeyCode.P)) 
+            {
+                Unlock();
+            }
         }
 
         Display();
@@ -60,7 +65,7 @@ public class UnlockRecipe : MonoBehaviour
 
     public void NextPage()
     {
-
+        Debug.Log("right");
         if (recipeIndex == pageRecipes.Count - 1)
         {
             recipeIndex = 0;
@@ -73,6 +78,7 @@ public class UnlockRecipe : MonoBehaviour
 
     public void PrevPage()
     {
+        Debug.Log("left");
         if (recipeIndex == 0)
         {
             recipeIndex = pageRecipes.Count - 1;
