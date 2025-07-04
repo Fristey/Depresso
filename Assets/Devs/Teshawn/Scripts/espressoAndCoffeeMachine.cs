@@ -71,7 +71,6 @@ public class espressoAndCoffeeMachine : MonoBehaviour
             {
                 fixedOrBroken = FixedOrBroken.Fixed;
                 fixingTime = 0;
-                TutorialManager.instance.StepFinished("Cat", 4);
             }
         }
         else
