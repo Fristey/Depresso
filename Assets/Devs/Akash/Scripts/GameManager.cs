@@ -22,8 +22,10 @@ public class GameManager : MonoBehaviour
     public GameStates gameState = GameStates.playingDay;
     private GameStates returnState = GameStates.playingDay;
 
-    //Testing
-    public bool trigger = false;
+    [SerializeField] private Animator doorAnimator;
+    [SerializeField] private Animator doorCamAnimator;
+
+    private CamSwapManager camSwapManager;
 
     private void Awake()
     {
@@ -35,6 +37,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        camSwapManager = FindFirstObjectByType<CamSwapManager>();
     }
 
     private void Update()
@@ -65,6 +69,10 @@ public class GameManager : MonoBehaviour
         dayTimer = 0f;
         //hasDayStarted = true;
         gameState = GameStates.playingDay;
+
+        doorAnimator.SetBool("Open", false);
+        camSwapManager.isLookingAtDoor = false;
+        doorCamAnimator.SetBool("Zoom", false);
     }
 
     private void EndDay()
@@ -86,6 +94,8 @@ public class GameManager : MonoBehaviour
         }
 
         RemoveAllCustomers();
+
+        doorAnimator.SetBool("Open", true);
         Debug.Log("Day has ended");
     }
 
@@ -101,18 +111,29 @@ public class GameManager : MonoBehaviour
         if (gameState == GameStates.playingDay)
         {
             return;
+        } else
+        {
+            camSwapManager.isLookingAtDoor = true;
+
+            doorAnimator.SetTrigger("FullyOpen");
+            doorCamAnimator.SetBool("Zoom",true);
         }
+
+    }
+
+    public void DoorAnimationFinished()
+    {
         int nextDay = dayCycle.currentDayIndex + 1;
 
         if (nextDay < dayCycle.days.Count)
         {
             StartDay(nextDay);
-        } else
+        }
+        else
         {
             SceneManager.LoadScene("EndScene");
         }
     }
-
 
     private void RemoveAllCustomers()
     {
