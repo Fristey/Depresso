@@ -4,7 +4,7 @@ public class CustomerSpawner : MonoBehaviour
 {
     public static CustomerSpawner Instance;
 
-    [SerializeField] private GameObject customerPrefab;
+    [SerializeField] private GameObject[] customerpPrefabs;
     [SerializeField] private GameObject spawnPoint;
     public float spawnInterval = 2f;
     public int maxCustomers = 3; 
@@ -41,7 +41,9 @@ public class CustomerSpawner : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        GameObject customer = Instantiate(customerPrefab, spawnPoint.transform.position, Quaternion.identity);
+        int index = Random.Range(0, customerpPrefabs.Length);
+        GameObject customerToSpawn = customerpPrefabs[index];
+        GameObject customer = Instantiate(customerToSpawn, spawnPoint.transform.position, Quaternion.identity);
         currentCustomerCount+= 1;
     }
 
