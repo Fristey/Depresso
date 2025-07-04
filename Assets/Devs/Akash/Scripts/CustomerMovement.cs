@@ -24,6 +24,7 @@ public class CustomerMovement : MonoBehaviour
     private GameObject currentSpot;
     private float elapsedTime;
 
+    public Transform lookTarget;
     public static List<GameObject> usedStools = new List<GameObject>();
     public static List<GameObject> usedWaitSpots = new List<GameObject>();
     public static List<CustomerMovement> waitingCustomers = new List<CustomerMovement>();
@@ -35,7 +36,7 @@ public class CustomerMovement : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         orderManager = FindAnyObjectByType<OrderManager>();
         order = GetComponent<CustomerOrder>();
-        
+
     }
 
     private void Start()
@@ -82,6 +83,17 @@ public class CustomerMovement : MonoBehaviour
             animator.SetTrigger("sitDown");
             animator.SetBool("Sitting", true);
 
+            if (lookTarget != null)
+            {
+                Vector3 lookDirection = lookTarget.position - transform.position;
+                lookDirection.y = 0;
+                if (lookDirection != Vector3.zero)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                }
+            }
+
         }
 
         if (currentState == CustomerState.Waiting && navMeshAgent.velocity.magnitude == 0)
@@ -118,6 +130,8 @@ public class CustomerMovement : MonoBehaviour
             {
                 currentSpot = stool;
                 usedStools.Add(stool);
+                int stoolIndex = counterStools.IndexOf(stool);
+                lookTarget = CustomerManager.Instance.lookPoints[stoolIndex];
                 navMeshAgent.SetDestination(currentSpot.transform.position);
                 animator.SetBool("isWalking", true);
                 currentState = CustomerState.Walking;
@@ -218,19 +232,14 @@ public class CustomerMovement : MonoBehaviour
             CustomerMovement customer = waitingCustomers[i];
             GameObject targetWaitSpot = CustomerManager.Instance.waitPoints[i];
 
-            if (customer.currentSpot != targetWaitSpot)
+            if (customer.currentSpot != null && waitPoints.Contains(customer.currentSpot))
             {
-                if (customer.currentSpot != null)
-                {
-                    usedWaitSpots.Remove(customer.currentSpot);
-                }
-                customer.currentSpot = targetWaitSpot;
-                usedWaitSpots.Add(targetWaitSpot);
-                customer.navMeshAgent.isStopped = false;
-                customer.navMeshAgent.SetDestination(targetWaitSpot.transform.position);
-
-
+                usedWaitSpots.Remove(customer.currentSpot);
             }
+            customer.currentSpot = targetWaitSpot;
+            usedWaitSpots.Add(targetWaitSpot);
+            customer.navMeshAgent.isStopped = false;
+            customer.navMeshAgent.SetDestination(targetWaitSpot.transform.position);
         }
     }
 
