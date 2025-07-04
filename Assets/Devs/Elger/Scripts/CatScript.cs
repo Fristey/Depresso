@@ -9,6 +9,7 @@ enum CatStates
     Walking,
     Interacting,
     WalkingToCup,
+    WalkingToMachine,
     Jumping,
     Null
 }
@@ -85,7 +86,6 @@ public class CatScript : PermEvent
     //Misc
     private bool canLaunch = true;
     private bool canDmg = true;
-    private bool walkingToMachine = false;
     private bool focus = false;
     private bool jumpLockout = true;
     private espressoAndCoffeeMachine curCoffeeMachine;
@@ -117,7 +117,6 @@ public class CatScript : PermEvent
     {
         tutorialManager = TutorialManager.instance;
 
-        tutorialManager.StartTutorial("Cat");
         StartSpecificAction(CalledFunction.walk);
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("CoffeeMachine").Length; i++)
@@ -134,7 +133,7 @@ public class CatScript : PermEvent
     #region Interaction
     private void OnTriggerEnter(Collider other)
     {
-        if (!walkingToMachine && state != CatStates.Jumping && !focus && !isJumping)
+        if (state != CatStates.WalkingToMachine && state != CatStates.Jumping && !focus && !isJumping)
         {
             SetInteract(CalledInteraction.push, other.gameObject);
         }
@@ -147,15 +146,6 @@ public class CatScript : PermEvent
 
         agent.isStopped = true;
 
-        switch (interaction)
-        {
-            case CalledInteraction.damage:
-                walkingToMachine = false;
-                break;
-            case CalledInteraction.push:
-                break;
-        }
-
         animator.SetTrigger("Interact");
     }
 
@@ -165,7 +155,6 @@ public class CatScript : PermEvent
         {
             case CalledInteraction.damage:
                 curCoffeeMachine.fixedOrBroken = espressoAndCoffeeMachine.FixedOrBroken.Broken;
-                tutorialManager.StepFinished("Cat", 3);
                 StartNewAction();
                 break;
             case CalledInteraction.push:
@@ -188,16 +177,10 @@ public class CatScript : PermEvent
                     StartCoroutine(CupLaunchCooldown());
                 }
 
-                if (tutorialManager.StepFinished("Cat", 2))
-                {
-                    StartSpecificAction(CalledFunction.walkToMachine);
-                }
                 break;
         }
         state = CatStates.Walking;
     }
-
-
 
     private void CheckForCups()
     {
@@ -348,11 +331,6 @@ public class CatScript : PermEvent
             {
                 return targetCup;
             }
-            else
-            {
-                tutorialManager.StepFinished("Cat", 3);
-            }
-
         }
         return null;
     }
@@ -420,10 +398,6 @@ public class CatScript : PermEvent
                 if (!CheckPath(destination, areaMask))
                 {
                     StartNewAction();
-                    if (tutorialManager.StepFinished("Cat", 2))
-                    {
-                        StartSpecificAction(CalledFunction.walkToMachine);
-                    }
                 }
 
                 if (!agent.isOnOffMeshLink)
@@ -432,21 +406,14 @@ public class CatScript : PermEvent
                     state = CatStates.Walking;
                 }
 
-                if (Vector3.Distance(transform.position, destination) < 0.3f && walkingToMachine)
-                {
-                    SetInteract(CalledInteraction.damage, curCoffeeMachine.gameObject);
-                }
-                else if (Vector3.Distance(transform.position, destination) < 0.3f && !walkingToMachine)
+
+                if (Vector3.Distance(transform.position, destination) < 0.3f)
                 {
                     StartNewAction();
                     focus = false;
-                    if (tutorialManager.StepFinished("Cat", 1))
-                    {
-                        StartSpecificAction(CalledFunction.walkToCup);
-                    }
                 }
 
-                if (canLaunch && !walkingToMachine && !focus)
+                if (canLaunch && !focus)
                 {
                     CheckForCups();
                 }
@@ -457,12 +424,24 @@ public class CatScript : PermEvent
                     SetInteract(CalledInteraction.push, curCup);
                 }
                 break;
+            case CatStates.WalkingToMachine:
+                if (Vector3.Distance(transform.position, destination) < 1.3f)
+                {
+                    SetInteract(CalledInteraction.damage, curCoffeeMachine.gameObject);
+                }
+                break;
             case CatStates.Jumping:
                 if (!agent.isOnOffMeshLink)
                 {
                     animator.SetBool("Jump", false);
                     if (savedState != CatStates.Null)
+                    {
                         state = savedState;
+                    }
+                    else
+                    {
+                        state = CatStates.Walking;
+                    }
                 }
                 break;
             default:
@@ -518,12 +497,18 @@ public class CatScript : PermEvent
                 if (v3 != null)
                 {
                     destination = v3.transform.position;
+                    agent.destination = destination;
+
                     state = CatStates.WalkingToCup;
 
                     curCup = v3;
                 }
+                else
+                {
+                    StartNewAction();
+                }
 
-                agent.destination = destination;
+
                 break;
             case CalledFunction.walkToMachine:
 
@@ -533,17 +518,15 @@ public class CatScript : PermEvent
                 {
                     Debug.Log("Walking to machine");
                     destination = GenerateTarget(go.transform.position);
+                    agent.destination = destination;
                     curCoffeeMachine = go.GetComponent<espressoAndCoffeeMachine>();
-                    walkingToMachine = true;
+                    state = CatStates.WalkingToMachine;
                 }
                 else
                 {
-                    destination = GenerateTarget();
+                    StartNewAction();
                 }
 
-                agent.destination = destination;
-
-                state = CatStates.Walking;
                 break;
         }
     }
@@ -552,7 +535,7 @@ public class CatScript : PermEvent
     {
         int rolledNum = UnityEngine.Random.Range(0, 101);
 
-        jumpLockout = false;
+        jumpLockout = true;
 
         for (int i = 0; i < type.catActions.Count; i++)
         {
@@ -590,17 +573,16 @@ public class CatScript : PermEvent
                             if (v3 != null)
                             {
                                 destination = v3.transform.position;
+                                agent.destination = destination;
                                 state = CatStates.WalkingToCup;
+
+                                curCup = v3;
                             }
                         }
                         else
                         {
-                            destination = GenerateTarget();
-                            state = CatStates.Walking;
+                            StartNewAction();
                         }
-
-                        agent.destination = destination;
-
 
                         break;
                     case CalledFunction.walkToMachine:
@@ -612,22 +594,21 @@ public class CatScript : PermEvent
                             {
                                 Debug.Log("Walking to machine");
                                 destination = GenerateTarget(go.transform.position);
+                                agent.destination = destination;
+
                                 curCoffeeMachine = go.GetComponent<espressoAndCoffeeMachine>();
-                                walkingToMachine = true;
+                                state = CatStates.WalkingToMachine;
                             }
                             else
                             {
-                                destination = GenerateTarget();
+                                StartNewAction();
                             }
                         }
                         else
                         {
-                            destination = GenerateTarget();
+                            StartNewAction();
                         }
 
-                        agent.destination = destination;
-
-                        state = CatStates.Walking;
                         break;
                 }
 
@@ -677,8 +658,6 @@ public class CatScript : PermEvent
     //{
     //    //float dist = Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, destination.y, 0));
 
-    //    //if (canChangeHeight && dist > 0.5f)
-    //    //{
     //    //    counterAccesibleArea = areaTrans;
     //    //    counterAccesibleAreaRen = areaRen;
 
