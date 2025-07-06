@@ -1058,6 +1058,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b08caf944486942b43714b8ed1ae7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &163100207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 437113243821728243, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+  m_PrefabInstance: {fileID: 313621346}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &195455614
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,8 +1702,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 311708529}
     m_Modifications:
     - target: {fileID: 186327021072255926, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_Name
+      value: Prev
+      objectReference: {fileID: 0}
+    - target: {fileID: 186327021072255926, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 437113243821728243, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_Name
+      value: Unlock
       objectReference: {fileID: 0}
     - target: {fileID: 437113243821728243, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_Layer
@@ -1770,7 +1783,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673874626676023519, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_text
+      value: A for Previous page
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673874626676023519, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_fontAsset
       value: 
+      objectReference: {fileID: 11400000, guid: 9622786135aa2634fbf5a040111f9f04, type: 2}
+    - target: {fileID: 1673874626676023519, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -781623431756840454, guid: 9622786135aa2634fbf5a040111f9f04, type: 2}
+    - target: {fileID: 1673874626676023519, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1703497079396328057, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2013,12 +2038,28 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4266000334972263959, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_Name
+      value: NExt
+      objectReference: {fileID: 0}
+    - target: {fileID: 4266000334972263959, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4528964416257312521, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_text
+      value: Unlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 4528964416257312521, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_fontAsset
       value: 
+      objectReference: {fileID: 11400000, guid: 9622786135aa2634fbf5a040111f9f04, type: 2}
+    - target: {fileID: 4528964416257312521, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -781623431756840454, guid: 9622786135aa2634fbf5a040111f9f04, type: 2}
+    - target: {fileID: 4528964416257312521, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4543946986629408805, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2183,7 +2224,7 @@ PrefabInstance:
     - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: unlockButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 163100207}
     - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: currentRecepe
       value: 
@@ -2203,7 +2244,7 @@ PrefabInstance:
     - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: mainRecipeBookMenu
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2006092640}
     - target: {fileID: 5858557650894730807, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: pageMats.Array.size
       value: 11
@@ -2426,7 +2467,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7424431051101602013, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_text
+      value: 'A For Next Page '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424431051101602013, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_fontAsset
       value: 
+      objectReference: {fileID: 11400000, guid: 9622786135aa2634fbf5a040111f9f04, type: 2}
+    - target: {fileID: 7424431051101602013, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -781623431756840454, guid: 9622786135aa2634fbf5a040111f9f04, type: 2}
+    - target: {fileID: 7424431051101602013, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7896326148345946874, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
       propertyPath: m_text
@@ -16412,6 +16465,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d55ad7e83dfdffb40a4ec667a1330bb2, type: 3}
+--- !u!1 &2006092640 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 525652346827457555, guid: 8ab798d4d67802643b71262b901baee1, type: 3}
+  m_PrefabInstance: {fileID: 313621346}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2017691983
 PrefabInstance:
   m_ObjectHideFlags: 0
