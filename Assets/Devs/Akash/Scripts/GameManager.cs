@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
 
         CustomerMovement.usedStools.Clear();
         CustomerMovement.usedWaitSpots.Clear();
+        CustomerMovement.waitingCustomers.Clear();
     }
 
     //- Tutorial code -//
