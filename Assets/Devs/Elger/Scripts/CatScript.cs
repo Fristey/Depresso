@@ -128,6 +128,19 @@ public class CatScript : PermEvent
     private void OnEnable()
     {
         FindObjectOfType<YarnSpawner>().catScript = this;
+        TutorialManager.instance.StartTutorial("Cat");
+
+        StartCoroutine(CatTutorial());
+    }
+
+    private IEnumerator CatTutorial()
+    {
+        yield return new WaitForSeconds(5);
+        tutorialManager.StepFinished("Cat",1);
+        yield return new WaitForSeconds(5);
+        tutorialManager.StepFinished("Cat", 2);
+        yield return new WaitForSeconds(5);
+        tutorialManager.StepFinished("Cat", 3);
     }
 
     #region Interaction

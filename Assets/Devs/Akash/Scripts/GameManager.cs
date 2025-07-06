@@ -97,6 +97,8 @@ public class GameManager : MonoBehaviour
 
         doorAnimator.SetBool("Open", true);
         Debug.Log("Day has ended");
+
+        TutorialManager.instance.StartTutorial("EndDay");
     }
 
     public void ClickedDoor()
