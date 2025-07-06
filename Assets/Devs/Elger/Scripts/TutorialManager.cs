@@ -74,6 +74,11 @@ public class TutorialManager : MonoBehaviour
 
                 StartCoroutine(TutorialTimer());
 
+                if (curTurtorial.steps[curTurtorial.stepIndex].maxStepTime > 0)
+                {
+                    StartCoroutine(StepTimer(curTurtorial.stepIndex, curTurtorial.identifier));
+                }
+
                 Debug.Log(curTurtorial.steps[curTurtorial.stepIndex].text);
                 textDisplay.text = curTurtorial.steps[curTurtorial.stepIndex].text;
 

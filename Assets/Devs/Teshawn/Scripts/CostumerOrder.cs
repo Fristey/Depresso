@@ -54,6 +54,7 @@ public class CustomerOrder : MonoBehaviour
         type = (SatisfactionType)Enum.Parse(typeof(SatisfactionType), randomMode.ToString());
         gameManager = GameManager.Instance;
 
+        TutorialManager.instance.StartTutorial("CoffeeMaking");
 
         speedBonusTimer = 0f;
         if (type == SatisfactionType.speed)
