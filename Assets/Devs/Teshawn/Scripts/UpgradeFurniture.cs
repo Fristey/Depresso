@@ -115,9 +115,13 @@ public class UpgradeFurniture : MonoBehaviour
     {
         if (currentObject != null)
         {
-            currencyManager.playerCurrency -= price;
-            inventory.furniture.Add(currentObject);
-            prevIndex = index;
+            if (price < currencyManager.playerCurrency)
+            {
+                currencyManager.playerCurrency -= price;
+                inventory.furniture.Add(currentObject);
+                prevIndex = index;
+
+            }
         }
     }
 
@@ -133,6 +137,11 @@ public class UpgradeFurniture : MonoBehaviour
             {
                 index = prevIndex;
             }
+        }
+
+        if (inventory.furniture.Count == 0)
+        {
+            index = prevIndex;
         }
         furnitureSwap();
         tabletcamObjectSelector.selectedFurniture = null;

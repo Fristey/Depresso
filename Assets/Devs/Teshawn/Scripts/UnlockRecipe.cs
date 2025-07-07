@@ -11,9 +11,7 @@ public class UnlockRecipe : MonoBehaviour
     private CamSwapManager camSwapManager;
 
     [SerializeField] private TextMeshProUGUI pricetag;
-
-    [Header("recepe buttons")]
-    [SerializeField] private GameObject prevButton, nextButton, unlockButton;
+    [SerializeField] private GameObject unlockButton;
 
     [SerializeField] private List<Material> pageMats;
     [SerializeField] private List<Recipes> pageRecipes;
