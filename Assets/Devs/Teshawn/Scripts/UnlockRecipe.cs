@@ -105,7 +105,6 @@ public class UnlockRecipe : MonoBehaviour
             else
             {
                 unlockButton.SetActive(false);
-                
             }
         }
         price = recipe.price;
