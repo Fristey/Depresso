@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         if (gameState == GameStates.playingDay)
         {
             return;
-        } else
+        } else if (gameState == GameStates.inbetweenDays)
         {
             camSwapManager.isLookingAtDoor = true;
 
