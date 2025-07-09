@@ -8,30 +8,42 @@ public class VisualSwapper : MonoBehaviour
     [SerializeField] private GameObject visualHolder;
 
     [SerializeField] private GameObject emptyCup;
+    private GameObject curCup;
+
     [SerializeField] private Vector3 basePos;
 
-    [SerializeField] private VisualEffect swapEffect;
-    [SerializeField] private float vfxDur;
+    [SerializeField] private Animator vfxAnimator;
 
     private void Start()
     {
-        swapEffect.Stop();
+        curCup = emptyCup;
     }
+
     public void Swap(GameObject visual, Vector3 position)
     {
-        StartCoroutine(VfxDuration());
+        if(curCup != visual)
+        {
+            vfxAnimator.SetTrigger("Swap");
+        }
 
         for (int i = 0; i < visualHolder.transform.childCount; i++)
         {
             Destroy(visualHolder.transform.GetChild(i).gameObject);
         }
 
-        GameObject _go = Instantiate(visual, position, visualHolder.transform.rotation,visualHolder.transform);
+        GameObject _go = Instantiate(visual, position, visualHolder.transform.rotation, visualHolder.transform);
         _go.transform.localPosition = position;
+
+        curCup = visual;
     }
 
     public void ResetVisual()
     {
+        if(curCup != emptyCup)
+        {
+            vfxAnimator.SetTrigger("Swap");
+        }
+
         for (int i = 0; i < visualHolder.transform.childCount; i++)
         {
             Destroy(visualHolder.transform.GetChild(i).gameObject);
@@ -39,12 +51,7 @@ public class VisualSwapper : MonoBehaviour
 
         GameObject _go = Instantiate(emptyCup, basePos, visualHolder.transform.rotation, visualHolder.transform);
         _go.transform.localPosition = basePos;
-    }
 
-    private IEnumerator VfxDuration()
-    {
-        swapEffect.Play();
-        yield return new WaitForSeconds(vfxDur);
-        swapEffect.Stop();
-    } 
+        curCup = emptyCup;
+    }
 }
