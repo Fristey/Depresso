@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     private CamSwapManager camSwapManager;
 
+    [SerializeField] private AudioSource normalMusic;
+    [SerializeField] private AudioSource restMusic;
+
     private void Awake()
     {
         if (Instance == null)
@@ -67,8 +70,10 @@ public class GameManager : MonoBehaviour
     {
         dayCycle.StartDay(dayIndex);
         dayTimer = 0f;
-        //hasDayStarted = true;
+
         gameState = GameStates.playingDay;
+
+        AudioSwap(false);
 
         doorAnimator.SetBool("Open", false);
         camSwapManager.isLookingAtDoor = false;
@@ -85,7 +90,8 @@ public class GameManager : MonoBehaviour
             points.ShowPoints();
         }
 
-        //hasDayStarted = false;
+        AudioSwap(true);
+
         gameState = GameStates.inbetweenDays;
 
         if (EventManager.instance != null)
@@ -163,6 +169,19 @@ public class GameManager : MonoBehaviour
     public void ReturnGameState()
     {
         gameState = returnState;
+    }
+
+    private void AudioSwap(bool restSoundActive)
+    {
+        if(restSoundActive)
+        {
+            restMusic.Play();
+            normalMusic.Stop();
+        } else
+        {
+            normalMusic.Play();
+            restMusic.Stop();
+        }
     }
 }
 
