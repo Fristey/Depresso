@@ -52,7 +52,10 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: SpawnRate
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -5558,8 +5561,7 @@ MonoBehaviour:
   visualHolder: {fileID: 3394119597844741984}
   emptyCup: {fileID: 1006191243823241808, guid: d55ad7e83dfdffb40a4ec667a1330bb2, type: 3}
   basePos: {x: 0, y: 0, z: 0}
-  swapEffect: {fileID: 8040015368477222389}
-  vfxDur: 2
+  vfxAnimator: {fileID: 4800617533911952979}
 --- !u!1001 &4486337065876886993
 PrefabInstance:
   m_ObjectHideFlags: 0
