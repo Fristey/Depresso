@@ -426,8 +426,9 @@ MonoBehaviour:
   orderManager: {fileID: 0}
   currencyManager: {fileID: 0}
   pricetag: {fileID: 4682157882384300745}
-  prevButton: {fileID: 0}
-  nextButton: {fileID: 0}
+  priceIcon: {fileID: 4976086561022728333}
+  purchasableColor: {r: 0, g: 0, b: 0, a: 0}
+  unPurchasableColor: {r: 0, g: 0, b: 0, a: 0}
   unlockButton: {fileID: 0}
   pageMats:
   - {fileID: 2100000, guid: ed91751974dff2e468b7d203b4470caf, type: 2}

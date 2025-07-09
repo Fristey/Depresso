@@ -11,6 +11,11 @@ public class UnlockRecipe : MonoBehaviour
     private CamSwapManager camSwapManager;
 
     [SerializeField] private TextMeshProUGUI pricetag;
+    [SerializeField] private GameObject priceIcon;
+
+    [SerializeField] private Color purchasableColor;
+    [SerializeField] private Color unPurchasableColor;
+
     [SerializeField] private GameObject unlockButton;
 
     [SerializeField] private List<Material> pageMats;
@@ -27,7 +32,7 @@ public class UnlockRecipe : MonoBehaviour
     {
         orderManager = FindAnyObjectByType<OrderManager>();
         camSwapManager = FindFirstObjectByType<CamSwapManager>();
-        mainRecipeBookMenu.SetActive(true);
+        mainRecipeBookMenu.SetActive(false);
     }
 
     private void Update()
@@ -36,6 +41,7 @@ public class UnlockRecipe : MonoBehaviour
         if (camSwapManager.isLookingAtBook)
         {
             this.gameObject.SetActive(true);
+            mainRecipeBookMenu.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -50,6 +56,7 @@ public class UnlockRecipe : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 camSwapManager.isLookingAtBook = false;
+                mainRecipeBookMenu.SetActive(false);
             }
 
             if (Input.GetKeyDown(KeyCode.P)) 
@@ -99,21 +106,35 @@ public class UnlockRecipe : MonoBehaviour
             if (!orderManager.possibleDrinks.Contains(pageRecipes[recipeIndex]))
             {
                 unlockButton.SetActive(true);
+                pricetag.gameObject.SetActive(true);
+                priceIcon.SetActive(true);
+
                 recipe = pageRecipes[recipeIndex];
                 pricetag.text = price.ToString();
+                if(price <= currencyManager.playerCurrency)
+                {
+                    pricetag.color = purchasableColor;
+                } else
+                {
+                    pricetag.color = unPurchasableColor;
+                }
             }
             else
             {
                 unlockButton.SetActive(false);
+                pricetag.gameObject.SetActive(false);
+                priceIcon.SetActive(false);
             }
         }
+
         price = recipe.price;
     }
 
     public void Unlock()
     {
-        if(recipe != null)
+        if(recipe != null && currencyManager.playerCurrency >= price)
         {
+            currencyManager.RemoveCurrency(price);
             orderManager.possibleDrinks.Add(recipe);
         }
     }
