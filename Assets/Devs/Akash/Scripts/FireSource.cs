@@ -36,12 +36,10 @@ public class FireSource : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Update on");
         elapsedTime += Time.deltaTime;
 
         if (elapsedTime >= gameOverTime)
         {
-            Debug.Log("MEOW");
             SceneManager.LoadScene("End Scene");
             Cursor.lockState = CursorLockMode.None;
         }

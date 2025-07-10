@@ -191,19 +191,6 @@ public class GrabCup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, grabRange, pickupLayer))
         {
-            //if (hit.collider.gameObject.CompareTag("Untagged") || hit.collider.gameObject.CompareTag("Extinguisher"))
-            //{
-
-            //    rb = hit.rigidbody;
-            //    holdPointPosition = rb.transform.InverseTransformPoint(hit.point);
-
-            //    relativeRotation = Quaternion.Inverse(playerCamera.transform.rotation) * rb.rotation;
-            //    rb.useGravity = false;
-            //    rb.linearDamping = 10f;
-            //    isHoldingCup = true;
-            //    rb.angularVelocity = Vector3.zero;
-            //    rb.constraints = RigidbodyConstraints.None;
-            //}
             if (hit.collider.CompareTag("Coffee"))
             {
                 machine.mode = State.Coffee;
@@ -233,7 +220,7 @@ public class GrabCup : MonoBehaviour
                     rb.linearDamping = 10f;
                     isHoldingCup = true;
                     rb.angularVelocity = Vector3.zero;
-                    rb.constraints = RigidbodyConstraints.None;
+                    rb.constraints =RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY; // Freeze rotation on X and Z axes to prevent unwanted rotations
                 }
             }
             else if (hit.collider.CompareTag("Book"))
@@ -250,9 +237,9 @@ public class GrabCup : MonoBehaviour
                 rb.linearDamping = 10f;
                 isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None;
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
 
-                 currentIngredient = jars.currentIngredient.GetComponent<AddIngredient>();
+                currentIngredient = jars.currentIngredient.GetComponent<AddIngredient>();
                 if (currentIngredient != null)
                 {
                     currentIngredient.SetGrabbed(GrabStatus.picking_up);
@@ -270,9 +257,9 @@ public class GrabCup : MonoBehaviour
                 rb.linearDamping = 10f;
                 isHoldingCup = true;
                 rb.angularVelocity = Vector3.zero;
-                rb.constraints = RigidbodyConstraints.None;
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
 
-                 currentIngredient = hit.collider.gameObject.GetComponent<AddIngredient>();
+                currentIngredient = hit.collider.gameObject.GetComponent<AddIngredient>();
                 if (currentIngredient != null)
                 {
                     currentIngredient.SetGrabbed(GrabStatus.picking_up);
@@ -318,7 +305,7 @@ public class GrabCup : MonoBehaviour
 
     private void RotateCup()
     {
-
+        
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
@@ -336,6 +323,7 @@ public class GrabCup : MonoBehaviour
         relativeRotation = horizontal * vertical * relativeRotation;
 
         rb.MoveRotation(playerCamera.transform.rotation * relativeRotation);
+        rb.constraints = RigidbodyConstraints.None;
     }
 
     private void throwCup()
