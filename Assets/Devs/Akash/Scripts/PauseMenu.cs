@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    public bool canPause;
 
     [SerializeField] private GameObject pauseMenuUI;
+
     private bool isPaused;
 
     CamSwapManager camSwapManager;
@@ -16,20 +18,23 @@ public class PauseMenu : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        if (canPause)
         {
-            pauseMenuUI.SetActive(true);
-            Time.timeScale = 0f; // Pause the game
-            isPaused = true;
-            Debug.Log("work");
-            camSwapManager.enabled = false; // Disable camera swap manager
-            lookAround.enabled = false; // Disable look around functionality
-            Cursor.lockState = CursorLockMode.None; // Unlock the cursor
-            Cursor.visible = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
-        {
-            ResumeGame();
+            if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+            {
+                pauseMenuUI.SetActive(true);
+                Time.timeScale = 0f; // Pause the game
+                isPaused = true;
+                Debug.Log("work");
+                camSwapManager.enabled = false; // Disable camera swap manager
+                lookAround.enabled = false; // Disable look around functionality
+                Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+                Cursor.visible = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && isPaused)
+            {
+                ResumeGame();
+            }
         }
     }
 

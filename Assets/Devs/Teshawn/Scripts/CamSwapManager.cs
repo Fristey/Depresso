@@ -12,9 +12,12 @@ public class CamSwapManager : MonoBehaviour
 
     public GameObject crosshair;
     public GameObject ceiling;
+
     public bool isLookingAtTablet;
     public bool isLookingAtBook;
     public bool isLookingAtDoor;
+
+    [SerializeField] private PauseMenu pauseMenu;
 
     private void Start()
     {
@@ -67,6 +70,8 @@ public class CamSwapManager : MonoBehaviour
             crosshair.SetActive(true);
         }
 
+        // - Added by Elger - //
+
         if (isLookingAtDoor)
         {
             doorCam.Priority = 10;
@@ -83,6 +88,14 @@ public class CamSwapManager : MonoBehaviour
             grabcup.enabled = true;
             lookAround.enabled = true;
             crosshair.SetActive(true);
+        }
+
+        if(isLookingAtBook | isLookingAtTablet) 
+        {
+            pauseMenu.canPause = false;
+        } else
+        {
+            pauseMenu.canPause = true;
         }
     }
 }

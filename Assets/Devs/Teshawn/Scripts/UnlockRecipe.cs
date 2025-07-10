@@ -56,6 +56,8 @@ public class UnlockRecipe : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 camSwapManager.isLookingAtBook = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 mainRecipeBookMenu.SetActive(false);
             }
 
