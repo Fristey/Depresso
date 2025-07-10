@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public enum GameStates
-{ 
+{
     tutorial,
     playingDay,
     inbetweenDays
@@ -68,10 +68,10 @@ public class GameManager : MonoBehaviour
 
     private void StartDay(int dayIndex)
     {
+        SetGameState(GameStates.playingDay);
+
         dayCycle.StartDay(dayIndex);
         dayTimer = 0f;
-
-        gameState = GameStates.playingDay;
 
         AudioSwap(false);
 
@@ -109,22 +109,23 @@ public class GameManager : MonoBehaviour
 
     public void ClickedDoor()
     {
-        PointsManager points = GameObject.FindFirstObjectByType<PointsManager>();
-
-        if (points != null)
-        {
-            points.StopShowing();
-        }
-
         if (gameState == GameStates.playingDay)
         {
             return;
-        } else if (gameState == GameStates.inbetweenDays)
+        }
+        else if (gameState == GameStates.inbetweenDays)
         {
+            PointsManager points = GameObject.FindFirstObjectByType<PointsManager>();
+
+            if (points != null)
+            {
+                points.StopShowing();
+            }
+
             camSwapManager.isLookingAtDoor = true;
 
             doorAnimator.SetTrigger("FullyOpen");
-            doorCamAnimator.SetBool("Zoom",true);
+            doorCamAnimator.SetBool("Zoom", true);
         }
 
     }
@@ -162,8 +163,12 @@ public class GameManager : MonoBehaviour
 
     public void SetGameState(GameStates newState)
     {
-        returnState = gameState;
-        gameState = newState;
+        if (gameState != newState)
+        {
+            if (gameState != GameStates.tutorial)
+                returnState = gameState;
+            gameState = newState;
+        }
     }
 
     public void ReturnGameState()
@@ -173,11 +178,12 @@ public class GameManager : MonoBehaviour
 
     private void AudioSwap(bool restSoundActive)
     {
-        if(restSoundActive)
+        if (restSoundActive)
         {
             restMusic.Play();
             normalMusic.Stop();
-        } else
+        }
+        else
         {
             normalMusic.Play();
             restMusic.Stop();

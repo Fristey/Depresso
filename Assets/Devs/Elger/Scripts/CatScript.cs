@@ -432,6 +432,11 @@ public class CatScript : PermEvent
                 }
                 break;
             case CatStates.WalkingToCup:
+                if (!CheckPath(curCup.transform.position, areaMask))
+                {
+                    StartNewAction();
+                }
+
                 if (Vector3.Distance(transform.position, curCup.transform.position) < 0.2f)
                 {
                     SetInteract(CalledInteraction.push, curCup);
